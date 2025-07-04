@@ -1376,6 +1376,9 @@ paths:
   /api/v1/auth/test:
     get:
       summary: Verify auth token validity
+      description: Internal endpoint used during development to check that JWTs
+        are parsed correctly.
+      x-internal: true
       responses:
         '200':
           $ref: '#/components/responses/Success'
@@ -1613,6 +1616,7 @@ paths:
   /test:
     get:
       summary: Echo test endpoint
+      description: Simple echo endpoint used only during development.
       x-internal: true
       responses:
         '200':
@@ -1621,6 +1625,7 @@ paths:
           $ref: '#/components/responses/Error'
     post:
       summary: Echo test POST
+      description: Accepts JSON payloads for development testing.
       x-internal: true
       responses:
         '200':
@@ -1636,6 +1641,7 @@ paths:
   /test-login:
     post:
       summary: Login helper for tests
+      description: Issues a JWT for automated test scenarios.
       x-internal: true
       responses:
         '200':
@@ -1658,7 +1664,7 @@ paths:
           $ref: '#/components/responses/Error'
   /schemas:
     get:
-      summary: List tenant schemas (non-production)
+      summary: List tenant schemas (development only)
       x-internal: true
       description: |
         Development utility for viewing or resetting demo tables.
