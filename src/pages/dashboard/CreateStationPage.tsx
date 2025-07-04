@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ArrowLeft, Building2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { stationsApi } from '@/api/stations';
 
 export default function CreateStationPage() {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ export default function CreateStationPage() {
     address: '',
     city: '',
     state: '',
-    zipCode: '',
+    postalCode: '',
     phone: '',
   });
 
@@ -26,9 +27,18 @@ export default function CreateStationPage() {
     setIsLoading(true);
 
     try {
-      // TODO: Implement API call to create station
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
-      
+      // Map form data to API contract
+      const stationData = {
+        name: formData.name,
+        address: formData.address,
+        city: formData.city,
+        state: formData.state,
+        postalCode: formData.postalCode,
+        phone: formData.phone,
+      };
+
+      await stationsApi.createStation(stationData);
+
       toast({
         title: "Success",
         description: "Station created successfully",
@@ -118,12 +128,12 @@ export default function CreateStationPage() {
 
             <div className="grid grid-cols-2 gap-4">
               <div className="grid gap-2">
-                <Label htmlFor="zipCode">ZIP Code</Label>
+                <Label htmlFor="postalCode">Postal Code</Label>
                 <Input
-                  id="zipCode"
-                  value={formData.zipCode}
-                  onChange={(e) => setFormData({ ...formData, zipCode: e.target.value })}
-                  placeholder="ZIP Code"
+                  id="postalCode"
+                  value={formData.postalCode}
+                  onChange={(e) => setFormData({ ...formData, postalCode: e.target.value })}
+                  placeholder="Postal Code"
                 />
               </div>
 
