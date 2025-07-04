@@ -229,3 +229,4 @@ This file tracks every build step taken by AI agents or developers. It maintains
 | fix | 2025-12-05 | Remove unused single-report/reading endpoints | ✅ Done | `src/api/reports.ts`, `src/hooks/useReports.ts`, `src/api/contract/readings.service.ts`, `src/hooks/useReadings.ts` | `docs/STEP_fix_20251205.md` |
 | fix | 2025-12-06 | Prisma usage audit | ✅ Done | `docs/PRISMA_EFFICIENCY_REVIEW.md` | `docs/STEP_fix_20251206.md` |
 | fix | 2025-12-07 | Prisma migration of services | ✅ Done | `src/services/user.service.ts`, `src/services/pump.service.ts`, `src/controllers/analytics.controller.ts` | `docs/STEP_fix_20251207.md` |
+| 3     | 3.8  | Final QA audit and API alignment | ✅ Done | `docs/STEP_3_8_COMMAND.md`, `docs/QA_AUDIT_REPORT.md` | `PHASE_3_SUMMARY.md#step-3.8` |

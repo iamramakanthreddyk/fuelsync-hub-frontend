@@ -2862,3 +2862,4 @@ Each entry is tied to a step from the implementation index.
 * `src/routes/*`
 * `docs/openapi.yaml`
 * `docs/STEP_2_56_COMMAND.md`
+\n## [Step 3.8] – Final QA Audit\n\n### 🟦 Enhancements\n* Verified OpenAPI, backend routes and frontend hooks are aligned.\n* Documented results in `QA_AUDIT_REPORT.md`.\n\n### Files\n* `docs/QA_AUDIT_REPORT.md`\n* `docs/STEP_3_8_COMMAND.md`\n
