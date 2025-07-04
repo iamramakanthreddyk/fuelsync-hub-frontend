@@ -173,3 +173,7 @@ Updated dashboard components to use `/dashboard/fuel-breakdown` and `/dashboard/
 
 \n### \ud83d\udcc4 Documentation Addendum – 2025-12-04\n\nRefactored admin dashboard hook to use superadmin API service and standardized auth route test response.
 \n### 🖼️ Step 3.8 – Final QA Audit\n\n**Status:** ✅ Done\n**Files:** `docs/QA_AUDIT_REPORT.md`\n\n**Business Rules Covered:**\n\n* Ensure frontend and backend are fully aligned with OpenAPI.\n\n**Validation Performed:**\n\n* Reviewed endpoints, hooks and pages for completion.\n
+
+### 📄 Documentation Addendum – 2025-12-08
+
+Integrated latest fuel prices widget on the Owner dashboard and fixed missing filter parameters for top creditors.
