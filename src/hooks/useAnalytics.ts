@@ -1,12 +1,13 @@
 
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { analyticsApi } from '@/api/analytics';
+import { stationsApi } from '@/api/stations';
 import { StationComparisonParams } from '@/api/api-contract';
 
-export const useStationComparison = (opts: StationComparisonParams) => {
+export const useCompareStations = (opts: StationComparisonParams) => {
   return useQuery({
-    queryKey: ['analytics', 'station-comparison', opts.stationIds, opts.period],
-    queryFn: () => analyticsApi.getStationComparison(opts),
+    queryKey: ['stations', 'compare', opts.stationIds, opts.period],
+    queryFn: () => stationsApi.compareStations(opts),
     enabled: opts.stationIds.length > 0,
   });
 };
@@ -34,8 +35,8 @@ export const useFuelPerformance = (stationId?: string, dateRange?: { from: Date;
 
 export const useStationRanking = (period: string) => {
   return useQuery({
-    queryKey: ['analytics', 'station-ranking', period],
-    queryFn: () => analyticsApi.getStationRanking(period),
+    queryKey: ['stations', 'ranking', period],
+    queryFn: () => stationsApi.getStationRanking(period),
   });
 };
 

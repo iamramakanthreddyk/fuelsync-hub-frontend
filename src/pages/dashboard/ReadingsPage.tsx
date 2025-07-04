@@ -12,9 +12,11 @@ import { Gauge, Clock, AlertTriangle, CheckCircle, Plus, FileText, Eye, Edit, Lo
 import { useNavigate, Link } from 'react-router-dom';
 import { PageHeader } from '@/components/ui/page-header';
 import { useReadings } from '@/hooks/api/useReadings';
+import { useFeatureFlags } from '@/hooks/useFeatureFlags';
 
 export default function ReadingsPage() {
   const navigate = useNavigate();
+  const { data: features } = useFeatureFlags();
   const [filter, setFilter] = useState<'all' | 'pending' | 'completed' | 'discrepancy'>('all');
   
   // Fetch readings using the API hook
@@ -55,6 +57,11 @@ export default function ReadingsPage() {
 
   return (
     <div className="space-y-6">
+      {features && features['features.auto_sales_generation'] === 'false' && (
+        <div className="bg-yellow-100 text-yellow-800 p-2 rounded text-sm">
+          Automatic sales generation is disabled for this tenant.
+        </div>
+      )}
       <PageHeader
         title="Pump Readings"
         description="Record and monitor fuel pump readings across all stations"

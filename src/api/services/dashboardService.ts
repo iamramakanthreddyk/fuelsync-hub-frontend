@@ -88,7 +88,7 @@ export const dashboardService = {
    * @returns Fuel type breakdown data
    */
   getFuelTypeBreakdown: async (period: string = 'today'): Promise<FuelTypeBreakdown[]> => {
-    const response = await apiClient.get('/dashboard/fuel-types', { params: { period } });
+    const response = await apiClient.get('/dashboard/fuel-breakdown', { params: { period } });
     return extractData<FuelTypeBreakdown[]>(response);
   },
   
@@ -98,7 +98,7 @@ export const dashboardService = {
    * @returns Daily sales trend data
    */
   getDailySalesTrend: async (days: number = 7): Promise<DailySalesTrend[]> => {
-    const response = await apiClient.get('/dashboard/daily-trend', { params: { days } });
+    const response = await apiClient.get('/dashboard/sales-trend', { params: { days } });
     return extractData<DailySalesTrend[]>(response);
   },
   

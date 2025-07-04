@@ -3,8 +3,8 @@
  * @file hooks/api/useInventory.ts
  * @description React Query hooks for fuel inventory API
  */
-import { useQuery } from '@tanstack/react-query';
-import { inventoryService, FuelInventory, FuelInventorySummary } from '@/api/services/inventoryService';
+import { useQuery, useMutation } from '@tanstack/react-query';
+import { inventoryService, FuelInventory, FuelInventorySummary, InventoryUpdatePayload } from '@/api/services/inventoryService';
 
 /**
  * Hook to fetch fuel inventory
@@ -13,7 +13,7 @@ import { inventoryService, FuelInventory, FuelInventorySummary } from '@/api/ser
  */
 export const useInventory = (stationId?: string) => {
   return useQuery({
-    queryKey: ['fuel-inventory', stationId],
+    queryKey: ['inventory', stationId],
     queryFn: () => inventoryService.getFuelInventory(stationId),
     staleTime: 60000, // 1 minute
     retry: 2
@@ -24,11 +24,17 @@ export const useInventory = (stationId?: string) => {
  * Hook to fetch fuel inventory summary
  * @returns Query result with inventory summary data
  */
-export const useInventorySummary = () => {
+export const useInventoryAlerts = () => {
   return useQuery({
-    queryKey: ['inventory-summary'],
-    queryFn: () => inventoryService.getInventorySummary(),
+    queryKey: ['inventory-alerts'],
+    queryFn: () => inventoryService.getInventoryAlerts(),
     staleTime: 60000, // 1 minute
     retry: 2
+  });
+};
+
+export const useInventoryUpdate = () => {
+  return useMutation({
+    mutationFn: (payload: InventoryUpdatePayload) => inventoryService.updateInventory(payload)
   });
 };

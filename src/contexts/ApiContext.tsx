@@ -6,7 +6,7 @@ import React, { createContext, useContext, ReactNode } from 'react';
 
 // API configuration
 export const API_CONFIG = {
-  baseUrl: 'https://fuelsync-api-demo-bvadbhg8bdbmg0ff.germanywestcentral-01.azurewebsites.net',
+  baseUrl: import.meta.env.VITE_API_BASE_URL || '',
   endpoints: {
     nozzles: '/api/v1/nozzles',
     pumps: '/api/v1/pumps',

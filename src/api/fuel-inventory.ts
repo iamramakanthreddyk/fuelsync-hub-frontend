@@ -10,7 +10,7 @@ export const fuelInventoryApi = {
       if (params?.stationId) searchParams.append('stationId', params.stationId);
       if (params?.fuelType) searchParams.append('fuelType', params.fuelType);
       
-      const response = await apiClient.get(`/fuel-inventory?${searchParams.toString()}`);
+      const response = await apiClient.get(`/inventory?${searchParams.toString()}`);
       return extractApiArray<FuelInventory>(response, 'inventory');
     } catch (error) {
       console.error('Error fetching fuel inventory:', error);

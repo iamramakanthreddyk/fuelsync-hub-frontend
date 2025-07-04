@@ -11,8 +11,10 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Plus, Eye, Fuel } from 'lucide-react';
 import { useStations } from '@/hooks/api/useStations';
+import { useRoleGuard } from '@/hooks/useRoleGuard';
 
 export default function StationsPage() {
+  useRoleGuard(['owner']);
   const [searchTerm, setSearchTerm] = useState('');
   const { data: stations = [], isLoading, error } = useStations();
 
