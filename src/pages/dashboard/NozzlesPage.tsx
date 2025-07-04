@@ -267,6 +267,12 @@ export default function NozzlesPage() {
     return (
       <div className="space-y-4 sm:space-y-6 p-4 sm:p-6">
         <Breadcrumbs />
+        <div className="flex items-center mb-2">
+          <Button variant="outline" size="sm" onClick={handleBack}>
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back
+          </Button>
+        </div>
         <div className="flex flex-col gap-4">
           <div className="min-w-0">
             <h1 className="text-xl sm:text-2xl font-bold tracking-tight">Nozzles</h1>
@@ -298,6 +304,12 @@ export default function NozzlesPage() {
   return (
     <div className="space-y-4 sm:space-y-6 p-4 sm:p-6">
       <Breadcrumbs />
+      <div className="flex items-center mb-2">
+        <Button variant="outline" size="sm" onClick={handleBack}>
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Back
+        </Button>
+      </div>
       <div className="flex flex-col gap-4">
         <div className="min-w-0 flex-1">
           <h1 className="text-xl sm:text-2xl font-bold tracking-tight">Nozzles</h1>
@@ -350,6 +362,12 @@ export default function NozzlesPage() {
           </div>
         )}
       </div>
+      <Button
+        className="fixed bottom-6 right-6 rounded-full h-12 w-12 p-0 shadow-lg"
+        onClick={handleCreateNozzle}
+      >
+        <Plus className="h-6 w-6" />
+      </Button>
     </div>
   );
 }

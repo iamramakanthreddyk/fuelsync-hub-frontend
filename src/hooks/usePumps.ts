@@ -36,13 +36,10 @@ export const useCreatePump = () => {
 
 export const useUpdatePump = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: any }) => {
-      // For now, we'll just log this since updatePump doesn't exist in pumpsApi
-      console.log('Update pump not implemented:', { id, data });
-      return Promise.resolve({ id, ...data, stationId: data.stationId });
-    },
+    mutationFn: ({ id, data }: { id: string; data: any }) =>
+      pumpsApi.updatePump(id, data),
     onSuccess: (updatedPump: { id: string; stationId: string }) => {
       queryClient.invalidateQueries({ queryKey: ['pump', updatedPump.id] });
       queryClient.invalidateQueries({ queryKey: ['pumps', updatedPump.stationId] });

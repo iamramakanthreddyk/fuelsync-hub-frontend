@@ -77,23 +77,100 @@ function App() {
               <Route path="stations/new" element={<CreateStationPage />} />
               <Route path="stations/:stationId" element={<StationDetailPage />} />
               <Route path="stations/:stationId/edit" element={<EditStationPage />} />
-              <Route path="stations/:stationId/pumps" element={<PumpsPage />} />
+              <Route
+                path="stations/:stationId/pumps"
+                element={
+                  <ProtectedRoute allowedRoles={['owner', 'manager']}>
+                    <PumpsPage />
+                  </ProtectedRoute>
+                }
+              />
               <Route path="stations/:stationId/pumps/:pumpId" element={<PumpDetailPage />} />
-              <Route path="stations/:stationId/pumps/:pumpId/nozzles" element={<NozzlesPage />} />
-              <Route path="stations/:stationId/pumps/:pumpId/nozzles/new" element={<CreateNozzlePage />} />
+              <Route
+                path="stations/:stationId/pumps/:pumpId/nozzles"
+                element={
+                  <ProtectedRoute allowedRoles={['owner', 'manager']}>
+                    <NozzlesPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="stations/:stationId/pumps/:pumpId/nozzles/new"
+                element={
+                  <ProtectedRoute allowedRoles={['owner', 'manager']}>
+                    <CreateNozzlePage />
+                  </ProtectedRoute>
+                }
+              />
               
               {/* Pump Routes */}
-              <Route path="pumps" element={<PumpsPage />} />
-              <Route path="pumps/new" element={<CreatePumpPage />} />
+              <Route
+                path="pumps"
+                element={
+                  <ProtectedRoute allowedRoles={['owner', 'manager']}>
+                    <PumpsPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="pumps/new"
+                element={
+                  <ProtectedRoute allowedRoles={['owner', 'manager']}>
+                    <CreatePumpPage />
+                  </ProtectedRoute>
+                }
+              />
               <Route path="pumps/:pumpId" element={<PumpDetailPage />} />
-              <Route path="pumps/:pumpId/settings" element={<PumpSettingsPage />} />
-              <Route path="pumps/:pumpId/nozzles" element={<NozzlesPage />} />
-              <Route path="pumps/:pumpId/nozzles/new" element={<CreateNozzlePage />} />
+              <Route
+                path="pumps/:pumpId/settings"
+                element={
+                  <ProtectedRoute allowedRoles={['owner', 'manager']}>
+                    <PumpSettingsPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="pumps/:pumpId/nozzles"
+                element={
+                  <ProtectedRoute allowedRoles={['owner', 'manager']}>
+                    <NozzlesPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="pumps/:pumpId/nozzles/new"
+                element={
+                  <ProtectedRoute allowedRoles={['owner', 'manager']}>
+                    <CreateNozzlePage />
+                  </ProtectedRoute>
+                }
+              />
               
               {/* Nozzle Routes */}
-              <Route path="nozzles" element={<NozzlesPage />} />
-              <Route path="nozzles/new" element={<CreateNozzlePage />} />
-              <Route path="nozzles/:nozzleId" element={<NozzlesPage />} />
+              <Route
+                path="nozzles"
+                element={
+                  <ProtectedRoute allowedRoles={['owner', 'manager']}>
+                    <NozzlesPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="nozzles/new"
+                element={
+                  <ProtectedRoute allowedRoles={['owner', 'manager']}>
+                    <CreateNozzlePage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="nozzles/:nozzleId"
+                element={
+                  <ProtectedRoute allowedRoles={['owner', 'manager']}>
+                    <NozzlesPage />
+                  </ProtectedRoute>
+                }
+              />
               <Route path="nozzles/:nozzleId/readings/new" element={<NewReadingPage />} />
               
               {/* Reading Routes */}

@@ -64,6 +64,17 @@ export const pumpsApi = {
     const response = await apiClient.get(`/pumps/${pumpId}/settings`);
     return extractApiData<any>(response);
   },
+
+  // Update pump
+  updatePump: async (id: string, data: Partial<CreatePumpRequest>): Promise<Pump> => {
+    try {
+      const response = await apiClient.put(`/pumps/${id}`, data);
+      return extractApiData<Pump>(response);
+    } catch (error) {
+      console.error(`[PUMPS-API] Error updating pump ${id}:`, error);
+      throw error;
+    }
+  },
   // Update pump settings
   updatePumpSettings: async (pumpId: string, data: any): Promise<any> => {
     const response = await apiClient.put(`/pumps/${pumpId}/settings`, data);
