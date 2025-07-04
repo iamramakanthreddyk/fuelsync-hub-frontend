@@ -115,3 +115,4 @@ All notable changes to this project will be documented in this file.
 ### [fix] Align response extraction with OpenAPI data keys
 
 ### [refactor] Consolidate hooks structure and update imports
+### [fix] Remove deprecated dashboard API usage

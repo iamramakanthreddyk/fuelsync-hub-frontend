@@ -31,7 +31,7 @@ export const dashboardApi = {
   },
 
   getFuelTypeBreakdown: async (filters: DashboardFilters = {}): Promise<FuelTypeBreakdown[]> => {
-    const response = await apiClient.get('/api/v1/dashboard/fuel-breakdown', {
+    const response = await apiClient.get('/dashboard/fuel-breakdown', {
       params: filters
     });
     return extractApiArray<FuelTypeBreakdown>(response);
@@ -45,7 +45,7 @@ export const dashboardApi = {
   },
 
   getDailySalesTrend: async (days: number = 7, filters: DashboardFilters = {}): Promise<DailySalesTrend[]> => {
-    const response = await apiClient.get('/api/v1/dashboard/sales-trend', {
+    const response = await apiClient.get('/dashboard/sales-trend', {
       params: { days, ...filters }
     });
     return extractApiArray<DailySalesTrend>(response);
