@@ -5,7 +5,7 @@
  * Updated for responsive colorful UI – 2025-07-03
  */
 import { Button } from '@/components/ui/button';
-import { Eye, Settings, Building2, Hash } from 'lucide-react';
+import { Eye, Settings, Trash2, Building2, Hash } from 'lucide-react';
 import { ColorfulCard, CardContent, CardHeader } from '@/components/ui/colorful-card';
 import { StatusBadge } from '@/components/ui/status-badge';
 
@@ -18,10 +18,11 @@ interface PumpCardProps {
     nozzleCount: number;
   };
   onViewNozzles: (id: string) => void;
-  onSettings: (id: string) => void;
+  onEdit: (id: string) => void;
+  onDelete: (id: string) => void;
 }
 
-export function PumpCard({ pump, onViewNozzles, onSettings }: PumpCardProps) {
+export function PumpCard({ pump, onViewNozzles, onEdit, onDelete }: PumpCardProps) {
   const getGradientByStatus = (status: string) => {
     switch (status.toLowerCase()) {
       case 'active':
@@ -98,14 +99,23 @@ export function PumpCard({ pump, onViewNozzles, onSettings }: PumpCardProps) {
             <span className="hidden sm:inline">View Nozzles</span>
             <span className="sm:hidden">Nozzles</span>
           </Button>
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             size="sm"
             className="bg-white/80 backdrop-blur-sm hover:bg-white border-gray-300 hover:border-gray-400"
-            onClick={() => onSettings(pump.id)}
+            onClick={() => onEdit(pump.id)}
           >
             <Settings className="w-4 h-4 mr-1" />
-            <span className="hidden sm:inline">Settings</span>
+            <span className="hidden sm:inline">Edit</span>
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            className="bg-white/80 backdrop-blur-sm hover:bg-red-50 border-gray-300 hover:border-red-400 text-red-600 hover:text-red-700"
+            onClick={() => onDelete(pump.id)}
+          >
+            <Trash2 className="w-4 h-4 mr-1" />
+            <span className="hidden sm:inline">Delete</span>
           </Button>
         </div>
       </CardContent>

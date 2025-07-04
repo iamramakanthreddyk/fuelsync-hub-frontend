@@ -4,10 +4,10 @@
  * @description Page for managing pumps with improved mobile layout
  * Updated layout for mobile-friendliness – 2025-07-03
  */
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRoleGuard } from '@/hooks/useRoleGuard';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
@@ -16,11 +16,11 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { useForm } from 'react-hook-form';
-import { Plus, Fuel, Settings, Activity, Building2, Loader2 } from 'lucide-react';
+import { Plus, Fuel, Activity, Building2, ArrowLeft, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { PumpCard } from '@/components/pumps/PumpCard';
 import { MobileStatsCard } from '@/components/dashboard/MobileStatsCard';
-import { usePumps } from '@/hooks/usePumps';
+import { usePumps, useCreatePump, useDeletePump } from '@/hooks/usePumps';
 import { useStations, useStation } from '@/hooks/useStations';
 import { Breadcrumbs } from '@/components/common/Breadcrumbs';
 
@@ -55,50 +55,10 @@ export default function PumpsPage() {
   // Fetch pumps for selected station
   const { data: pumps = [], isLoading: pumpsLoading, refetch } = usePumps(effectiveStationId);
 
-  // Create pump mutation
-  const createPumpMutation = useMutation({
-    mutationFn: async (data: any) => {
-      const response = await fetch(`/api/v1/pumps`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-tenant-id': localStorage.getItem('tenantId') || ''
-        },
-        body: JSON.stringify({ ...data, stationId: effectiveStationId })
-      });
-      
-      if (!response.ok) {
-        throw new Error('Failed to create pump');
-      }
-      
-      return response.json();
-    },
-    onSuccess: (data) => {
-      // Immediately update the cache with the new pump
-      queryClient.setQueryData(['pumps', effectiveStationId], (oldData: any) => {
-        return [...(oldData || []), data];
-      });
-      
-      // Then refetch to ensure data consistency
-      queryClient.invalidateQueries({ queryKey: ['pumps', effectiveStationId] });
-      
-      setIsAddDialogOpen(false);
-      form.reset();
-      toast({
-        title: "Success",
-        description: "Pump created successfully",
-      });
-    },
-    onError: () => {
-      toast({
-        title: "Error",
-        description: "Failed to create pump",
-        variant: "destructive",
-      });
-    }
-  });
+  // Create pump mutation using OpenAPI-compliant hook
+  const createPumpMutation = useCreatePump();
 
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
     if (!effectiveStationId) {
       toast({
         title: "Error",
@@ -107,7 +67,14 @@ export default function PumpsPage() {
       });
       return;
     }
-    createPumpMutation.mutate(data);
+    try {
+      await createPumpMutation.mutateAsync({ ...data, stationId: effectiveStationId });
+      setIsAddDialogOpen(false);
+      form.reset();
+      toast({ title: 'Success', description: 'Pump created successfully' });
+    } catch (error: any) {
+      toast({ title: 'Error', description: error.message || 'Failed to create pump', variant: 'destructive' });
+    }
   };
 
   // Handle station change
@@ -125,9 +92,22 @@ export default function PumpsPage() {
     }
   };
 
-  // Navigate to pump settings page
-  const handlePumpSettings = (pumpId: string) => {
+  // Navigate to edit pump page
+  const handleEditPump = (pumpId: string) => {
     navigate(`/dashboard/pumps/${pumpId}/settings`);
+  };
+
+  const deletePumpMutation = useDeletePump();
+
+  const handleDeletePump = async (pumpId: string) => {
+    if (window.confirm('Delete this pump?')) {
+      try {
+        await deletePumpMutation.mutateAsync(pumpId);
+        toast({ title: 'Deleted', description: 'Pump removed' });
+      } catch (error: any) {
+        toast({ title: 'Error', description: error.message || 'Failed to delete', variant: 'destructive' });
+      }
+    }
   };
 
   // Handle back to stations navigation
@@ -224,6 +204,12 @@ export default function PumpsPage() {
   return (
     <div className="space-y-4 sm:space-y-6 p-4 sm:p-6">
       <Breadcrumbs />
+      <div className="flex items-center mb-2">
+        <Button variant="outline" size="sm" onClick={() => navigate(`/dashboard/stations/${effectiveStationId}`)}>
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Back
+        </Button>
+      </div>
       <div className="flex flex-col gap-4">
         <div className="min-w-0 flex-1">
           <h1 className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight">Pumps</h1>
@@ -373,7 +359,8 @@ export default function PumpsPage() {
                   nozzleCount: pump.nozzleCount || 0,
                 }}
                 onViewNozzles={() => handleViewNozzles(pump.id)}
-                onSettings={() => handlePumpSettings(pump.id)}
+                onEdit={() => handleEditPump(pump.id)}
+                onDelete={() => handleDeletePump(pump.id)}
               />
             </div>
           ))}
@@ -395,6 +382,12 @@ export default function PumpsPage() {
           </CardContent>
         </Card>
       )}
+      <Button
+        className="fixed bottom-6 right-6 rounded-full h-12 w-12 p-0 shadow-lg"
+        onClick={() => setIsAddDialogOpen(true)}
+      >
+        <Plus className="h-6 w-6" />
+      </Button>
     </div>
   );
 }
