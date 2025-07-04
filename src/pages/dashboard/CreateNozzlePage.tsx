@@ -12,11 +12,13 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ArrowLeft, Loader2 } from 'lucide-react';
+import { useRoleGuard } from '@/hooks/useRoleGuard';
 import { usePump } from '@/hooks/api/usePumps';
 import { useCreateNozzle } from '@/hooks/api/useNozzles';
 import { useToast } from '@/hooks/use-toast';
 
 export default function CreateNozzlePage() {
+  useRoleGuard(['owner', 'manager']);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { toast } = useToast();

@@ -9,8 +9,10 @@ import { ArrowLeft, Edit, Trash2, Fuel, Settings, Plus } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import { ErrorFallback } from '@/components/common/ErrorFallback';
+import { useRoleGuard } from '@/hooks/useRoleGuard';
 
 export default function StationDetailsPage() {
+  useRoleGuard(['owner', 'manager']);
   const { stationId } = useParams<{ stationId: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();

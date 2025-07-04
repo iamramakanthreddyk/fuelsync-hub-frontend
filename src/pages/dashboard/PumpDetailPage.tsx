@@ -5,6 +5,7 @@
  * @see docs/journeys/MANAGER.md - Manager journey for pump management
  */
 import { useParams, Link } from 'react-router-dom';
+import { useRoleGuard } from '@/hooks/useRoleGuard';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -19,6 +20,7 @@ import { usePump } from '@/hooks/api/usePumps';
 import { useNozzles } from '@/hooks/api/useNozzles';
 
 export default function PumpDetailPage() {
+  useRoleGuard(['owner', 'manager']);
   // Get pump ID from URL params
   const { pumpId } = useParams<{ pumpId: string }>();
   

@@ -10,8 +10,10 @@ import { RefreshCw } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { useSystemHealth } from '@/hooks/useSystemHealth';
+import { useRoleGuard } from '@/hooks/useRoleGuard';
 
 export default function AnalyticsPage() {
+  useRoleGuard(['superadmin']);
   const { data: analytics, isLoading, error, refetch, isRefetching } = useQuery({
     queryKey: ['superadmin-analytics'],
     queryFn: superadminApi.getSummary,

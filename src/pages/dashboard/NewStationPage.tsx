@@ -10,8 +10,10 @@ import { useToast } from '@/hooks/use-toast';
 import { StationForm } from '@/components/stations/StationForm';
 import { useCreateStation } from '@/hooks/api/useStations';
 import { navigateBack } from '@/utils/navigation';
+import { useRoleGuard } from '@/hooks/useRoleGuard';
 
 export default function NewStationPage() {
+  useRoleGuard(['owner', 'manager']);
   const navigate = useNavigate();
   const { toast } = useToast();
   const createStation = useCreateStation();

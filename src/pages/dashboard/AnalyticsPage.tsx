@@ -4,8 +4,10 @@ import { Button } from '@/components/ui/button';
 import { BarChart3, TrendingUp, Users, Fuel, RefreshCw } from 'lucide-react';
 import { useState } from 'react';
 import { useDashboardAnalytics } from '@/hooks/useAnalytics';
+import { useRoleGuard } from '@/hooks/useRoleGuard';
 
 export default function AnalyticsPage() {
+  useRoleGuard(['owner', 'manager']);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const { data: analytics, isLoading, refetch } = useDashboardAnalytics();
 

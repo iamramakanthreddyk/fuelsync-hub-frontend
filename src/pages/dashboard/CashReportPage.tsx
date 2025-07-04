@@ -4,6 +4,7 @@
  */
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRoleGuard } from '@/hooks/useRoleGuard';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -18,6 +19,7 @@ import { ArrowLeft, Plus, Trash, DollarSign, CreditCard, Loader2 } from 'lucide-
 import { CashReport, CreditEntry } from '@/api/services/attendantService';
 
 export default function CashReportPage() {
+  useRoleGuard(['attendant']);
   const navigate = useNavigate();
   const { toast } = useToast();
   const today = format(new Date(), 'yyyy-MM-dd');

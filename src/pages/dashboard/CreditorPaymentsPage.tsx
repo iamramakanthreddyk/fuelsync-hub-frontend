@@ -7,8 +7,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
+import { useRoleGuard } from '@/hooks/useRoleGuard';
 
 export default function CreditorPaymentsPage() {
+  useRoleGuard(['owner', 'manager']);
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { data: creditor, isLoading } = useCreditor(id!);

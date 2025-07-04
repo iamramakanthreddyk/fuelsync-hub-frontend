@@ -5,6 +5,7 @@
  * Updated layout for mobile-friendliness – 2025-07-03
  */
 import { useState, useEffect } from 'react';
+import { useRoleGuard } from '@/hooks/useRoleGuard';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -24,6 +25,7 @@ import { useStations, useStation } from '@/hooks/api/useStations';
 import { navigateBack } from '@/utils/navigation';
 
 export default function PumpsPage() {
+  useRoleGuard(['owner', 'manager']);
   const { stationId } = useParams<{ stationId: string }>();
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [selectedStationId, setSelectedStationId] = useState(stationId || '');

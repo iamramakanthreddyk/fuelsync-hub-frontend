@@ -10,8 +10,10 @@ import { DollarSign, TrendingUp, CreditCard, Users, Download, Filter } from 'luc
 import { Button } from '@/components/ui/button';
 import { DateRange } from 'react-day-picker';
 import { formatCurrency, formatVolume, formatSafeNumber } from '@/utils/formatters';
+import { useRoleGuard } from '@/hooks/useRoleGuard';
 
 export default function SalesPage() {
+  useRoleGuard(['owner', 'manager']);
   const [selectedStation, setSelectedStation] = useState<string | undefined>();
   const [dateRange, setDateRange] = useState<DateRange | undefined>();
   

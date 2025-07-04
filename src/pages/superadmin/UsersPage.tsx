@@ -27,8 +27,10 @@ import { superadminApi } from '@/api/superadmin';
 import { CreateSuperAdminRequest, AdminUser } from '@/api/api-contract';
 import { SuperAdminUserForm } from '@/components/users/SuperAdminUserForm';
 import { ResetPasswordForm } from '@/components/users/ResetPasswordForm';
+import { useRoleGuard } from '@/hooks/useRoleGuard';
 
 export default function UsersPage() {
+  useRoleGuard(['superadmin']);
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [showResetPasswordForm, setShowResetPasswordForm] = useState(false);
   const [selectedUser, setSelectedUser] = useState<AdminUser | null>(null);
