@@ -3,19 +3,25 @@
  * @description Page for managing fuel stations
  */
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Badge } from '@/components/ui/badge';
-import { Plus, Eye, Fuel } from 'lucide-react';
-import { useStations } from '@/hooks/useStations';
+import { Plus } from 'lucide-react';
+import { useStations, useDeleteStation } from '@/hooks/useStations';
 import { useRoleGuard } from '@/hooks/useRoleGuard';
+import { useToast } from '@/hooks/use-toast';
+import { StationCard } from '@/components/stations/StationCard';
+import { Breadcrumbs } from '@/components/common/Breadcrumbs';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function StationsPage() {
   useRoleGuard(['owner', 'manager']);
   const [searchTerm, setSearchTerm] = useState('');
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  const deleteStation = useDeleteStation();
   const { data: stations = [], isLoading, error } = useStations();
 
   // Transform stations data to ensure all properties exist
@@ -47,8 +53,32 @@ export default function StationsPage() {
     );
   }
 
+  const handleView = (id: string) => {
+    navigate(`/dashboard/stations/${id}`);
+  };
+
+  const handleEdit = (id: string) => {
+    navigate(`/dashboard/stations/${id}/edit`);
+  };
+
+  const handleDelete = async (id: string) => {
+    if (window.confirm('Are you sure you want to delete this station?')) {
+      try {
+        await deleteStation.mutateAsync(id);
+        toast({ title: 'Success', description: 'Station deleted successfully' });
+      } catch (err) {
+        toast({ title: 'Error', description: 'Failed to delete station', variant: 'destructive' });
+      }
+    }
+  };
+
+  const handlePumps = (id: string) => {
+    navigate(`/dashboard/stations/${id}/pumps`);
+  };
+
   return (
     <div className="space-y-6">
+      <Breadcrumbs />
       <div className="flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="space-y-2">
           <h1 className="text-3xl font-bold">Fuel Stations</h1>
@@ -69,12 +99,14 @@ export default function StationsPage() {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          <Button asChild>
-            <Link to="/dashboard/stations/new">
-              <Plus className="mr-2 h-4 w-4" />
-              Add Station
-            </Link>
-          </Button>
+          {user && user.role !== 'attendant' && (
+            <Button asChild>
+              <Link to="/dashboard/stations/new">
+                <Plus className="mr-2 h-4 w-4" />
+                Add Station
+              </Link>
+            </Button>
+          )}
         </div>
       </div>
 
@@ -84,59 +116,39 @@ export default function StationsPage() {
           <p className="text-muted-foreground mb-4">
             Get started by adding your first fuel station.
           </p>
-          <Button asChild>
-            <Link to="/dashboard/stations/new">
-              <Plus className="mr-2 h-4 w-4" />
-              Add Station
-            </Link>
-          </Button>
+          {user && user.role !== 'attendant' && (
+            <Button asChild>
+              <Link to="/dashboard/stations/new">
+                <Plus className="mr-2 h-4 w-4" />
+                Add Station
+              </Link>
+            </Button>
+          )}
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {filteredStations.map((station) => (
-            <Card key={station.id} className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-lg">{station.name}</CardTitle>
-                  <Badge variant={station.status === 'active' ? 'default' : 'secondary'}>
-                    {station.status}
-                  </Badge>
-                </div>
-                <CardDescription>{station.address}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">Pumps:</span>
-                    <span className="font-medium">{station.pumpCount}</span>
-                  </div>
-                  
-                  {station.metrics && (
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground">Today's Sales:</span>
-                      <span className="font-medium">₹{station.metrics.totalSales.toLocaleString()}</span>
-                    </div>
-                  )}
-                  
-                  <div className="flex gap-2 pt-2">
-                    <Button asChild variant="outline" size="sm" className="flex-1">
-                      <Link to={`/dashboard/stations/${station.id}`}>
-                        <Eye className="mr-2 h-4 w-4" />
-                        View
-                      </Link>
-                    </Button>
-                    <Button asChild variant="outline" size="sm" className="flex-1">
-                      <Link to={`/dashboard/stations/${station.id}/pumps`}>
-                        <Fuel className="mr-2 h-4 w-4" />
-                        Pumps
-                      </Link>
-                    </Button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            <StationCard
+              key={station.id}
+              station={station}
+              onView={handleView}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+              onViewPumps={handlePumps}
+            />
           ))}
         </div>
+      )}
+      {user && user.role !== 'attendant' && (
+        <Button
+          asChild
+          className="fixed bottom-6 right-6 rounded-full h-12 w-12 p-0 shadow-lg bg-gradient-to-r from-blue-600 to-indigo-600 text-white"
+        >
+          <Link to="/dashboard/stations/new">
+            <Plus className="h-6 w-6" />
+            <span className="sr-only">Create Station</span>
+          </Link>
+        </Button>
       )}
     </div>
   );

@@ -124,3 +124,4 @@ All notable changes to this project will be documented in this file.
 ### [refactor] Replace pg queries with Prisma in services and analytics
 ### [feature] Display latest fuel prices on dashboard
 ### [fix] Forward filters in top creditors API
+### [enhancement] Updated stations page UI with StationCard component

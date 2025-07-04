@@ -177,3 +177,4 @@ Updated dashboard components to use `/dashboard/fuel-breakdown` and `/dashboard/
 ### 📄 Documentation Addendum – 2025-12-08
 
 Integrated latest fuel prices widget on the Owner dashboard and fixed missing filter parameters for top creditors.
+\n### 📄 Documentation Addendum – 2025-12-09\n\nRefactored Stations page to use new StationCard component with edit/delete controls and floating create button.
