@@ -20,8 +20,8 @@ import { Plus, Fuel, Settings, Activity, Building2, Loader2 } from 'lucide-react
 import { useToast } from '@/hooks/use-toast';
 import { PumpCard } from '@/components/pumps/PumpCard';
 import { MobileStatsCard } from '@/components/dashboard/MobileStatsCard';
-import { usePumps } from '@/hooks/api/usePumps';
-import { useStations, useStation } from '@/hooks/api/useStations';
+import { usePumps } from '@/hooks/usePumps';
+import { useStations, useStation } from '@/hooks/useStations';
 import { Breadcrumbs } from '@/components/common/Breadcrumbs';
 
 export default function PumpsPage() {

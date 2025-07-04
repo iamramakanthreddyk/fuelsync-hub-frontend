@@ -1,9 +1,6 @@
 
 /**
- * @file useNozzles.ts
- * @description React Query hooks for nozzles API
- * @see docs/API_INTEGRATION_GUIDE.md - API integration patterns
- * @see docs/journeys/MANAGER.md - Manager journey for managing nozzles
+ * React Query hooks for nozzle management
  */
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { nozzlesService } from '@/api/nozzles';

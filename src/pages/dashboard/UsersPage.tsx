@@ -14,7 +14,7 @@ import { UserPlus, Users, Edit, Trash2, Key, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { UserForm } from '@/components/users/UserForm';
 import { ResetPasswordForm } from '@/components/users/ResetPasswordForm';
-import { useUsers, useCreateUser, useUpdateUser, useDeleteUser, useResetPassword } from '@/hooks/api/useUsers';
+import { useUsers, useCreateUser, useUpdateUser, useDeleteUser, useResetPassword } from '@/hooks/useUsers';
 import { User, CreateUserRequest, UpdateUserRequest, ResetPasswordRequest } from '@/api/services/usersService';
 import { useRoleGuard } from '@/hooks/useRoleGuard';
 

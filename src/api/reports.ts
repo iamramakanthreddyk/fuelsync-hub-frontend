@@ -57,4 +57,24 @@ export const reportsApi = {
   scheduleReport: async (request: ScheduleReportRequest): Promise<void> => {
     await apiClient.post('/reports/schedule', request);
   },
+
+  getReports: async (): Promise<any[]> => {
+    const response = await apiClient.get('/reports/sales');
+    return extractApiArray<any>(response, 'reports');
+  },
+
+  getReport: async (id: string): Promise<any> => {
+    const response = await apiClient.get(`/reports/sales/${id}`);
+    return extractApiData<any>(response);
+  },
+
+  generateReport: async (data: any): Promise<any> => {
+    const response = await apiClient.post('/reports/sales', data);
+    return extractApiData<any>(response);
+  },
+
+  downloadReport: async (id: string): Promise<string> => {
+    const response = await apiClient.get(`/reports/sales/export?reportId=${id}`);
+    return response.data.downloadUrl || '';
+  },
 };

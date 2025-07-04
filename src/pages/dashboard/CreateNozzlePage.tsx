@@ -13,8 +13,8 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ArrowLeft, Loader2 } from 'lucide-react';
 import { useRoleGuard } from '@/hooks/useRoleGuard';
-import { usePump } from '@/hooks/api/usePumps';
-import { useCreateNozzle } from '@/hooks/api/useNozzles';
+import { usePump } from '@/hooks/usePumps';
+import { useCreateNozzle } from '@/hooks/useNozzles';
 import { useToast } from '@/hooks/use-toast';
 
 export default function CreateNozzlePage() {

@@ -13,11 +13,11 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, Loader2, AlertCircle, CheckCircle } from 'lucide-react';
-import { useStations } from '@/hooks/api/useStations';
-import { usePumps } from '@/hooks/api/usePumps';
-import { useNozzles } from '@/hooks/api/useNozzles';
-import { useCreateReading, useLatestReading } from '@/hooks/api/useReadings';
-import { useFuelPrices } from '@/hooks/api/useFuelPrices';
+import { useStations } from '@/hooks/useStations';
+import { usePumps } from '@/hooks/usePumps';
+import { useNozzles } from '@/hooks/useNozzles';
+import { useCreateReading, useLatestReading } from '@/hooks/useReadings';
+import { useFuelPrices } from '@/hooks/useFuelPrices';
 import { useToast } from '@/hooks/use-toast';
 
 export default function NewReadingPage() {

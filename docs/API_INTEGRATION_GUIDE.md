@@ -240,7 +240,7 @@ When reviewing API-related code, ensure:
 
 ```tsx
 import React from 'react';
-import { useStations } from '@/hooks/api/useStations';
+import { useStations } from '@/hooks/useStations';
 
 const StationsList: React.FC = () => {
   const { data: stations, isLoading, error } = useStations();
@@ -271,7 +271,7 @@ const StationsList: React.FC = () => {
 ```tsx
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useCreateStation } from '@/hooks/api/useStations';
+import { useCreateStation } from '@/hooks/useStations';
 import { CreateStationRequest } from '@/api/services/stationsService';
 
 const CreateStationForm: React.FC = () => {

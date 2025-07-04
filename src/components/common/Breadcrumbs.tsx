@@ -7,9 +7,9 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
-import { useStation } from '@/hooks/api/useStations';
-import { usePump } from '@/hooks/api/usePumps';
-import { useNozzle } from '@/hooks/api/useNozzles';
+import { useStation } from '@/hooks/useStations';
+import { usePump } from '@/hooks/usePumps';
+import { useNozzle } from '@/hooks/useNozzles';
 
 /**
  * Shared breadcrumbs component that builds a trail based on the current route

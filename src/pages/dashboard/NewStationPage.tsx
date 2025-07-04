@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { StationForm } from '@/components/stations/StationForm';
-import { useCreateStation } from '@/hooks/api/useStations';
+import { useCreateStation } from '@/hooks/useStations';
 import { useRoleGuard } from '@/hooks/useRoleGuard';
 
 export default function NewStationPage() {

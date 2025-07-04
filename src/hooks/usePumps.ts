@@ -14,6 +14,14 @@ export const usePumps = (stationId?: string) => {
   });
 };
 
+export const usePump = (id: string) => {
+  return useQuery({
+    queryKey: ['pump', id],
+    queryFn: () => pumpsApi.getPump(id),
+    enabled: !!id,
+  });
+};
+
 export const useCreatePump = () => {
   const queryClient = useQueryClient();
   

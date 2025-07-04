@@ -1,11 +1,9 @@
 /**
- * @file useUsers.ts
- * @description React Query hooks for users API
- * @see docs/API_INTEGRATION_GUIDE.md - API integration patterns
- * @see docs/journeys/OWNER.md - Owner journey for user management
+ * React Query hooks for user management
  */
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { usersService, User, CreateUserRequest, UpdateUserRequest, ChangePasswordRequest, ResetPasswordRequest } from '@/api/services/usersService';
+import { usersApi } from '@/api/users';
+import type { User, CreateUserRequest, UpdateUserRequest, ChangePasswordRequest, ResetPasswordRequest } from '@/api/api-contract';
 
 /**
  * Hook to fetch all users for the current tenant
@@ -14,7 +12,7 @@ import { usersService, User, CreateUserRequest, UpdateUserRequest, ChangePasswor
 export const useUsers = () => {
   return useQuery({
     queryKey: ['users'],
-    queryFn: () => usersService.getUsers(),
+    queryFn: () => usersApi.getUsers(),
     staleTime: 60000, // 1 minute
   });
 };
@@ -27,7 +25,7 @@ export const useUsers = () => {
 export const useUser = (userId: string) => {
   return useQuery({
     queryKey: ['user', userId],
-    queryFn: () => usersService.getUser(userId),
+    queryFn: () => usersApi.getUser(userId),
     enabled: !!userId,
     staleTime: 60000, // 1 minute
   });
@@ -41,7 +39,7 @@ export const useCreateUser = () => {
   const queryClient = useQueryClient();
   
   return useMutation({
-    mutationFn: (data: CreateUserRequest) => usersService.createUser(data),
+    mutationFn: (data: CreateUserRequest) => usersApi.createUser(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['users'] });
     },
@@ -56,8 +54,8 @@ export const useUpdateUser = () => {
   const queryClient = useQueryClient();
   
   return useMutation({
-    mutationFn: ({ userId, data }: { userId: string; data: UpdateUserRequest }) => 
-      usersService.updateUser(userId, data),
+    mutationFn: ({ userId, data }: { userId: string; data: UpdateUserRequest }) =>
+      usersApi.updateUser(userId, data),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['users'] });
       queryClient.invalidateQueries({ queryKey: ['user', variables.userId] });
@@ -73,7 +71,7 @@ export const useDeleteUser = () => {
   const queryClient = useQueryClient();
   
   return useMutation({
-    mutationFn: (userId: string) => usersService.deleteUser(userId),
+    mutationFn: (userId: string) => usersApi.deleteUser(userId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['users'] });
     },
@@ -86,8 +84,8 @@ export const useDeleteUser = () => {
  */
 export const useChangePassword = () => {
   return useMutation({
-    mutationFn: ({ userId, data }: { userId: string; data: ChangePasswordRequest }) => 
-      usersService.changePassword(userId, data),
+    mutationFn: ({ userId, data }: { userId: string; data: ChangePasswordRequest }) =>
+      usersApi.changePassword(userId, data),
   });
 };
 
@@ -97,7 +95,7 @@ export const useChangePassword = () => {
  */
 export const useResetPassword = () => {
   return useMutation({
-    mutationFn: ({ userId, data }: { userId: string; data: ResetPasswordRequest }) => 
-      usersService.resetPassword(userId, data),
+    mutationFn: ({ userId, data }: { userId: string; data: ResetPasswordRequest }) =>
+      usersApi.resetPassword(userId, data),
   });
 };

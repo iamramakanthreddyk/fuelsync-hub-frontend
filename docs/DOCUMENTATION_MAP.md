@@ -27,8 +27,8 @@ docs/
 |-----------|------------|
 | `src/api/core/apiClient.ts` | `docs/API_INTEGRATION_GUIDE.md` |
 | `src/api/core/config.ts` | `docs/API_INTEGRATION_GUIDE.md` |
-| `src/hooks/api/useQueryConfig.ts` | `docs/API_INTEGRATION_GUIDE.md` |
-| `src/hooks/api/useErrorHandler.ts` | `docs/API_INTEGRATION_GUIDE.md` |
+| `src/hooks/useQueryConfig.ts` | `docs/API_INTEGRATION_GUIDE.md` |
+| `src/hooks/useErrorHandler.ts` | `docs/API_INTEGRATION_GUIDE.md` |
 
 ### Service Layer
 
@@ -47,14 +47,14 @@ docs/
 
 | File Path | References |
 |-----------|------------|
-| `src/hooks/api/useStations.ts` | `docs/API_INTEGRATION_GUIDE.md`, `docs/journeys/OWNER.md` |
-| `src/hooks/api/usePumps.ts` | `docs/API_INTEGRATION_GUIDE.md`, `docs/journeys/MANAGER.md` |
-| `src/hooks/api/useNozzles.ts` | `docs/API_INTEGRATION_GUIDE.md`, `docs/journeys/MANAGER.md` |
-| `src/hooks/api/useReadings.ts` | `docs/API_INTEGRATION_GUIDE.md`, `docs/journeys/MANAGER.md` |
-| `src/hooks/api/useFuelPrices.ts` | `docs/API_INTEGRATION_GUIDE.md`, `docs/journeys/MANAGER.md` |
-| `src/hooks/api/useUsers.ts` | `docs/API_INTEGRATION_GUIDE.md`, `docs/journeys/OWNER.md` |
-| `src/hooks/api/useReports.ts` | `docs/API_INTEGRATION_GUIDE.md`, `docs/journeys/OWNER.md` |
-| `src/hooks/api/useDashboard.ts` | `docs/API_INTEGRATION_GUIDE.md`, `docs/journeys/OWNER.md` |
+| `src/hooks/useStations.ts` | `docs/API_INTEGRATION_GUIDE.md`, `docs/journeys/OWNER.md` |
+| `src/hooks/usePumps.ts` | `docs/API_INTEGRATION_GUIDE.md`, `docs/journeys/MANAGER.md` |
+| `src/hooks/useNozzles.ts` | `docs/API_INTEGRATION_GUIDE.md`, `docs/journeys/MANAGER.md` |
+| `src/hooks/useReadings.ts` | `docs/API_INTEGRATION_GUIDE.md`, `docs/journeys/MANAGER.md` |
+| `src/hooks/useFuelPrices.ts` | `docs/API_INTEGRATION_GUIDE.md`, `docs/journeys/MANAGER.md` |
+| `src/hooks/useUsers.ts` | `docs/API_INTEGRATION_GUIDE.md`, `docs/journeys/OWNER.md` |
+| `src/hooks/useReports.ts` | `docs/API_INTEGRATION_GUIDE.md`, `docs/journeys/OWNER.md` |
+| `src/hooks/useDashboard.ts` | `docs/API_INTEGRATION_GUIDE.md`, `docs/journeys/OWNER.md` |
 
 ### Key Components
 

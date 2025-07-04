@@ -17,8 +17,8 @@ import {
   Loader2,
   AlertTriangle
 } from 'lucide-react';
-import { usePump } from '@/hooks/api/usePumps';
-import { useNozzles } from '@/hooks/api/useNozzles';
+import { usePump } from '@/hooks/usePumps';
+import { useNozzles } from '@/hooks/useNozzles';
 
 export default function PumpDetailPage() {
   useRoleGuard(['owner', 'manager']);

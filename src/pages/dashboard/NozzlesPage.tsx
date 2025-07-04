@@ -16,9 +16,9 @@ import {
   Loader2,
   AlertTriangle
 } from 'lucide-react';
-import { usePump, usePumps } from '@/hooks/api/usePumps';
-import { useNozzles, useDeleteNozzle } from '@/hooks/api/useNozzles';
-import { useStations } from '@/hooks/api/useStations';
+import { usePump, usePumps } from '@/hooks/usePumps';
+import { useNozzles, useDeleteNozzle } from '@/hooks/useNozzles';
+import { useStations } from '@/hooks/useStations';
 import { useToast } from '@/hooks/use-toast';
 import { NozzleCard } from '@/components/nozzles/NozzleCard';
 import { Breadcrumbs } from '@/components/common/Breadcrumbs';

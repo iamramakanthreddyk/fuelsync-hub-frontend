@@ -1,14 +1,30 @@
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { readingsApi, CreateReadingRequest } from '@/api/readings';
+import { readingsService } from '@/api/contract/readings.service';
+import type { CreateReadingRequest } from '@/api/api-contract';
 import { useToast } from '@/hooks/use-toast';
+
+export const useReadings = (nozzleId?: string) => {
+  return useQuery({
+    queryKey: ['readings', nozzleId],
+    queryFn: () => readingsService.getReadings({ nozzleId }),
+  });
+};
+
+export const useReading = (id: string) => {
+  return useQuery({
+    queryKey: ['reading', id],
+    queryFn: () => readingsService.getReading(id),
+    enabled: !!id,
+  });
+};
 
 export const useCreateReading = () => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
   return useMutation({
-    mutationFn: readingsApi.createReading,
+    mutationFn: readingsService.createReading,
     onSuccess: (data) => {
       console.log('[READINGS] Reading created successfully:', data);
       queryClient.invalidateQueries({ queryKey: ['readings'] });
@@ -33,7 +49,15 @@ export const useCreateReading = () => {
 export const useLatestReading = (nozzleId: string) => {
   return useQuery({
     queryKey: ['readings', 'latest', nozzleId],
-    queryFn: () => readingsApi.getLatestReading(nozzleId),
+    queryFn: () => readingsService.getLatestReading(nozzleId),
+    enabled: !!nozzleId,
+  });
+};
+
+export const useCanCreateReading = (nozzleId: string) => {
+  return useQuery({
+    queryKey: ['can-create-reading', nozzleId],
+    queryFn: () => readingsService.canCreateReading(nozzleId),
     enabled: !!nozzleId,
   });
 };

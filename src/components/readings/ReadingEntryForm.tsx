@@ -17,11 +17,11 @@ import { AlertTriangle, DollarSign } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 // Import new API hooks
-import { useStations } from '@/hooks/api/useStations';
-import { usePumps } from '@/hooks/api/usePumps';
-import { useNozzles } from '@/hooks/api/useNozzles';
-import { useCreateReading, useLatestReading, useCanCreateReading } from '@/hooks/api/useReadings';
-import { useFuelPriceValidation, useFuelPrices } from '@/hooks/api/useFuelPrices';
+import { useStations } from '@/hooks/useStations';
+import { usePumps } from '@/hooks/usePumps';
+import { useNozzles } from '@/hooks/useNozzles';
+import { useCreateReading, useLatestReading, useCanCreateReading } from '@/hooks/useReadings';
+import { useFuelPriceValidation, useFuelPrices } from '@/hooks/useFuelPrices';
 import { CreateReadingRequest } from '@/api/services/readingsService';
 
 // Import creditors API (to be migrated later)
