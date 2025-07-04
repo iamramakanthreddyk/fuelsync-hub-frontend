@@ -14,7 +14,7 @@ export const tenantSettingsApi = {
   getTenantSettings: async (): Promise<TenantSetting[]> => {
     try {
       const response = await apiClient.get('/tenant/settings');
-      return extractApiArray<TenantSetting>(response, 'settings');
+      return extractApiArray<TenantSetting>(response);
     } catch (error) {
       console.error('[TENANT-SETTINGS] Error fetching tenant settings:', error);
       if (error.response?.data?.message) {
@@ -46,7 +46,7 @@ export const tenantSettingsApi = {
   getTenantSettingsForTenant: async (tenantId: string): Promise<TenantSetting[]> => {
     try {
       const response = await apiClient.get(`/admin/tenants/${tenantId}/settings`);
-      return extractApiArray<TenantSetting>(response, 'settings');
+      return extractApiArray<TenantSetting>(response);
     } catch (error) {
       console.error(`[TENANT-SETTINGS] Error fetching settings for tenant ${tenantId}:`, error);
       if (error.response?.data?.message) {

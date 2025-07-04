@@ -47,7 +47,7 @@ export const superadminApi = {
   getTenants: async (): Promise<Tenant[]> => {
     devLog('Fetching all tenants');
     const response = await apiClient.get('/admin/tenants');
-    return extractApiArray<Tenant>(response, 'tenants');
+    return extractApiArray<Tenant>(response);
   },
 
   createTenant: async (data: CreateTenantRequest): Promise<Tenant> => {
@@ -127,7 +127,7 @@ export const superadminApi = {
   getAdminUsers: async (): Promise<AdminUser[]> => {
     devLog('Fetching all admin users');
     const response = await apiClient.get('/admin/users');
-    return extractApiArray<AdminUser>(response, 'users');
+    return extractApiArray<AdminUser>(response);
   },
 
   createAdminUser: async (data: CreateSuperAdminRequest): Promise<AdminUser> => {

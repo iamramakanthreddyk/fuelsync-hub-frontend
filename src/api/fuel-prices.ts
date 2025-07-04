@@ -10,20 +10,7 @@ export const fuelPricesApi = {
       const response = await apiClient.get('/fuel-prices');
       console.log('[FUEL-PRICES-API] Raw response:', response.data);
       
-      // Handle the actual response structure from backend
-      let rawPrices: any[] = [];
-      
-      if (response.data?.data?.prices) {
-        rawPrices = response.data.data.prices;
-      } else if (response.data?.prices) {
-        rawPrices = response.data.prices;
-      } else if (Array.isArray(response.data)) {
-        rawPrices = response.data;
-      } else if (response.data?.data && Array.isArray(response.data.data)) {
-        rawPrices = response.data.data;
-      }
-      
-      console.log('[FUEL-PRICES-API] Raw prices array:', rawPrices);
+      const rawPrices = extractApiArray<any>(response);
       
       // Convert snake_case to camelCase
       const fuelPrices = rawPrices.map((price: any) => ({

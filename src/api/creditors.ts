@@ -12,7 +12,7 @@ export const creditorsApi = {
   // Get all creditors
   getCreditors: async (): Promise<Creditor[]> => {
     const response = await apiClient.get('/creditors');
-    return extractApiArray<Creditor>(response, 'creditors');
+    return extractApiArray<Creditor>(response);
   },
 
   // Create new creditor

@@ -21,7 +21,7 @@ export const readingsApi = {
   getLatestReading: async (nozzleId: string): Promise<NozzleReading | null> => {
     try {
       const response = await apiClient.get(`/nozzle-readings?nozzleId=${nozzleId}`);
-      const readings = extractApiArray<NozzleReading>(response, 'readings');
+      const readings = extractApiArray<NozzleReading>(response);
       
       if (readings.length === 0) return null;
       

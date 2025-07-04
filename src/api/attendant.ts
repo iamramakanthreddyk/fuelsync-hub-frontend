@@ -22,7 +22,7 @@ export const attendantApi = {
   getAssignedStations: async (): Promise<AttendantStation[]> => {
     devLog('Fetching assigned stations for attendant');
     const response = await apiClient.get('/attendant/stations');
-    return extractApiArray<AttendantStation>(response, 'stations');
+    return extractApiArray<AttendantStation>(response);
   },
 
   // Get assigned pumps for current attendant
@@ -30,7 +30,7 @@ export const attendantApi = {
     devLog('Fetching assigned pumps for attendant', { stationId });
     const params = stationId ? `?stationId=${stationId}` : '';
     const response = await apiClient.get(`/attendant/pumps${params}`);
-    return extractApiArray<AttendantPump>(response, 'pumps');
+    return extractApiArray<AttendantPump>(response);
   },
 
   // Get assigned nozzles for current attendant
@@ -38,7 +38,7 @@ export const attendantApi = {
     devLog('Fetching assigned nozzles for attendant', { pumpId });
     const params = pumpId ? `?pumpId=${pumpId}` : '';
     const response = await apiClient.get(`/attendant/nozzles${params}`);
-    return extractApiArray<AttendantNozzle>(response, 'nozzles');
+    return extractApiArray<AttendantNozzle>(response);
   },
 
   // Get assigned creditors for current attendant
@@ -46,7 +46,7 @@ export const attendantApi = {
     devLog('Fetching assigned creditors for attendant', { stationId });
     const params = stationId ? `?stationId=${stationId}` : '';
     const response = await apiClient.get(`/attendant/creditors${params}`);
-    return extractApiArray<Creditor>(response, 'creditors');
+    return extractApiArray<Creditor>(response);
   },
 
   // Submit cash report
@@ -66,14 +66,14 @@ export const attendantApi = {
     
     const queryString = params.toString();
     const response = await apiClient.get(`/attendant/cash-reports${queryString ? `?${queryString}` : ''}`);
-    return extractApiArray<CashReport>(response, 'reports');
+    return extractApiArray<CashReport>(response);
   },
 
   // Get system alerts for attendant
   getAlerts: async (): Promise<SystemAlert[]> => {
     devLog('Fetching system alerts for attendant');
     const response = await apiClient.get('/attendant/alerts');
-    return extractApiArray<SystemAlert>(response, 'alerts');
+    return extractApiArray<SystemAlert>(response);
   },
 
   // Acknowledge alert

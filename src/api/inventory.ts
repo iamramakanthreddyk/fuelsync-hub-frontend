@@ -22,7 +22,7 @@ export const inventoryApi = {
       const response = await apiClient.get(
         `/fuel-inventory${query ? `?${query}` : ''}`
       );
-      return extractApiArray<FuelInventory>(response, 'inventory');
+      return extractApiArray<FuelInventory>(response);
     } catch (error) {
       console.error('Error fetching fuel inventory:', error);
       return [];
@@ -42,7 +42,7 @@ export const inventoryApi = {
   getInventory: async (): Promise<InventoryItem[]> => {
     try {
       const response = await apiClient.get('/inventory');
-      return extractApiArray<InventoryItem>(response, 'data');
+      return extractApiArray<InventoryItem>(response);
     } catch (error) {
       console.error('Error fetching inventory:', error);
       return [];
@@ -52,7 +52,7 @@ export const inventoryApi = {
   getInventoryAlerts: async (): Promise<Alert[]> => {
     try {
       const response = await apiClient.get('/inventory/alerts');
-      return extractApiArray<Alert>(response, 'data');
+      return extractApiArray<Alert>(response);
     } catch (error) {
       console.error('Error fetching inventory alerts:', error);
       return [];

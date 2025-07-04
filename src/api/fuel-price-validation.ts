@@ -20,7 +20,7 @@ export const fuelPriceValidationApi = {
   getMissingPrices: async (): Promise<FuelPriceValidation[]> => {
     devLog('Fetching missing fuel prices for all stations');
     const response = await apiClient.get('/fuel-prices/missing');
-    return extractApiArray<FuelPriceValidation>(response, 'validations');
+    return extractApiArray<FuelPriceValidation>(response);
   },
 
   // Check if reading can be created (has valid fuel prices)

@@ -10,7 +10,7 @@ export const fuelDeliveriesApi = {
       if (stationId) params.append('stationId', stationId);
       
       const response = await apiClient.get(`/fuel-deliveries?${params.toString()}`);
-      return extractApiArray<FuelDelivery>(response, 'deliveries');
+      return extractApiArray<FuelDelivery>(response);
     } catch (error) {
       console.error('Error fetching fuel deliveries:', error);
       return [];
@@ -30,7 +30,7 @@ export const fuelDeliveriesApi = {
       if (stationId) params.append('stationId', stationId);
 
       const response = await apiClient.get(`/fuel-deliveries/inventory?${params.toString()}`);
-      return extractApiArray<FuelInventory>(response, 'inventory');
+      return extractApiArray<FuelInventory>(response);
     } catch (error) {
       console.error('Error fetching deliveries inventory:', error);
       return [];

@@ -1234,3 +1234,11 @@ sudo apt-get update && sudo apt-get install -y postgresql
 * Fuel inventory uses delivery and reading data for tank levels.
 * Auth responses now return tenant name and fuel price list includes station name.
 * Marked testing endpoints as internal in API docs.
+
+### 🛠️ Fix 2025-12-02 – Frontend hooks OpenAPI alignment
+**Status:** ✅ Done
+**Files:** `src/api/*`, `CHANGELOG.md`, `docs/STEP_fix_20251202.md`
+
+**Overview:**
+* API services now read from the `data` field of responses.
+* Legacy keys like `stations` or `inventory` are no longer referenced.

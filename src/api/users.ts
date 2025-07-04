@@ -15,7 +15,7 @@ export const usersApi = {
   getUsers: async (): Promise<User[]> => {
     try {
       const response = await apiClient.get('/users');
-      return extractApiArray<User>(response, 'users');
+      return extractApiArray<User>(response);
     } catch (error) {
       console.error('Error fetching users:', error);
       return [];
@@ -59,7 +59,7 @@ export const usersApi = {
   getSuperAdminUsers: async (): Promise<User[]> => {
     try {
       const response = await apiClient.get('/admin/users');
-      return extractApiArray<User>(response, 'users');
+      return extractApiArray<User>(response);
     } catch (error) {
       console.error('Error fetching super admin users:', error);
       return [];

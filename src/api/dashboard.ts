@@ -27,32 +27,32 @@ export const dashboardApi = {
     const response = await apiClient.get('/dashboard/payment-methods', {
       params: filters
     });
-    return extractApiArray<PaymentMethodBreakdown>(response, 'paymentMethods');
+    return extractApiArray<PaymentMethodBreakdown>(response);
   },
 
   getFuelTypeBreakdown: async (filters: DashboardFilters = {}): Promise<FuelTypeBreakdown[]> => {
     const response = await apiClient.get('/api/v1/dashboard/fuel-breakdown', {
       params: filters
     });
-    return extractApiArray<FuelTypeBreakdown>(response, 'fuelTypes');
+    return extractApiArray<FuelTypeBreakdown>(response);
   },
 
   getTopCreditors: async (limit: number = 5): Promise<TopCreditor[]> => {
     const response = await apiClient.get('/dashboard/top-creditors', {
       params: { limit }
     });
-    return extractApiArray<TopCreditor>(response, 'creditors');
+    return extractApiArray<TopCreditor>(response);
   },
 
   getDailySalesTrend: async (days: number = 7, filters: DashboardFilters = {}): Promise<DailySalesTrend[]> => {
     const response = await apiClient.get('/api/v1/dashboard/sales-trend', {
       params: { days, ...filters }
     });
-    return extractApiArray<DailySalesTrend>(response, 'trends');
+    return extractApiArray<DailySalesTrend>(response);
   },
 
   getStationMetrics: async (): Promise<StationMetric[]> => {
     const response = await apiClient.get('/dashboard/station-metrics');
-    return extractApiArray<StationMetric>(response, 'stations');
+    return extractApiArray<StationMetric>(response);
   },
 };

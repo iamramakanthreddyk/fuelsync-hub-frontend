@@ -39,7 +39,7 @@ export const stationsApi = {
     try {
       const params = includeMetrics ? { includeMetrics: 'true' } : {};
       const response = await apiClient.get('/stations', { params });
-      return extractApiArray<Station>(response, 'stations');
+      return extractApiArray<Station>(response);
     } catch (error) {
       console.error('Error fetching stations:', error);
       return [];
@@ -92,7 +92,7 @@ export const stationsApi = {
   // Get performance comparison for a station
   getStationPerformance: async (id: string): Promise<StationComparison[]> => {
     const response = await apiClient.get(`/stations/${id}/performance`);
-    return extractApiArray<StationComparison>(response, 'data');
+    return extractApiArray<StationComparison>(response);
   },
 
   // Get efficiency metric for a station

@@ -12,7 +12,7 @@ export const reconciliationApi = {
   getDailyReadingsSummary: async (stationId: string, date: string): Promise<DailyReadingSummary[]> => {
     try {
       const response = await apiClient.get(`/reconciliation/daily-summary?stationId=${stationId}&date=${date}`);
-      return extractApiArray<DailyReadingSummary>(response, 'readings');
+      return extractApiArray<DailyReadingSummary>(response);
     } catch (error) {
       console.error('Error fetching daily readings summary:', error);
       return [];
@@ -32,7 +32,7 @@ export const reconciliationApi = {
       if (stationId) params.append('stationId', stationId);
       
       const response = await apiClient.get(`/reconciliation?${params.toString()}`);
-      return extractApiArray<ReconciliationRecord>(response, 'reconciliations');
+      return extractApiArray<ReconciliationRecord>(response);
     } catch (error) {
       console.error('Error fetching reconciliation history:', error);
       return [];
