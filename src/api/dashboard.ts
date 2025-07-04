@@ -37,9 +37,12 @@ export const dashboardApi = {
     return extractApiArray<FuelTypeBreakdown>(response);
   },
 
-  getTopCreditors: async (limit: number = 5): Promise<TopCreditor[]> => {
+  getTopCreditors: async (
+    limit: number = 5,
+    filters: DashboardFilters = {}
+  ): Promise<TopCreditor[]> => {
     const response = await apiClient.get('/dashboard/top-creditors', {
-      params: { limit }
+      params: { limit, ...filters }
     });
     return extractApiArray<TopCreditor>(response);
   },

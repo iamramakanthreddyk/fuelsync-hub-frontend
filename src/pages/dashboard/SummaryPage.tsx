@@ -11,6 +11,7 @@ import { SalesSummaryCard } from '@/components/dashboard/SalesSummaryCard';
 import { PaymentMethodChart } from '@/components/dashboard/PaymentMethodChart';
 import { FuelBreakdownChart } from '@/components/dashboard/FuelBreakdownChart';
 import { SalesTrendChart } from '@/components/dashboard/SalesTrendChart';
+import { LatestFuelPricesCard } from '@/components/dashboard/LatestFuelPricesCard';
 import { ProfitMetricsCard } from '@/components/dashboard/ProfitMetricsCard';
 import { TopCreditorsTable } from '@/components/dashboard/TopCreditorsTable';
 import { StationMetricsCard } from '@/components/dashboard/StationMetricsCard';
@@ -178,8 +179,9 @@ export default function SummaryPage() {
         <FuelBreakdownChart filters={filters} />
       </div>
 
-      <div className="grid grid-cols-1 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <SalesTrendChart filters={filters} />
+        <LatestFuelPricesCard filters={filters} />
       </div>
 
       {/* Station Metrics and Top Creditors */}

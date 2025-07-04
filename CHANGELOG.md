@@ -122,3 +122,5 @@ All notable changes to this project will be documented in this file.
 ### [fix] Remove unused single-report and reading API endpoints
 ### [docs] Prisma usage audit and recommendations
 ### [refactor] Replace pg queries with Prisma in services and analytics
+### [feature] Display latest fuel prices on dashboard
+### [fix] Forward filters in top creditors API
