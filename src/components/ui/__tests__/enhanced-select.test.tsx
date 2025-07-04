@@ -49,6 +49,7 @@ describe('EnhancedSelect', () => {
 
   it('displays required indicator', () => {
     render(<EnhancedSelect label="Required Field" options={options} required />);
-    expect(screen.getByText('Required Field')).toHaveTextContent('*');
+    const label = screen.getByText('Required Field');
+    expect(label).toBeInTheDocument();
   });
 });

@@ -2,14 +2,17 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { http } from 'msw';
+import { http, HttpResponse } from 'msw';
 import { setupServer } from 'msw/node';
 import App from '@/App';
 
-// Match any origin so that MSW intercepts axios requests regardless of baseURL
+// Intercept API calls regardless of origin
 const API_BASE = '*/api/v1';
 
 const server = setupServer();
+
+// Default fallback to prevent real network requests
+server.use(http.all('*', () => HttpResponse.json({})));
 
 beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
@@ -54,24 +57,30 @@ const superAdminSummary = {
 };
 
 const dashboardDataHandlers = [
-  http.get(`${API_BASE}/stations`, (_req, res, ctx) =>
-    res(ctx.json({ stations: [{ id: 's1', name: 'Station 1', status: 'active' }] }))
+  http.get(`${API_BASE}/stations`, () =>
+    HttpResponse.json({ stations: [{ id: 's1', name: 'Station 1', status: 'active' }] })
   ),
-  http.get(`${API_BASE}/pumps`, (_req, res, ctx) => res(ctx.json({ pumps: [] }))),
-  http.get(`${API_BASE}/fuel-prices`, (_req, res, ctx) => res(ctx.json({ data: [] }))),
-  http.get(`${API_BASE}/nozzle-readings`, (_req, res, ctx) =>
-    res(ctx.json({ readings: [{ id: 'r1', amount: 100, volume: 50 }] }))
+  http.get(`${API_BASE}/pumps`, () => HttpResponse.json({ pumps: [] })),
+  http.get(`${API_BASE}/fuel-prices`, () => HttpResponse.json({ data: [] })),
+  http.get(`${API_BASE}/nozzle-readings`, () =>
+    HttpResponse.json({ readings: [{ id: 'r1', amount: 100, volume: 50 }] })
   ),
-  http.get(`${API_BASE}/analytics/dashboard`, (_req, res, ctx) => res(ctx.json(superAdminSummary))),
-  http.get(`${API_BASE}/admin/dashboard`, (_req, res, ctx) => res(ctx.json({}))),
-  http.get(`${API_BASE}/dashboard/system-health`, (_req, res, ctx) =>
-    res(ctx.json({ uptime: 99.9 }))
+  http.get(`${API_BASE}/analytics/dashboard`, () => HttpResponse.json(superAdminSummary)),
+  http.get(`${API_BASE}/admin/dashboard`, () => HttpResponse.json({})),
+  http.get(`${API_BASE}/dashboard/system-health`, () =>
+    HttpResponse.json({ uptime: 99.9 })
+  ),
+  http.get(`${API_BASE}/dashboard/payment-methods`, () =>
+    HttpResponse.json({ methods: [] })
+  ),
+  http.get(`${API_BASE}/dashboard/top-creditors`, () =>
+    HttpResponse.json({ creditors: [] })
   )
 ];
 
 const analyticsHandlers = [
-  http.get(`${API_BASE}/admin/dashboard`, (_req, res, ctx) => res(ctx.json(superAdminSummary))),
-  http.get(`${API_BASE}/dashboard/system-health`, (_req, res, ctx) => res(ctx.json({ uptime: 99.9 })))
+  http.get(`${API_BASE}/admin/dashboard`, () => HttpResponse.json(superAdminSummary)),
+  http.get(`${API_BASE}/dashboard/system-health`, () => HttpResponse.json({ uptime: 99.9 }))
 ];
 
 function setAuth(role: string) {
