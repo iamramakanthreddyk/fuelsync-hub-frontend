@@ -17,8 +17,6 @@ const apiClient = axios.create({
   timeout: 30000, // 30 seconds
 });
 
-// Default tenant ID for demo purposes
-const DEFAULT_TENANT_ID = "df9347c2-9f6c-4d32-942f-1208b91fbb2b";
 
 // Track if a token refresh is in progress
 let isRefreshing = false;
@@ -38,10 +36,10 @@ apiClient.interceptors.request.use(
       }
     }
 
-    // Add tenant context
+    // Add tenant context only when a user is stored
     const storedUser = localStorage.getItem('fuelsync_user');
-    let tenantId = DEFAULT_TENANT_ID; // Default tenant ID
-    
+    let tenantId: string | null = null;
+
     if (storedUser) {
       try {
         const user = JSON.parse(storedUser);
@@ -52,9 +50,10 @@ apiClient.interceptors.request.use(
         console.error('[API-CLIENT] Error parsing stored user:', error);
       }
     }
-    
-    // Always include tenant ID header
-    config.headers['x-tenant-id'] = tenantId;
+
+    if (tenantId) {
+      config.headers['x-tenant-id'] = tenantId;
+    }
     
     // Log request details in development
     if (process.env.NODE_ENV === 'development') {
@@ -62,8 +61,8 @@ apiClient.interceptors.request.use(
         url: config.url,
         method: config.method,
         headers: {
-          'x-tenant-id': config.headers['x-tenant-id'],
-          'Authorization': config.headers.Authorization ? 'Bearer [TOKEN]' : 'None'
+          'x-tenant-id': config.headers['x-tenant-id'] ?? 'None',
+          Authorization: config.headers.Authorization ? 'Bearer [TOKEN]' : 'None'
         }
       });
     }
