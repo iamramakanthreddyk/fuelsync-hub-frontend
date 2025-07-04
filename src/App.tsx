@@ -19,9 +19,11 @@ import DashboardPage from './pages/dashboard/DashboardPage';
 import AttendantDashboardPage from './pages/dashboard/AttendantDashboardPage';
 import StationsPage from './pages/dashboard/StationsPage';
 import StationDetailPage from './pages/dashboard/StationDetailPage';
+import EditStationPage from './pages/dashboard/EditStationPage';
 import CreateStationPage from './pages/dashboard/CreateStationPage';
 import PumpsPage from './pages/dashboard/PumpsPage';
 import PumpDetailPage from './pages/dashboard/PumpDetailPage';
+import PumpSettingsPage from './pages/dashboard/PumpSettingsPage';
 import CreatePumpPage from './pages/dashboard/CreatePumpPage';
 import NozzlesPage from './pages/dashboard/NozzlesPage';
 import CreateNozzlePage from './pages/dashboard/CreateNozzlePage';
@@ -74,6 +76,7 @@ function App() {
               <Route path="stations" element={<StationsPage />} />
               <Route path="stations/new" element={<CreateStationPage />} />
               <Route path="stations/:stationId" element={<StationDetailPage />} />
+              <Route path="stations/:stationId/edit" element={<EditStationPage />} />
               <Route path="stations/:stationId/pumps" element={<PumpsPage />} />
               <Route path="stations/:stationId/pumps/:pumpId" element={<PumpDetailPage />} />
               <Route path="stations/:stationId/pumps/:pumpId/nozzles" element={<NozzlesPage />} />
@@ -83,6 +86,7 @@ function App() {
               <Route path="pumps" element={<PumpsPage />} />
               <Route path="pumps/new" element={<CreatePumpPage />} />
               <Route path="pumps/:pumpId" element={<PumpDetailPage />} />
+              <Route path="pumps/:pumpId/settings" element={<PumpSettingsPage />} />
               <Route path="pumps/:pumpId/nozzles" element={<NozzlesPage />} />
               <Route path="pumps/:pumpId/nozzles/new" element={<CreateNozzlePage />} />
               

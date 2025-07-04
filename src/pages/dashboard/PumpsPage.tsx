@@ -125,12 +125,9 @@ export default function PumpsPage() {
     }
   };
 
-  // Handle pump settings - placeholder for future feature
+  // Navigate to pump settings page
   const handlePumpSettings = (pumpId: string) => {
-    toast({
-      title: "Coming Soon",
-      description: "Pump settings feature is under development",
-    });
+    navigate(`/dashboard/pumps/${pumpId}/settings`);
   };
 
   // Handle back to stations navigation

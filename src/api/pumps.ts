@@ -58,6 +58,17 @@ export const pumpsApi = {
       throw error;
     }
   }
+  ,
+  // Get pump settings
+  getPumpSettings: async (pumpId: string): Promise<any> => {
+    const response = await apiClient.get(`/pumps/${pumpId}/settings`);
+    return extractApiData<any>(response);
+  },
+  // Update pump settings
+  updatePumpSettings: async (pumpId: string, data: any): Promise<any> => {
+    const response = await apiClient.put(`/pumps/${pumpId}/settings`, data);
+    return extractApiData<any>(response);
+  }
 };
 
 // Export types for backward compatibility

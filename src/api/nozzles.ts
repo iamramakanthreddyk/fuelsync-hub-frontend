@@ -120,4 +120,13 @@ export const nozzlesService = {
       throw error;
     }
   }
+  ,
+  getNozzleSettings: async (id: string): Promise<any> => {
+    const response = await apiClient.get(`/nozzles/${id}/settings`);
+    return response.data?.data ?? response.data;
+  },
+  updateNozzleSettings: async (id: string, data: any): Promise<any> => {
+    const response = await apiClient.put(`/nozzles/${id}/settings`, data);
+    return response.data?.data ?? response.data;
+  }
 };

@@ -12,6 +12,7 @@ import { DateRange } from 'react-day-picker';
 import { formatCurrency, formatVolume, formatSafeNumber } from '@/utils/formatters';
 import { useRoleGuard } from '@/hooks/useRoleGuard';
 import { useFeatureFlags } from '@/hooks/useFeatureFlags';
+import { useExportSalesReport } from '@/hooks/useReports';
 
 export default function SalesPage() {
   useRoleGuard(['owner', 'manager']);
@@ -26,6 +27,23 @@ export default function SalesPage() {
   
   const { data: sales = [], isLoading } = useEnhancedSales(filters);
   const { data: features } = useFeatureFlags();
+  const exportSales = useExportSalesReport({
+    ...filters,
+    format: 'csv',
+  });
+
+  const handleExport = () => {
+    exportSales.mutate(undefined, {
+      onSuccess: (blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'sales-report.csv';
+        link.click();
+        URL.revokeObjectURL(url);
+      },
+    });
+  };
 
   // Calculate summary stats with safe number handling
   const totalAmount = sales.reduce((sum, sale) => {
@@ -81,7 +99,7 @@ export default function SalesPage() {
               placeholder="Select date range"
             />
             {features?.allowExport && (
-              <Button variant="outline" className="bg-white">
+              <Button variant="outline" className="bg-white" onClick={handleExport}>
                 <Download className="h-4 w-4 mr-2" />
                 Export
               </Button>
