@@ -13,7 +13,7 @@ export const useFeatureFlags = () => {
     queryKey: ['feature-flags', user?.tenantId],
     queryFn: async () => {
       if (!user?.tenantId) return {} as FeatureFlags;
-      const settings = await tenantSettingsApi.getTenantSettings(user.tenantId);
+      const settings = await tenantSettingsApi.getTenantSettings();
       const flags: FeatureFlags = {};
       settings.forEach((s: TenantSetting) => {
         if (s.key.startsWith('features.')) {
