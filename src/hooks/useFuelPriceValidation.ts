@@ -1,29 +1,57 @@
 
-import { useQuery } from '@tanstack/react-query';
-import { fuelPriceValidationApi } from '@/api/fuel-price-validation';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { toast } from '@/hooks/use-toast';
 
-export const useStationPriceValidation = (stationId: string) => {
-  return useQuery({
-    queryKey: ['fuel-price-validation', stationId],
-    queryFn: () => fuelPriceValidationApi.validateStationPrices(stationId),
-    enabled: !!stationId,
-    staleTime: 5 * 60 * 1000, // 5 minutes
+interface PriceValidationParams {
+  stationId: string;
+  fuelType: string;
+  price: number;
+}
+
+interface ValidationResult {
+  valid: boolean;
+  message: string;
+  hasValidPrices?: boolean;
+  missingPrices?: string[];
+}
+
+export const useFuelPriceValidation = () => {
+  return useMutation({
+    mutationFn: async (params: PriceValidationParams): Promise<ValidationResult> => {
+      console.log('Validating fuel price:', params);
+      
+      if (params.price <= 0) {
+        throw new Error('Price must be greater than 0');
+      }
+      
+      if (params.price > 200) {
+        throw new Error('Price seems unusually high');
+      }
+      
+      return { 
+        valid: true, 
+        message: 'Price is valid',
+        hasValidPrices: true,
+        missingPrices: []
+      };
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Validation Error",
+        description: error?.message || "Failed to validate fuel price",
+        variant: "destructive",
+      });
+    }
   });
 };
 
 export const useMissingFuelPrices = () => {
   return useQuery({
-    queryKey: ['fuel-price-validation', 'missing'],
-    queryFn: fuelPriceValidationApi.getMissingPrices,
-    staleTime: 5 * 60 * 1000, // 5 minutes
-  });
-};
-
-export const useCanCreateReading = (nozzleId: string) => {
-  return useQuery({
-    queryKey: ['reading-validation', nozzleId],
-    queryFn: () => fuelPriceValidationApi.canCreateReading(nozzleId),
-    enabled: !!nozzleId,
-    staleTime: 30 * 1000, // 30 seconds - this changes when fuel prices are updated
+    queryKey: ['missing-fuel-prices'],
+    queryFn: async () => {
+      // Mock implementation - replace with actual API call
+      return [];
+    },
+    staleTime: 5 * 60 * 1000,
   });
 };

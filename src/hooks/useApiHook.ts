@@ -1,9 +1,11 @@
+
 /**
  * @file useApiHook.ts
  * @description Custom hook for API operations using the ApiContext
  */
 import { useApi, API_CONFIG } from '@/contexts/ApiContext';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { toast } from '@/hooks/use-toast';
 
 // Helper function to ensure array data
 const ensureArray = (data: any): any[] => {
@@ -27,7 +29,20 @@ export function useApiHook() {
   const fetchData = <T,>(endpoint: string, queryKey: any[], options?: any) => {
     return useQuery<T>({
       queryKey,
-      queryFn: () => fetchApi<T>(endpoint, options),
+      queryFn: async () => {
+        try {
+          return await fetchApi<T>(endpoint, options);
+        } catch (error: any) {
+          console.error(`API Error for ${endpoint}:`, error);
+          // Don't throw for UI-breaking errors, return empty data instead
+          if (endpoint.includes('nozzles') || endpoint.includes('pumps') || endpoint.includes('stations')) {
+            return [] as unknown as T;
+          }
+          throw error;
+        }
+      },
+      retry: 1,
+      staleTime: 5 * 60 * 1000, // 5 minutes
       ...options,
       // Add default select function for array data if endpoint contains certain keywords
       select: options?.select || (
@@ -50,13 +65,17 @@ export function useApiHook() {
       invalidateQueries?: any[];
       onSuccess?: (data: T) => void;
       onError?: (error: any) => void;
+      successMessage?: string;
+      errorMessage?: string;
     } = {}
   ) => {
     const { 
       method = 'POST', 
       invalidateQueries = [],
       onSuccess,
-      onError
+      onError,
+      successMessage,
+      errorMessage
     } = options;
 
     return useMutation<T, Error, D>({
@@ -75,12 +94,29 @@ export function useApiHook() {
           });
         }
         
+        // Show success toast if message provided
+        if (successMessage) {
+          toast({
+            title: "Success",
+            description: successMessage,
+          });
+        }
+        
         // Call custom onSuccess handler if provided
         if (onSuccess) {
           onSuccess(data);
         }
       },
       onError: (error) => {
+        console.error(`Mutation error for ${endpoint}:`, error);
+        
+        // Show error toast
+        toast({
+          title: "Error",
+          description: errorMessage || error?.message || "An error occurred",
+          variant: "destructive",
+        });
+        
         // Call custom onError handler if provided
         if (onError) {
           onError(error);
@@ -92,6 +128,6 @@ export function useApiHook() {
   return {
     fetchData,
     createMutation,
-    endpoints: API_CONFIG.endpoints
+    endpoints: API_CONFIG?.endpoints || {}
   };
 }

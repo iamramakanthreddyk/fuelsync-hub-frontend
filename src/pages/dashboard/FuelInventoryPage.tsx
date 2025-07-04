@@ -1,3 +1,4 @@
+
 /**
  * @file FuelInventoryPage.tsx
  * @description Page for monitoring fuel inventory
@@ -31,7 +32,7 @@ export default function FuelInventoryPage() {
     data: inventory = [],
     isLoading: inventoryLoading,
     refetch: refetchInventory
-  } = useFuelInventory(selectedStationId === 'all-stations' ? undefined : selectedStationId);
+  } = useFuelInventory(selectedStationId === 'all-stations' ? undefined : { stationId: selectedStationId });
 
   // Fetch inventory after deliveries
   const {
@@ -42,7 +43,7 @@ export default function FuelInventoryPage() {
 
   // Fetch inventory summary
   const {
-    data: summary,
+    data: summary = {},
     isLoading: summaryLoading,
     refetch: refetchSummary
   } = useFuelInventorySummary();
@@ -169,7 +170,7 @@ export default function FuelInventoryPage() {
             <Fuel className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{summary?.totalTanks || inventory.length}</div>
+            <div className="text-2xl font-bold">{(summary as any)?.totalTanks || inventory.length}</div>
             <p className="text-xs text-muted-foreground">
               Across all stations
             </p>
@@ -183,7 +184,7 @@ export default function FuelInventoryPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-red-600">
-              {summary?.lowStockCount || inventory.filter(item => item.status === 'critical' || item.status === 'low').length}
+              {(summary as any)?.lowStockCount || inventory.filter(item => (item as any).status === 'critical' || (item as any).status === 'low').length}
             </div>
             <p className="text-xs text-muted-foreground">
               Requires attention
@@ -198,8 +199,8 @@ export default function FuelInventoryPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {summary?.averageFillPercentage || 
-                Math.round(inventory.reduce((acc, item) => acc + (item.currentStock / item.capacity * 100), 0) / 
+              {(summary as any)?.averageFillPercentage || 
+                Math.round(inventory.reduce((acc: number, item: any) => acc + ((item.currentVolume || 0) / (item.capacity || 1) * 100), 0) / 
                 (inventory.length || 1))}%
             </div>
             <p className="text-xs text-muted-foreground">
@@ -215,7 +216,7 @@ export default function FuelInventoryPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {(summary?.totalCapacity || inventory.reduce((acc, item) => acc + item.capacity, 0)).toLocaleString()}L
+              {((summary as any)?.totalCapacity || inventory.reduce((acc: number, item: any) => acc + (item.capacity || 0), 0)).toLocaleString()}L
             </div>
             <p className="text-xs text-muted-foreground">
               Maximum storage
@@ -253,9 +254,9 @@ export default function FuelInventoryPage() {
             </div>
           ) : (
             <div className="space-y-4">
-              {inventory.map((item) => {
-                const stockStatus = getStockStatus(item.currentStock, item.capacity, item.lowThreshold);
-                const fillPercentage = (item.currentStock / item.capacity) * 100;
+              {inventory.map((item: any) => {
+                const stockStatus = getStockStatus(item.currentVolume || 0, item.capacity || 1, item.lowThreshold || 0);
+                const fillPercentage = ((item.currentVolume || 0) / (item.capacity || 1)) * 100;
 
                 return (
                   <div key={item.id} className="flex items-center justify-between p-4 border rounded-lg">
@@ -279,10 +280,10 @@ export default function FuelInventoryPage() {
                     </div>
                     <div className="text-right ml-4">
                       <div className="text-lg font-semibold">
-                        {item.currentStock.toLocaleString()}L
+                        {(item.currentVolume || 0).toLocaleString()}L
                       </div>
                       <div className="text-sm text-muted-foreground">
-                        of {item.capacity.toLocaleString()}L
+                        of {(item.capacity || 0).toLocaleString()}L
                       </div>
                       <div className="text-xs text-muted-foreground">
                         {fillPercentage.toFixed(1)}% full
@@ -307,9 +308,9 @@ export default function FuelInventoryPage() {
             <p className="text-muted-foreground text-center py-4">No delivery inventory data.</p>
           ) : (
             <div className="space-y-4">
-              {deliveriesInventory.map((item) => {
-                const stockStatus = getStockStatus(item.currentStock, item.capacity, item.lowThreshold);
-                const fillPercentage = (item.currentStock / item.capacity) * 100;
+              {deliveriesInventory.map((item: any) => {
+                const stockStatus = getStockStatus(item.currentVolume || 0, item.capacity || 1, item.lowThreshold || 0);
+                const fillPercentage = ((item.currentVolume || 0) / (item.capacity || 1)) * 100;
 
                 return (
                   <div key={item.id} className="flex items-center justify-between p-4 border rounded-lg">
@@ -330,8 +331,8 @@ export default function FuelInventoryPage() {
                       </div>
                     </div>
                     <div className="text-right ml-4">
-                      <div className="text-lg font-semibold">{item.currentStock.toLocaleString()}L</div>
-                      <div className="text-sm text-muted-foreground">of {item.capacity.toLocaleString()}L</div>
+                      <div className="text-lg font-semibold">{(item.currentVolume || 0).toLocaleString()}L</div>
+                      <div className="text-sm text-muted-foreground">of {(item.capacity || 0).toLocaleString()}L</div>
                       <div className="text-xs text-muted-foreground">{fillPercentage.toFixed(1)}% full</div>
                     </div>
                   </div>

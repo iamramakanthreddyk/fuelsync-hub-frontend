@@ -1,9 +1,11 @@
+
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { http } from 'msw';
+import { http, HttpResponse } from 'msw';
 import { setupServer } from 'msw/node';
+import { beforeAll, afterEach, afterAll, beforeEach, it, expect } from 'vitest';
 import App from '@/App';
 
 // Match any origin so that MSW intercepts axios requests regardless of baseURL
@@ -27,18 +29,16 @@ const renderApp = (route: string) => {
 };
 
 const loginHandlers = (role: string) =>
-  http.post(`${API_BASE}/auth/login`, async (_req, res, ctx) =>
-    res(
-      ctx.json({
-        token: `${role}-token`,
-        user: {
-          id: '1',
-          email: `${role}@test.com`,
-          name: `${role} user`,
-          role
-        }
-      })
-    )
+  http.post(`${API_BASE}/auth/login`, async () =>
+    HttpResponse.json({
+      token: `${role}-token`,
+      user: {
+        id: '1',
+        email: `${role}@test.com`,
+        name: `${role} user`,
+        role
+      }
+    })
   );
 
 const superAdminSummary = {
@@ -54,24 +54,24 @@ const superAdminSummary = {
 };
 
 const dashboardDataHandlers = [
-  http.get(`${API_BASE}/stations`, (_req, res, ctx) =>
-    res(ctx.json({ stations: [{ id: 's1', name: 'Station 1', status: 'active' }] }))
+  http.get(`${API_BASE}/stations`, () =>
+    HttpResponse.json({ stations: [{ id: 's1', name: 'Station 1', status: 'active' }] })
   ),
-  http.get(`${API_BASE}/pumps`, (_req, res, ctx) => res(ctx.json({ pumps: [] }))),
-  http.get(`${API_BASE}/fuel-prices`, (_req, res, ctx) => res(ctx.json({ data: [] }))),
-  http.get(`${API_BASE}/nozzle-readings`, (_req, res, ctx) =>
-    res(ctx.json({ readings: [{ id: 'r1', amount: 100, volume: 50 }] }))
+  http.get(`${API_BASE}/pumps`, () => HttpResponse.json({ pumps: [] })),
+  http.get(`${API_BASE}/fuel-prices`, () => HttpResponse.json({ data: [] })),
+  http.get(`${API_BASE}/nozzle-readings`, () =>
+    HttpResponse.json({ readings: [{ id: 'r1', amount: 100, volume: 50 }] })
   ),
-  http.get(`${API_BASE}/analytics/dashboard`, (_req, res, ctx) => res(ctx.json(superAdminSummary))),
-  http.get(`${API_BASE}/admin/dashboard`, (_req, res, ctx) => res(ctx.json({}))),
-  http.get(`${API_BASE}/dashboard/system-health`, (_req, res, ctx) =>
-    res(ctx.json({ uptime: 99.9 }))
+  http.get(`${API_BASE}/analytics/dashboard`, () => HttpResponse.json(superAdminSummary)),
+  http.get(`${API_BASE}/admin/dashboard`, () => HttpResponse.json({})),
+  http.get(`${API_BASE}/dashboard/system-health`, () =>
+    HttpResponse.json({ uptime: 99.9 })
   )
 ];
 
 const analyticsHandlers = [
-  http.get(`${API_BASE}/admin/dashboard`, (_req, res, ctx) => res(ctx.json(superAdminSummary))),
-  http.get(`${API_BASE}/dashboard/system-health`, (_req, res, ctx) => res(ctx.json({ uptime: 99.9 })))
+  http.get(`${API_BASE}/admin/dashboard`, () => HttpResponse.json(superAdminSummary)),
+  http.get(`${API_BASE}/dashboard/system-health`, () => HttpResponse.json({ uptime: 99.9 }))
 ];
 
 function setAuth(role: string) {
@@ -112,8 +112,8 @@ it('Owner can view dashboard and inventory', async () => {
 it('Manager can view readings but not user management', async () => {
   setAuth('manager');
   server.use(
-    http.get(`${API_BASE}/nozzle-readings`, (_req, res, ctx) =>
-      res(ctx.json({ readings: [] }))
+    http.get(`${API_BASE}/nozzle-readings`, () =>
+      HttpResponse.json({ readings: [] })
     )
   );
 
@@ -130,7 +130,7 @@ it('Manager can view readings but not user management', async () => {
 it('Attendant can record readings only', async () => {
   setAuth('attendant');
   server.use(
-    http.get(`${API_BASE}/stations`, (_req, res, ctx) => res(ctx.json({ stations: [] })))
+    http.get(`${API_BASE}/stations`, () => HttpResponse.json({ stations: [] }))
   );
 
   renderApp('/dashboard/readings/new');

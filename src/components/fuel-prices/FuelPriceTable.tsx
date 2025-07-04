@@ -1,3 +1,4 @@
+
 /**
  * @file FuelPriceTable.tsx
  * @description Table component for displaying fuel prices
@@ -108,9 +109,9 @@ export function FuelPriceTable() {
     return station?.name || 'Unknown Station';
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = (id: string, stationId: string) => {
     setDeletingId(id);
-    deleteFuelPrice.mutate({ id, stationId: fuelPrices.find(p => p.id === id)?.stationId || '' }, {
+    deleteFuelPrice.mutate({ id, stationId }, {
       onSettled: () => {
         setDeletingId(null);
       }
@@ -207,7 +208,7 @@ export function FuelPriceTable() {
                               <AlertDialogFooter>
                                 <AlertDialogCancel>Cancel</AlertDialogCancel>
                                 <AlertDialogAction
-                                  onClick={() => handleDelete(price.id)}
+                                  onClick={() => handleDelete(price.id, price.stationId)}
                                   className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                                 >
                                   Delete
@@ -280,7 +281,7 @@ export function FuelPriceTable() {
                       <AlertDialogFooter>
                         <AlertDialogCancel>Cancel</AlertDialogCancel>
                         <AlertDialogAction
-                          onClick={() => handleDelete(price.id)}
+                          onClick={() => handleDelete(price.id, price.stationId)}
                           className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                         >
                           Delete

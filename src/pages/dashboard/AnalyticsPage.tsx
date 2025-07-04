@@ -23,6 +23,12 @@ export default function AnalyticsPage() {
     );
   }
 
+  // Safe property access with fallbacks
+  const totalRevenue = analytics?.totalRevenue || 0;
+  const salesVolume = analytics?.salesVolume || analytics?.totalVolume || 0;
+  const transactionCount = analytics?.transactionCount || analytics?.transactions || 0;
+  const activeStations = analytics?.activeStations || analytics?.stationCount || 0;
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -47,7 +53,7 @@ export default function AnalyticsPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              ₹{(analytics?.totalRevenue ?? 0).toLocaleString()}
+              ₹{totalRevenue.toLocaleString()}
             </div>
             <p className="text-xs text-muted-foreground">
               +0% from last month
@@ -62,7 +68,7 @@ export default function AnalyticsPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {(analytics?.salesVolume ?? analytics?.totalVolume ?? 0).toLocaleString()}L
+              {salesVolume.toLocaleString()}L
             </div>
             <p className="text-xs text-muted-foreground">
               +0% from last month
@@ -77,7 +83,7 @@ export default function AnalyticsPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {analytics?.transactionCount ?? analytics?.transactions ?? 0}
+              {transactionCount}
             </div>
             <p className="text-xs text-muted-foreground">
               +0% from last month
@@ -92,7 +98,7 @@ export default function AnalyticsPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {analytics?.activeStations ?? analytics?.stationCount ?? 0}
+              {activeStations}
             </div>
             <p className="text-xs text-muted-foreground">
               All stations operational

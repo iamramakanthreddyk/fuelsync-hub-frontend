@@ -1,3 +1,4 @@
+
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import type { NozzleReading } from '@/api/api-contract';
@@ -44,28 +45,28 @@ export function ReadingsTable({ readings, isLoading }: ReadingsTableProps) {
         {readings.map((r) => (
           <TableRow key={r.id}>
             <TableCell>
-              {r.pumpName ? (
-                <span className="font-medium">{r.pumpName}</span>
+              {(r as any).pumpName ? (
+                <span className="font-medium">{(r as any).pumpName}</span>
               ) : (
-                <span>Nozzle {r.nozzleNumber ?? r.nozzleId}</span>
+                <span>Nozzle {(r as any).nozzleNumber ?? r.nozzleId}</span>
               )}
             </TableCell>
-            <TableCell>{r.stationName || 'N/A'}</TableCell>
+            <TableCell>{(r as any).stationName || 'N/A'}</TableCell>
             <TableCell className="font-mono text-sm">
-              {formatShortDateTime(r.createdAt || r.recordedAt)}
+              {formatShortDateTime(r.createdAt || (r as any).recordedAt)}
             </TableCell>
             <TableCell className="text-right font-mono">
               {formatReading(r.reading)} L
             </TableCell>
             <TableCell className="text-right font-mono">
-              {r.deltaVolume !== undefined
-                ? `${formatReading(r.deltaVolume)} L`
-                : r.previousReading !== undefined
-                ? `${formatReading(r.reading - (r.previousReading || 0))} L`
+              {(r as any).deltaVolume !== undefined
+                ? `${formatReading((r as any).deltaVolume)} L`
+                : (r as any).previousReading !== undefined
+                ? `${formatReading(r.reading - ((r as any).previousReading || 0))} L`
                 : 'N/A'}
             </TableCell>
             <TableCell className="text-right font-mono">
-              {r.pricePerLitre !== undefined ? formatPrice(r.pricePerLitre) : 'N/A'}
+              {(r as any).pricePerLitre !== undefined ? formatPrice((r as any).pricePerLitre) : 'N/A'}
             </TableCell>
             <TableCell className="text-right font-mono font-medium">
               {r.amount !== undefined ? formatCurrency(r.amount) : 'N/A'}

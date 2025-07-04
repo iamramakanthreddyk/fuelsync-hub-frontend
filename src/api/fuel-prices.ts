@@ -48,6 +48,13 @@ export const fuelPricesApi = {
     const response = await apiClient.put(`/fuel-prices/${id}`, data);
     console.log('[FUEL-PRICES-API] Update response:', response.data);
     return extractApiData<FuelPrice>(response);
+  },
+
+  // Delete fuel price
+  deleteFuelPrice: async (id: string): Promise<void> => {
+    console.log('[FUEL-PRICES-API] Deleting fuel price:', id);
+    await apiClient.delete(`/fuel-prices/${id}`);
+    console.log('[FUEL-PRICES-API] Fuel price deleted successfully');
   }
 };
 

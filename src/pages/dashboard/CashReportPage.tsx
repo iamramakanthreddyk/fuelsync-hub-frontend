@@ -1,3 +1,4 @@
+
 /**
  * @file pages/dashboard/CashReportPage.tsx
  * @description Page for submitting cash reports
@@ -13,7 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useToast } from '@/hooks/use-toast';
 import { useStations } from '@/hooks/useStations';
 import { useCreditors } from '@/hooks/useCreditors';
-import { useSubmitCashReport } from '@/hooks/useAttendant';
+import { useSubmitCashReport } from '@/hooks/useSubmitCashReport';
 import { format } from 'date-fns';
 import { ArrowLeft, Plus, Trash, DollarSign, CreditCard, Loader2 } from 'lucide-react';
 import { CashReport, CreditEntry } from '@/api/services/attendantService';
@@ -34,7 +35,7 @@ export default function CashReportPage() {
   const { data: stations = [], isLoading: stationsLoading } = useStations();
   
   // Fetch creditors for selected station
-  const { data: creditors = [], isLoading: creditorsLoading } = useCreditors(selectedStationId);
+  const { data: creditors = [], isLoading: creditorsLoading } = useCreditors();
   
   // Submit cash report mutation
   const submitCashReport = useSubmitCashReport();

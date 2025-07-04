@@ -1,3 +1,4 @@
+
 /**
  * @file ReadingEntryForm.tsx
  * @description Form component for recording nozzle readings
@@ -70,8 +71,8 @@ export function ReadingEntryForm({ preselected }: ReadingEntryFormProps) {
   const { data: nozzles = [] } = useNozzles(selectedPump);
   const { data: latestReading } = useLatestReading(selectedNozzle);
   const { data: canCreateReading, isLoading: loadingCanCreate } = useCanCreateReading(selectedNozzle);
-  const { data: stationPriceValidation, isLoading: loadingPriceValidation } = useFuelPriceValidation(selectedStation);
-  const { data: fuelPrices = [] } = useFuelPrices(selectedStation);
+  const validateFuelPrice = useFuelPriceValidation();
+  const { data: fuelPrices = [] } = useFuelPrices();
   const createReading = useCreateReading();
 
   // Fetch creditors (to be migrated later)
@@ -156,10 +157,13 @@ export function ReadingEntryForm({ preselected }: ReadingEntryFormProps) {
   
   // Check if station has fuel prices
   const hasFuelPrices = fuelPrices && fuelPrices.length > 0;
+  
+  // Validate price for selected station and nozzle fuel type
+  const priceValidationResult = validateFuelPrice.data;
   const showMissingPricesWarning = selectedStation && 
-    stationPriceValidation && 
-    !stationPriceValidation.hasValidPrices && 
-    !hasFuelPrices;
+    selectedNozzleData &&
+    priceValidationResult && 
+    !priceValidationResult.valid;
 
   return (
     <Form {...form}>
@@ -170,9 +174,7 @@ export function ReadingEntryForm({ preselected }: ReadingEntryFormProps) {
             <AlertTriangle className="h-4 w-4 text-red-600" />
             <AlertDescription className="text-red-800">
               <strong>Missing Fuel Prices!</strong>{' '}
-              {stationPriceValidation.missingPrices && stationPriceValidation.missingPrices.length > 0 ? 
-                `This station is missing prices for: ${stationPriceValidation.missingPrices.map(p => p.fuelType).join(', ')}. ` : 
-                'This station has no active fuel prices. '}
+              This station is missing prices for this fuel type. {' '}
               <Link to="/dashboard/fuel-prices" className="underline font-medium">
                 Update fuel prices here
               </Link> before recording readings.

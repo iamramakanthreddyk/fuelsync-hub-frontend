@@ -2,11 +2,13 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { useAlerts } from '@/hooks/useAlerts';
+import { useAlerts, useMarkAlertAsRead, useDismissAlert } from '@/hooks/useAlerts';
 import { AlertTriangle, Bell, CheckCircle, X } from 'lucide-react';
 
 export function AlertNotifications() {
-  const { data: alerts = [], isLoading, markAsRead, dismissAlert } = useAlerts();
+  const { data: alerts = [], isLoading } = useAlerts();
+  const markAsReadMutation = useMarkAlertAsRead();
+  const dismissAlertMutation = useDismissAlert();
 
   if (isLoading) {
     return (
@@ -89,7 +91,7 @@ export function AlertNotifications() {
                         size="sm" 
                         variant="ghost" 
                         className="h-6 w-6 p-0"
-                        onClick={() => markAsRead(alert.id)}
+                        onClick={() => markAsReadMutation.mutate(alert.id)}
                       >
                         <CheckCircle className="h-3 w-3" />
                       </Button>
@@ -98,7 +100,7 @@ export function AlertNotifications() {
                       size="sm" 
                       variant="ghost" 
                       className="h-6 w-6 p-0"
-                      onClick={() => dismissAlert(alert.id)}
+                      onClick={() => dismissAlertMutation.mutate(alert.id)}
                     >
                       <X className="h-3 w-3" />
                     </Button>

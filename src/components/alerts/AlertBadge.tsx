@@ -4,14 +4,16 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { useAlerts } from '@/hooks/useAlerts';
+import { useAlerts, useMarkAlertAsRead, useDismissAlert } from '@/hooks/useAlerts';
 import { Bell, X, CheckCircle } from 'lucide-react';
 import { Alert } from '@/api/api-contract';
 import { format } from 'date-fns';
 
 export function AlertBadge() {
   const [open, setOpen] = useState(false);
-  const { data: alerts = [], markAsRead, dismissAlert } = useAlerts();
+  const { data: alerts = [] } = useAlerts();
+  const markAsReadMutation = useMarkAlertAsRead();
+  const dismissAlertMutation = useDismissAlert();
   
   const unreadAlerts = alerts.filter(alert => !alert.read && (alert.isActive ?? true));
   const criticalAlerts = unreadAlerts.filter(alert => alert.severity === 'critical' || alert.priority === 'critical');
@@ -25,11 +27,11 @@ export function AlertBadge() {
   };
 
   const handleMarkAsRead = (id: string) => {
-    markAsRead(id);
+    markAsReadMutation.mutate(id);
   };
 
   const handleDismiss = (id: string) => {
-    dismissAlert(id);
+    dismissAlertMutation.mutate(id);
   };
 
   if (unreadAlerts.length === 0) {
