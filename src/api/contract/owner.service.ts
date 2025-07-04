@@ -21,7 +21,8 @@ import type {
   Creditor,
   CreateCreditorRequest,
   SalesSummary,
-  PaymentMethodBreakdown
+  PaymentMethodBreakdown,
+  SystemHealth
 } from '../api-contract';
 
 export class OwnerService {
@@ -223,6 +224,14 @@ export class OwnerService {
    */
   async getPaymentMethods(): Promise<PaymentMethodBreakdown[]> {
     return contractClient.getArray<PaymentMethodBreakdown>('/dashboard/payment-methods', 'paymentMethods');
+  }
+
+  /**
+   * Get system health metrics
+   * GET /dashboard/system-health
+   */
+  async getSystemHealth(): Promise<SystemHealth> {
+    return contractClient.get<SystemHealth>('/dashboard/system-health');
   }
 }
 

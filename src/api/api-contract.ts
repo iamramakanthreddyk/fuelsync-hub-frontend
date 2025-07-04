@@ -421,6 +421,12 @@ export interface StationMetric {
   efficiency?: number;
 }
 
+export interface SystemHealth {
+  uptime: number;
+  responseTime: number;
+  errorRate: number;
+}
+
 // =============================================================================
 // SUPERADMIN TYPES
 // =============================================================================
