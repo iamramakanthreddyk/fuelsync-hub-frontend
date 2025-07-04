@@ -221,3 +221,4 @@ This file tracks every build step taken by AI agents or developers. It maintains
 | 2     | 2.55 | Dashboard station metrics endpoint | ✅ Done | `src/services/station.service.ts`, `src/controllers/dashboard.controller.ts`, `src/routes/dashboard.route.ts`, `docs/openapi.yaml` | `PHASE_2_SUMMARY.md#step-2.55` |
 | fix | 2025-12-01 | Alert parameter naming alignment | ✅ Done | `docs/openapi.yaml`, `frontend/docs/openapi-v1.yaml` | `docs/STEP_fix_20251201.md` |
 | 2     | 2.56 | Backend analytics and inventory completion | ✅ Done | `src/services/analytics.service.ts`, `src/services/fuelInventory.service.ts`, `src/services/tenant.service.ts`, `src/controllers`, `src/routes`, `docs/openapi.yaml` | `docs/STEP_2_56_COMMAND.md` |
+| fix | 2025-12-02 | Frontend hooks OpenAPI alignment | ✅ Done | src/api/* | docs/STEP_fix_20251202.md |

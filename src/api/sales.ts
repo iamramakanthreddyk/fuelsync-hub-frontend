@@ -44,22 +44,7 @@ export const salesApi = {
       console.log('[SALES-API] Applied filters:', filters);
       
       const response = await apiClient.get(url);
-      console.log('[SALES-API] Raw response:', response.data);
-      
-      let rawSales = extractApiArray<any>(response, 'sales');
-      
-      // If no sales found with standard extraction, try alternatives
-      if (rawSales.length === 0 && response.data) {
-        console.log('[SALES-API] Trying alternative extraction methods');
-        
-        if (Array.isArray(response.data)) {
-          rawSales = response.data;
-        } else if (response.data.data && Array.isArray(response.data.data)) {
-          rawSales = response.data.data;
-        } else if (response.data.results && Array.isArray(response.data.results)) {
-          rawSales = response.data.results;
-        }
-      }
+      const rawSales = extractApiArray<any>(response);
       
       // Transform backend data to frontend format
       const transformedSales = rawSales.map(transformSale);

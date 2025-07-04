@@ -26,7 +26,7 @@ export const tenantsApi = {
     try {
       console.log('Fetching tenants from SuperAdmin endpoint /admin/tenants');
       const response = await apiClient.get('/admin/tenants');
-      const tenants = extractApiArray<TenantResponse>(response, 'tenants');
+      const tenants = extractApiArray<TenantResponse>(response);
       
       // Map the tenant structure to the expected Tenant structure
       return tenants.map(tenant => ({

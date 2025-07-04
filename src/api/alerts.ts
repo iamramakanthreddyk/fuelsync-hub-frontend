@@ -10,7 +10,7 @@ export const alertsApi = {
       if (params?.unreadOnly) searchParams.append('unreadOnly', 'true');
       
       const response = await apiClient.get(`/alerts?${searchParams.toString()}`);
-      return extractApiArray<Alert>(response, 'alerts');
+      return extractApiArray<Alert>(response);
     } catch (error) {
       console.error('Error fetching alerts:', error);
       return [];
