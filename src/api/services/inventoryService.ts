@@ -26,6 +26,11 @@ export interface FuelInventorySummary {
   totalCurrentStock: number;
 }
 
+export interface InventoryUpdatePayload {
+  id: string;
+  delta: number;
+}
+
 /**
  * Service for fuel inventory API
  */
@@ -40,7 +45,7 @@ export const inventoryService = {
       console.log('[INVENTORY-API] Fetching fuel inventory', stationId ? `for station: ${stationId}` : '');
       
       const params = stationId ? { stationId } : {};
-      const response = await apiClient.get('fuel-inventory', { params });
+      const response = await apiClient.get('inventory', { params });
       
       // Extract inventory from response
       let inventoryArray: FuelInventory[] = [];
@@ -70,13 +75,13 @@ export const inventoryService = {
    * Get fuel inventory summary
    * @returns Fuel inventory summary
    */
-  getInventorySummary: async (): Promise<FuelInventorySummary | null> => {
+  getInventoryAlerts: async (): Promise<FuelInventorySummary | null> => {
     try {
-      console.log('[INVENTORY-API] Fetching inventory summary');
-      const response = await apiClient.get('fuel-inventory/summary');
+      console.log('[INVENTORY-API] Fetching inventory alerts');
+      const response = await apiClient.get('inventory/alerts');
       return extractData<FuelInventorySummary>(response);
     } catch (error) {
-      console.error('[INVENTORY-API] Error fetching inventory summary:', error);
+      console.error('[INVENTORY-API] Error fetching inventory alerts:', error);
       
       // Try to calculate summary from inventory data if API fails
       try {
@@ -111,6 +116,13 @@ export const inventoryService = {
         return null;
       }
     }
+  },
+
+  /**
+   * Update inventory counts
+   */
+  updateInventory: async (payload: InventoryUpdatePayload): Promise<void> => {
+    await apiClient.post('inventory/update', payload);
   }
 };
 

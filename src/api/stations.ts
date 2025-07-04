@@ -1,6 +1,12 @@
 
 import { apiClient, extractApiData, extractApiArray } from './client';
-import type { Station, ApiResponse } from './api-contract';
+import type {
+  Station,
+  ApiResponse,
+  StationComparison,
+  StationComparisonParams,
+  StationRanking
+} from './api-contract';
 
 export interface CreateStationData {
   name: string;
@@ -60,5 +66,19 @@ export const stationsApi = {
   // Delete station
   deleteStation: async (id: string): Promise<void> => {
     await apiClient.delete(`/stations/${id}`);
+  },
+
+  // Compare stations performance
+  compareStations: async (params: StationComparisonParams): Promise<StationComparison[]> => {
+    const search = new URLSearchParams({ stationIds: params.stationIds.join(',') });
+    if (params.period) search.append('period', params.period);
+    const response = await apiClient.get(`/stations/compare?${search}`);
+    return extractApiArray<StationComparison>(response);
+  },
+
+  // Get station ranking
+  getStationRanking: async (period: string): Promise<StationRanking[]> => {
+    const response = await apiClient.get(`/stations/ranking?period=${period}`);
+    return extractApiArray<StationRanking>(response);
   }
 };

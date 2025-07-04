@@ -4,7 +4,7 @@
  */
 
 const API_CONFIG = {
-  baseUrl: import.meta.env.VITE_API_BASE_URL || 'https://fuelsync-api-demo-bvadbhg8bdbmg0ff.germanywestcentral-01.azurewebsites.net',
+  baseUrl: import.meta.env.VITE_API_BASE_URL || '',
   apiPath: '/api/v1',
   endpoints: {
     auth: {

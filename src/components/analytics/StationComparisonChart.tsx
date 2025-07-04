@@ -2,7 +2,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Legend } from 'recharts';
-import { useStationComparison } from '@/hooks/useAnalytics';
+import { useCompareStations } from '@/hooks/useAnalytics';
 import { Building2 } from 'lucide-react';
 
 interface StationComparisonChartProps {
@@ -11,7 +11,7 @@ interface StationComparisonChartProps {
 }
 
 export function StationComparisonChart({ stationIds, period = 'month' }: StationComparisonChartProps) {
-  const { data: comparisonData = [], isLoading } = useStationComparison({ 
+  const { data: comparisonData = [], isLoading } = useCompareStations({
     stationIds, 
     period 
   });

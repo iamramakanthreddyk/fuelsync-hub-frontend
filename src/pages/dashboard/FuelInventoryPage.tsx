@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Fuel, AlertTriangle, TrendingDown, RefreshCw, Loader2, Download, FileSpreadsheet } from 'lucide-react';
 import { useStations } from '@/hooks/api/useStations';
-import { useInventory, useInventorySummary } from '@/hooks/api/useInventory';
+import { useInventory, useInventoryAlerts } from '@/hooks/api/useInventory';
 import { useGenerateReport } from '@/hooks/api/useReports';
 import { Link, useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
@@ -31,11 +31,11 @@ export default function FuelInventoryPage() {
   } = useInventory(selectedStationId === 'all-stations' ? undefined : selectedStationId);
   
   // Fetch inventory summary
-  const { 
-    data: summary, 
-    isLoading: summaryLoading, 
-    refetch: refetchSummary 
-  } = useInventorySummary();
+  const {
+    data: summary,
+    isLoading: summaryLoading,
+    refetch: refetchSummary
+  } = useInventoryAlerts();
   
   // Generate report mutation
   const generateReport = useGenerateReport();

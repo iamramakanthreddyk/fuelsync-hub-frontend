@@ -19,7 +19,7 @@ export const analyticsApi = {
       });
       if (period) params.append('period', period);
       
-      const response = await apiClient.get(`/analytics/station-comparison?${params}`);
+      const response = await apiClient.get(`/stations/compare?${params}`);
       return extractApiArray<StationComparison>(response);
     } catch (error) {
       console.error('Error fetching station comparison:', error);
@@ -72,7 +72,7 @@ export const analyticsApi = {
 
   getStationRanking: async (period: string): Promise<StationRanking[]> => {
     try {
-      const response = await apiClient.get(`/analytics/station-ranking?period=${period}`);
+      const response = await apiClient.get(`/stations/ranking?period=${period}`);
       return extractApiArray<StationRanking>(response);
     } catch (error) {
       console.error('Error fetching station ranking:', error);
