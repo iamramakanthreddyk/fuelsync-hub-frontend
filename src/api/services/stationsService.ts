@@ -7,6 +7,7 @@
 import apiClient, { extractData, extractArray } from '../core/apiClient';
 import API_CONFIG from '../core/config';
 import { ApiResponse } from '../types/responses';
+import type { StationMetric, StationComparison } from '../api-contract';
 
 // Types
 export interface Station {
@@ -122,6 +123,55 @@ export const stationsService = {
       await apiClient.delete(`/stations/${id}`);
     } catch (error) {
       console.error(`[STATIONS-SERVICE] Error deleting station ${id}:`, error);
+      throw error;
+    }
+  },
+
+  /**
+   * Get metrics for a station
+   * @param id Station ID
+   * @returns Station metrics data
+   */
+  getStationMetrics: async (id: string): Promise<StationMetric> => {
+    try {
+      const url = API_CONFIG.endpoints.stations.metrics(id);
+      const response = await apiClient.get(url);
+      return extractData<StationMetric>(response);
+    } catch (error) {
+      console.error(`[STATIONS-SERVICE] Error fetching metrics for station ${id}:`, error);
+      throw error;
+    }
+  },
+
+  /**
+   * Get performance comparison for a station
+   * @param id Station ID
+   * @returns Performance metrics
+   */
+  getStationPerformance: async (id: string): Promise<StationComparison[]> => {
+    try {
+      const url = API_CONFIG.endpoints.stations.performance(id);
+      const response = await apiClient.get(url);
+      return extractArray<StationComparison>(response, 'data');
+    } catch (error) {
+      console.error(`[STATIONS-SERVICE] Error fetching performance for station ${id}:`, error);
+      throw error;
+    }
+  },
+
+  /**
+   * Get efficiency metric for a station
+   * @param id Station ID
+   * @returns Efficiency percentage
+   */
+  getStationEfficiency: async (id: string): Promise<number> => {
+    try {
+      const url = API_CONFIG.endpoints.stations.efficiency(id);
+      const response = await apiClient.get(url);
+      const data = extractData<{ efficiency: number }>(response);
+      return data.efficiency;
+    } catch (error) {
+      console.error(`[STATIONS-SERVICE] Error fetching efficiency for station ${id}:`, error);
       throw error;
     }
   }
