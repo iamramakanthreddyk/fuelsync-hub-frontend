@@ -11,13 +11,6 @@ export const useReadings = (nozzleId?: string) => {
   });
 };
 
-export const useReading = (id: string) => {
-  return useQuery({
-    queryKey: ['reading', id],
-    queryFn: () => readingsService.getReading(id),
-    enabled: !!id,
-  });
-};
 
 export const useCreateReading = () => {
   const queryClient = useQueryClient();

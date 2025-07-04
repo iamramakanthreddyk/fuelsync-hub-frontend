@@ -126,6 +126,22 @@ Each step includes:
 
 > 🎯 After building each page or component, update its status and include links to relevant backend and OpenAPI references.
 
+### 🖼️ Step 3.7 – Contract Mismatch Cleanup
+
+**Status:** ✅ Done
+**Files:** `src/api/contract/readings.service.ts`, `src/hooks/useReadings.ts`, `src/api/reports.ts`, `src/hooks/useReports.ts`
+
+**Business Rules Covered:**
+
+* Frontend must only call endpoints defined in the OpenAPI specification.
+
+**Validation Performed:**
+
+* Removed obsolete single-report and single-reading functions.
+* Confirmed hooks compile without errors.
+
+---
+
 ### 📄 Documentation Addendum – 2025-07-13
 
 A new file `frontend/docs/openapi-v1.yaml` captures the full API contract expected by the frontend. Differences between this specification and the backend are tracked in `frontend/docs/api-diff.md`.

@@ -34,12 +34,6 @@ export const readingsService = {
     return contractClient.getArray<NozzleReading>(endpoint, 'readings');
   },
 
-  /**
-   * Get single reading by ID
-   */
-  async getReading(id: string): Promise<NozzleReading> {
-    return contractClient.get<NozzleReading>(`/nozzle-readings/${id}`);
-  },
 
   /**
    * Get latest reading for a nozzle
