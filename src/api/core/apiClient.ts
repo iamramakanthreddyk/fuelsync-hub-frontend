@@ -27,8 +27,8 @@ let refreshPromise: Promise<any> | null = null;
 // Request interceptor to add auth token and tenant context
 apiClient.interceptors.request.use(
   (config) => {
-    // Skip auth for login and refresh token endpoints
-    const isAuthEndpoint = config.url?.includes('auth/login') || config.url?.includes('auth/refresh-token');
+  // Skip auth for login and refresh token endpoints
+  const isAuthEndpoint = config.url?.includes('auth/login') || config.url?.includes('auth/refresh');
     
     // Add auth token if available and not an auth endpoint
     if (!isAuthEndpoint) {
@@ -88,13 +88,13 @@ apiClient.interceptors.response.use(
     const originalRequest = error.config;
     
     // If the error is due to an expired token (401) and we haven't tried to refresh yet
-    if (error.response?.status === 401 && !originalRequest._retry && !originalRequest.url?.includes('auth/refresh-token')) {
+    if (error.response?.status === 401 && !originalRequest._retry && !originalRequest.url?.includes('auth/refresh')) {
       if (!isRefreshing) {
         isRefreshing = true;
         
         try {
           // Try to refresh the token
-          refreshPromise = axios.post(`${API_BASE_URL}/api/v1/auth/refresh-token`);
+          refreshPromise = axios.post(`${API_BASE_URL}/api/v1/auth/refresh`);
           const response = await refreshPromise;
           
           // If successful, update the token
