@@ -2,6 +2,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { dashboardApi } from '@/api/dashboard';
 import { analyticsApi } from '@/api/analytics';
+import { superadminApi } from '@/api/superadmin';
 
 interface DashboardFilters {
   stationId?: string;
@@ -76,11 +77,7 @@ export const useAnalyticsDashboard = () => {
 export const useAdminDashboard = () => {
   return useQuery({
     queryKey: ['admin-dashboard'],
-    queryFn: async () => {
-      // This would call /api/v1/admin/dashboard
-      const response = await fetch('/api/v1/admin/dashboard');
-      return response.json();
-    },
+    queryFn: () => superadminApi.getSummary(),
     retry: 1,
     staleTime: 300000,
   });

@@ -123,3 +123,4 @@ database and backend docs are updated before the frontend adjusts.
 
 Updated dashboard components to use `/dashboard/fuel-breakdown` and `/dashboard/sales-trend` as per latest OpenAPI.
 
+\n### \ud83d\udcc4 Documentation Addendum – 2025-12-04\n\nRefactored admin dashboard hook to use superadmin API service and standardized auth route test response.
