@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import { usePaymentMethodBreakdown } from '@/hooks/useDashboard';
+import { useWindowSize } from '@/hooks/use-window-size';
 
 const COLORS = {
   cash: '#22c55e',
@@ -23,6 +24,9 @@ interface PaymentMethodChartProps {
 
 export function PaymentMethodChart({ filters = {} }: PaymentMethodChartProps) {
   const { data: breakdown = [], isLoading } = usePaymentMethodBreakdown(filters);
+  const { width } = useWindowSize();
+
+  const isSmall = width < 640;
 
   if (isLoading) {
     return (
@@ -50,20 +54,23 @@ export function PaymentMethodChart({ filters = {} }: PaymentMethodChartProps) {
     credit: { label: 'Credit', color: COLORS.credit },
   };
 
+  const chartHeight = isSmall ? 200 : 300;
+  const outerRadius = isSmall ? 80 : 100;
+
   return (
     <Card className="bg-gradient-to-br from-white to-blue-50 border-blue-200">
       <CardHeader>
         <CardTitle className="text-blue-700">Payment Method Breakdown</CardTitle>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig} className="h-[300px]">
+        <ChartContainer config={chartConfig} style={{ height: chartHeight }}>
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
                 data={chartData}
                 cx="50%"
                 cy="50%"
-                outerRadius={100}
+                outerRadius={outerRadius}
                 dataKey="value"
                 label={({ name, percentage }) => `${name}: ${percentage}%`}
               >
