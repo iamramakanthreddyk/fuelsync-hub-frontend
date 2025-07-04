@@ -125,3 +125,6 @@ All notable changes to this project will be documented in this file.
 ### [feature] Display latest fuel prices on dashboard
 ### [fix] Forward filters in top creditors API
 ### [enhancement] Updated stations page UI with StationCard component
+### [feature] Cash reports summary view
+- Added `CashReportCard` and `CashReportTable` components.
+- Refactored `CashReportsListPage` with role-based data and approval action.

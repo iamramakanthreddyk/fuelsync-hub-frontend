@@ -192,3 +192,19 @@ Integrated latest fuel prices widget on the Owner dashboard and fixed missing fi
 **Validation Performed:**
 
 * Verified `useReadings` fetches data from `/api/v1/nozzle-readings` via React Query.
+
+### 🖼️ Step 3.10 – Cash Reports Summary View
+
+**Status:** ✅ Done
+**Pages:** `src/pages/dashboard/CashReportsListPage.tsx`, `src/components/reports/CashReportCard.tsx`, `src/components/reports/CashReportTable.tsx`
+
+**Business Rules Covered:**
+
+* Role-based cash report listing
+* Display discrepancy between cash received and sales
+* Allow managers to approve pending reports
+
+**Validation Performed:**
+
+* Verified attendant and manager views load correct data via respective hooks.
+* Approve action triggers `useApproveReconciliation` mutation.

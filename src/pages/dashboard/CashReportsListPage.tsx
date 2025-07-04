@@ -5,38 +5,73 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRoleGuard } from '@/hooks/useRoleGuard';
+import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useStations } from '@/hooks/useStations';
 import { useCashReports } from '@/hooks/useAttendant';
+import { useReconciliationHistory, useApproveReconciliation } from '@/hooks/useReconciliation';
 import { format } from 'date-fns';
 import { ArrowLeft, RefreshCw, Loader2, DollarSign } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
+import { CashReportCard, CashReportData } from '@/components/reports/CashReportCard';
+import { CashReportTable } from '@/components/reports/CashReportTable';
 
 export default function CashReportsListPage() {
-  useRoleGuard(['attendant']);
+  useRoleGuard(['owner', 'manager', 'attendant']);
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [isRefreshing, setIsRefreshing] = useState(false);
-  
-  // Fetch stations
+  const [selectedStationId, setSelectedStationId] = useState('');
+  const isAttendant = user?.role === 'attendant';
+
   const { data: stations = [], isLoading: stationsLoading } = useStations();
-  
-  // Fetch cash reports - no parameters as per API spec
-  const { 
-    data: cashReports = [], 
-    isLoading: reportsLoading,
-    refetch
+
+  const {
+    data: attendantReports = [],
+    isLoading: attendantLoading,
+    refetch: refetchAttendant
   } = useCashReports();
-  
-  // Handle refresh
+
+  const {
+    data: reconciliationReports = [],
+    isLoading: reconLoading,
+    refetch: refetchRecon
+  } = useReconciliationHistory(selectedStationId);
+
+  const approveMutation = useApproveReconciliation();
+
   const handleRefresh = async () => {
     setIsRefreshing(true);
-    await refetch();
+    if (isAttendant) {
+      await refetchAttendant();
+    } else {
+      await refetchRecon();
+    }
     setIsRefreshing(false);
   };
-  
-  const isLoading = stationsLoading || reportsLoading;
-  
+
+  const isLoading = stationsLoading || (isAttendant ? attendantLoading : reconLoading);
+
+  const mappedReports: CashReportData[] = isAttendant
+    ? attendantReports.map((r) => ({
+        id: r.id || '',
+        stationName: stations.find((s) => s.id === r.stationId)?.name || 'Unknown',
+        date: r.date,
+        cashReceived: r.cashAmount,
+        salesTotal: r.cashAmount,
+        discrepancy: 0,
+        status: r.status || 'pending'
+      }))
+    : reconciliationReports.map((r) => ({
+        id: r.id,
+        stationName: r.stationName,
+        date: r.reconciliationDate,
+        cashReceived: r.declaredCash,
+        salesTotal: r.totalSales,
+        discrepancy: r.variance,
+        status: (r.status as 'pending' | 'approved' | 'rejected') || 'pending'
+      }));
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -44,7 +79,7 @@ export default function CashReportsListPage() {
       </div>
     );
   }
-  
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -55,9 +90,9 @@ export default function CashReportsListPage() {
           </Button>
           <h1 className="text-2xl font-bold">Cash Reports</h1>
         </div>
-        <Button 
-          variant="outline" 
-          size="sm" 
+        <Button
+          variant="outline"
+          size="sm"
           onClick={handleRefresh}
           disabled={isRefreshing}
         >
@@ -65,84 +100,55 @@ export default function CashReportsListPage() {
           Refresh
         </Button>
       </div>
-      
-      <Card>
-        <CardHeader>
-          <CardTitle>Cash Reports</CardTitle>
-          <CardDescription>
-            View your recent cash reports
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          {cashReports.length === 0 ? (
-            <div className="text-center py-6">
-              <DollarSign className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-lg font-semibold mb-2">No cash reports found</h3>
-              <p className="text-muted-foreground mb-4">
-                You haven't submitted any cash reports yet
-              </p>
-              <Button 
-                onClick={() => navigate('/dashboard/cash-report/new')}
-              >
-                Submit New Cash Report
-              </Button>
-            </div>
-          ) : (
-            <div className="space-y-4">
-              {cashReports.map((report) => {
-                const station = stations.find(s => s.id === report.stationId);
-                
-                return (
-                  <div key={report.id} className="p-4 border rounded-md">
-                    <div className="flex items-center justify-between mb-2">
-                      <div>
-                        <h3 className="font-medium">
-                          {station?.name || 'Unknown Station'}
-                        </h3>
-                        <p className="text-sm text-muted-foreground">
-                          {format(new Date(report.date), 'MMMM d, yyyy')}
-                        </p>
-                      </div>
-                      <Badge className={
-                        report.status === 'approved' ? 'bg-green-100 text-green-800' :
-                        report.status === 'rejected' ? 'bg-red-100 text-red-800' :
-                        'bg-yellow-100 text-yellow-800'
-                      }>
-                        {report.status || 'pending'}
-                      </Badge>
-                    </div>
-                    
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-2">
-                      <div>
-                        <span className="text-sm text-muted-foreground">Cash Amount:</span>
-                        <span className="ml-2 font-medium">₹{report.cashAmount.toFixed(2)}</span>
-                      </div>
-                      <div>
-                        <span className="text-sm text-muted-foreground">Credit Entries:</span>
-                        <span className="ml-2 font-medium">{report.creditEntries.length}</span>
-                      </div>
-                      <div>
-                        <span className="text-sm text-muted-foreground">Submitted:</span>
-                        <span className="ml-2 font-medium">
-                          {report.createdAt ? format(new Date(report.createdAt), 'h:mm a') : 'N/A'}
-                        </span>
-                      </div>
-                    </div>
-                    
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      onClick={() => navigate(`/dashboard/cash-reports/${report.id}`)}
-                    >
-                      View Details
-                    </Button>
-                  </div>
-                );
-              })}
-            </div>
+
+      {!isAttendant && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Filters</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <select
+              className="border p-2 rounded"
+              value={selectedStationId}
+              onChange={(e) => setSelectedStationId(e.target.value)}
+            >
+              <option value="">All Stations</option>
+              {stations.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.name}
+                </option>
+              ))}
+            </select>
+          </CardContent>
+        </Card>
+      )}
+
+      {mappedReports.length === 0 ? (
+        <div className="text-center py-6">
+          <DollarSign className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+          <h3 className="text-lg font-semibold mb-2">No cash reports found</h3>
+          {isAttendant && (
+            <>
+              <p className="text-muted-foreground mb-4">You haven't submitted any cash reports yet</p>
+              <Button onClick={() => navigate('/dashboard/cash-report/new')}>Submit New Cash Report</Button>
+            </>
           )}
-        </CardContent>
-      </Card>
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {isAttendant ? (
+            mappedReports.map((r) => (
+              <CashReportCard key={r.id} report={r} />
+            ))
+          ) : (
+            <CashReportTable
+              reports={mappedReports}
+              onApprove={(id) => approveMutation.mutate(id)}
+              approvingId={approveMutation.isPending ? (approveMutation.variables as string) : null}
+            />
+          )}
+        </div>
+      )}
     </div>
   );
 }
