@@ -1,6 +1,6 @@
 
 import { apiClient, extractApiData, extractApiArray } from './client';
-import type { FuelDelivery, CreateFuelDeliveryRequest, ApiResponse } from './api-contract';
+import type { FuelDelivery, CreateFuelDeliveryRequest, FuelInventory } from './api-contract';
 
 export const fuelDeliveriesApi = {
   // Get all fuel deliveries
@@ -21,6 +21,20 @@ export const fuelDeliveriesApi = {
   createFuelDelivery: async (deliveryData: CreateFuelDeliveryRequest): Promise<FuelDelivery> => {
     const response = await apiClient.post('/fuel-deliveries', deliveryData);
     return extractApiData<FuelDelivery>(response);
+  },
+
+  // Get inventory levels after deliveries
+  getDeliveriesInventory: async (stationId?: string): Promise<FuelInventory[]> => {
+    try {
+      const params = new URLSearchParams();
+      if (stationId) params.append('stationId', stationId);
+
+      const response = await apiClient.get(`/fuel-deliveries/inventory?${params.toString()}`);
+      return extractApiArray<FuelInventory>(response, 'inventory');
+    } catch (error) {
+      console.error('Error fetching deliveries inventory:', error);
+      return [];
+    }
   }
 };
 

@@ -572,6 +572,14 @@ export interface FuelInventory {
   status?: 'normal' | 'low' | 'critical' | 'overstocked';
 }
 
+export interface FuelInventorySummary {
+  totalTanks: number;
+  lowStockCount: number;
+  averageFillPercentage: number;
+  totalCapacity: number;
+  totalCurrentStock: number;
+}
+
 export interface FuelDelivery {
   id: string;
   stationId: string;
