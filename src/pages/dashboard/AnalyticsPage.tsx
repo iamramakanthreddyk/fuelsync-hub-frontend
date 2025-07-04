@@ -3,15 +3,23 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { BarChart3, TrendingUp, Users, Fuel, RefreshCw } from 'lucide-react';
 import { useState } from 'react';
+import { useDashboardAnalytics } from '@/hooks/useAnalytics';
 
 export default function AnalyticsPage() {
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const { data: analytics, isLoading, refetch } = useDashboardAnalytics();
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
-    // Simulate refresh
-    setTimeout(() => setIsRefreshing(false), 1000);
+    await refetch();
+    setIsRefreshing(false);
   };
+
+  if (isLoading) {
+    return (
+      <div className="py-12 text-center text-muted-foreground">Loading analytics...</div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -22,7 +30,7 @@ export default function AnalyticsPage() {
             Business insights and performance metrics
           </p>
         </div>
-        <Button onClick={handleRefresh} disabled={isRefreshing} variant="outline" size="sm">
+        <Button onClick={handleRefresh} disabled={isRefreshing || isLoading} variant="outline" size="sm">
           <RefreshCw className={`mr-2 h-4 w-4 ${isRefreshing ? 'animate-spin' : ''}`} />
           Refresh
         </Button>
@@ -36,7 +44,9 @@ export default function AnalyticsPage() {
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">₹0</div>
+            <div className="text-2xl font-bold">
+              ₹{(analytics?.totalRevenue ?? 0).toLocaleString()}
+            </div>
             <p className="text-xs text-muted-foreground">
               +0% from last month
             </p>
@@ -49,7 +59,9 @@ export default function AnalyticsPage() {
             <Fuel className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">0L</div>
+            <div className="text-2xl font-bold">
+              {(analytics?.salesVolume ?? analytics?.totalVolume ?? 0).toLocaleString()}L
+            </div>
             <p className="text-xs text-muted-foreground">
               +0% from last month
             </p>
@@ -62,7 +74,9 @@ export default function AnalyticsPage() {
             <BarChart3 className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">0</div>
+            <div className="text-2xl font-bold">
+              {analytics?.transactionCount ?? analytics?.transactions ?? 0}
+            </div>
             <p className="text-xs text-muted-foreground">
               +0% from last month
             </p>
@@ -75,7 +89,9 @@ export default function AnalyticsPage() {
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">0</div>
+            <div className="text-2xl font-bold">
+              {analytics?.activeStations ?? analytics?.stationCount ?? 0}
+            </div>
             <p className="text-xs text-muted-foreground">
               All stations operational
             </p>

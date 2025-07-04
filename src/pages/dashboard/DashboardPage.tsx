@@ -12,7 +12,8 @@ import { useStations } from '@/hooks/api/useStations';
 import { usePumps } from '@/hooks/api/usePumps';
 import { useFuelPrices } from '@/hooks/api/useFuelPrices';
 import { useReadings } from '@/hooks/api/useReadings';
-import { useAnalyticsDashboard, useAdminDashboard } from '@/hooks/useDashboard';
+import { useAdminDashboard } from '@/hooks/useDashboard';
+import { useDashboardAnalytics } from '@/hooks/useAnalytics';
 import { useSystemHealth } from '@/hooks/useSystemHealth';
 import { EnhancedMetricsCard } from '@/components/ui/enhanced-metrics-card';
 import { Link } from 'react-router-dom';
@@ -28,7 +29,7 @@ export default function DashboardPage() {
   const { data: readings = [], isLoading: readingsLoading, refetch: refetchReadings } = useReadings();
   
   // Fetch analytics data
-  const { data: analytics, isLoading: analyticsLoading, refetch: refetchAnalytics } = useAnalyticsDashboard();
+  const { data: analytics, isLoading: analyticsLoading, refetch: refetchAnalytics } = useDashboardAnalytics();
   const { data: adminData, isLoading: adminLoading, refetch: refetchAdmin } = useAdminDashboard();
   const { data: systemHealth } = useSystemHealth();
   
