@@ -22,8 +22,8 @@ import {
   CheckCircle, 
   XCircle 
 } from 'lucide-react';
-import { useReports, useGenerateReport, useDownloadReport } from '@/hooks/api/useReports';
-import { useStations } from '@/hooks/api/useStations';
+import { useReports, useGenerateReport, useDownloadReport } from '@/hooks/useReports';
+import { useStations } from '@/hooks/useStations';
 import { useToast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
 

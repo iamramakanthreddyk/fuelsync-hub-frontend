@@ -11,7 +11,7 @@ import { FuelPriceTable } from '@/components/fuel-prices/FuelPriceTable';
 import { FuelPriceForm } from '@/components/fuel-prices/FuelPriceForm';
 import { PageHeader } from '@/components/ui/page-header';
 import { TooltipWrapper } from '@/components/ui/tooltip-wrapper';
-import { useFuelPrices } from '@/hooks/api/useFuelPrices';
+import { useFuelPrices } from '@/hooks/useFuelPrices';
 import { useRoleGuard } from '@/hooks/useRoleGuard';
 
 /**

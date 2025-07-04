@@ -12,7 +12,7 @@ import { Gauge, Clock, AlertTriangle, CheckCircle, Plus, FileText, Eye, Edit, Lo
 import { useNavigate, Link } from 'react-router-dom';
 import { useRoleGuard } from '@/hooks/useRoleGuard';
 import { PageHeader } from '@/components/ui/page-header';
-import { useReadings } from '@/hooks/api/useReadings';
+import { useReadings } from '@/hooks/useReadings';
 import { useFeatureFlags } from '@/hooks/useFeatureFlags';
 
 export default function ReadingsPage() {

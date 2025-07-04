@@ -23,8 +23,8 @@ import {
 } from '@/components/ui/alert-dialog';
 
 // Import new API hooks
-import { useFuelPrices, useDeleteFuelPrice } from '@/hooks/api/useFuelPrices';
-import { useStations } from '@/hooks/api/useStations';
+import { useFuelPrices, useDeleteFuelPrice } from '@/hooks/useFuelPrices';
+import { useStations } from '@/hooks/useStations';
 
 export function FuelPriceTable() {
   const { data: fuelPrices = [], isLoading, error } = useFuelPrices();

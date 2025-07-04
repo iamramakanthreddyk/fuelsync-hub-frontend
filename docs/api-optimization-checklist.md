@@ -24,7 +24,7 @@ This checklist helps ensure that all API integrations follow the optimized patte
 
 ## Hook Layer Checklist
 
-- [ ] Hook is in the correct directory (`src/hooks/api/`)
+- [ ] Hook is in the correct directory (`src/hooks/`)
 - [ ] Hook has proper JSDoc documentation with references
 - [ ] Hook uses the centralized error handler
 - [ ] Hook applies appropriate caching strategy from `useQueryConfig`

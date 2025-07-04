@@ -22,8 +22,8 @@ import {
   DollarSign,
   TrendingUp
 } from 'lucide-react';
-import { useStation, useStationMetrics, useStationPerformance, useStationEfficiency } from '@/hooks/api/useStations';
-import { usePumps } from '@/hooks/api/usePumps';
+import { useStation, useStationMetrics, useStationPerformance, useStationEfficiency } from '@/hooks/useStations';
+import { usePumps } from '@/hooks/usePumps';
 
 export default function StationDetailPage() {
   useRoleGuard(['owner', 'manager']);

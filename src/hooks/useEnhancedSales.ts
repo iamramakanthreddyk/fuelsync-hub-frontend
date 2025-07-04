@@ -1,7 +1,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { salesApi } from '@/api/sales';
-import { usePumps } from '@/hooks/api/usePumps';
+import { usePumps } from '@/hooks/usePumps';
 
 // Export the enhanced sale type
 export interface EnhancedSale {

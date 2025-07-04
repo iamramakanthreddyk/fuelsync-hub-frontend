@@ -1,7 +1,7 @@
 
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { reportsApi } from '@/api/reports';
-import { SalesReportFilters, SalesReportExportFilters } from '@/api/api-contract';
+import type { SalesReportFilters, SalesReportExportFilters } from '@/api/api-contract';
 
 export const useSalesReport = (filters: SalesReportFilters) => {
   return useQuery({
@@ -30,5 +30,39 @@ export const useReportExport = () => {
 export const useExportSalesReport = (filters: SalesReportExportFilters) => {
   return useMutation({
     mutationFn: () => reportsApi.exportSalesReport(filters),
+  });
+};
+
+export const useReports = () => {
+  return useQuery({
+    queryKey: ['reports'],
+    queryFn: () => reportsApi.getReports(),
+  });
+};
+
+export const useReport = (id: string) => {
+  return useQuery({
+    queryKey: ['report', id],
+    queryFn: () => reportsApi.getReport(id),
+    enabled: !!id,
+  });
+};
+
+export const useGenerateReport = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data: any) => reportsApi.generateReport(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['reports'] });
+    },
+  });
+};
+
+export const useDownloadReport = () => {
+  return useMutation({
+    mutationFn: (id: string) => reportsApi.downloadReport(id),
+    onSuccess: (url) => {
+      if (url) window.open(url, '_blank');
+    },
   });
 };

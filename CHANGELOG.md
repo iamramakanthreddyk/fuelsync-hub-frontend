@@ -113,3 +113,5 @@ All notable changes to this project will be documented in this file.
 - Removed `src/api/services/stationsService.ts` and `src/api/fuel-inventory.ts`
 - Updated hooks and context imports to use unified services
 ### [fix] Align response extraction with OpenAPI data keys
+
+### [refactor] Consolidate hooks structure and update imports
