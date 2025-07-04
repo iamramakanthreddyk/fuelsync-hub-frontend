@@ -2,8 +2,10 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { FuelDelivery } from '@/api/fuel-deliveries';
+import { useInventoryUpdate } from '@/hooks/useInventory';
 import { format } from 'date-fns';
 
 interface DeliveryTableProps {
@@ -12,6 +14,16 @@ interface DeliveryTableProps {
 }
 
 export function DeliveryTable({ deliveries, isLoading }: DeliveryTableProps) {
+  const updateInventory = useInventoryUpdate();
+
+  const handleConfirm = (delivery: FuelDelivery) => {
+    updateInventory.mutate({
+      stationId: delivery.stationId,
+      fuelType: delivery.fuelType,
+      newStock: delivery.quantity
+    });
+  };
+
   if (isLoading) {
     return (
       <Card>
@@ -47,6 +59,7 @@ export function DeliveryTable({ deliveries, isLoading }: DeliveryTableProps) {
                 <TableHead>Delivery Date</TableHead>
                 <TableHead>Delivered By</TableHead>
                 <TableHead>Created At</TableHead>
+                <TableHead>Confirm</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -62,6 +75,15 @@ export function DeliveryTable({ deliveries, isLoading }: DeliveryTableProps) {
                   <TableCell>{format(new Date(delivery.deliveryDate), 'MMM dd, yyyy')}</TableCell>
                   <TableCell>{delivery.deliveredBy || '-'}</TableCell>
                   <TableCell>{format(new Date(delivery.createdAt), 'MMM dd, yyyy HH:mm')}</TableCell>
+                  <TableCell>
+                    {delivery.status === 'confirmed' ? (
+                      <Badge variant="secondary">Confirmed</Badge>
+                    ) : (
+                      <Button size="sm" onClick={() => handleConfirm(delivery)} disabled={updateInventory.isPending}>
+                        Confirm
+                      </Button>
+                    )}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

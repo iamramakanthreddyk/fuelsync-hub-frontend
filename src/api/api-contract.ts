@@ -580,6 +580,23 @@ export interface FuelInventorySummary {
   totalCurrentStock: number;
 }
 
+export interface InventoryItem {
+  id: string;
+  stationId: string;
+  stationName: string;
+  fuelType: 'petrol' | 'diesel' | 'premium';
+  currentStock: number;
+  lowStockThreshold: number;
+  lastUpdated: string;
+  stockStatus?: 'normal' | 'low' | 'critical' | 'overstocked';
+}
+
+export interface InventoryUpdateRequest {
+  stationId: string;
+  fuelType: 'petrol' | 'diesel' | 'premium';
+  newStock: number;
+}
+
 export interface FuelDelivery {
   id: string;
   stationId: string;
