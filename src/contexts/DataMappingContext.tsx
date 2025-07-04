@@ -4,7 +4,8 @@ import React, { createContext, useContext, ReactNode } from 'react';
 import { useAuth } from './AuthContext';
 import { nozzlesService, Nozzle } from '@/api/services/nozzlesService';
 import { pumpsService, Pump } from '@/api/services/pumpsService';
-import { stationsService, Station } from '@/api/services/stationsService';
+import { stationsApi } from '@/api/stations';
+import type { Station } from '@/api/api-contract';
 
 interface DataMappingContextType {
   mapApiData: <T,>(data: any, mapping?: Record<string, string>) => T;
@@ -99,7 +100,7 @@ export function DataMappingProvider({ children }: DataMappingProviderProps) {
       return stationCache.current.get(id)!;
     }
     try {
-      const station = await stationsService.getStation(id);
+      const station = await stationsApi.getStation(id);
       stationCache.current.set(id, station);
       return station;
     } catch (error) {

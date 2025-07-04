@@ -5,7 +5,6 @@
  */
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { stationsApi, CreateStationData, UpdateStationData } from '@/api/stations';
-import { stationsService } from '@/api/services/stationsService';
 import type { StationMetric, StationComparison } from '@/api/api-contract';
 
 /**
@@ -86,7 +85,7 @@ export const useDeleteStation = () => {
 export const useStationMetrics = (id: string) => {
   return useQuery({
     queryKey: ['station', id, 'metrics'],
-    queryFn: () => stationsService.getStationMetrics(id),
+    queryFn: () => stationsApi.getStationMetrics(id),
     enabled: !!id,
     staleTime: 60000,
   });
@@ -98,7 +97,7 @@ export const useStationMetrics = (id: string) => {
 export const useStationPerformance = (id: string) => {
   return useQuery({
     queryKey: ['station', id, 'performance'],
-    queryFn: () => stationsService.getStationPerformance(id),
+    queryFn: () => stationsApi.getStationPerformance(id),
     enabled: !!id,
     staleTime: 60000,
   });
@@ -110,7 +109,7 @@ export const useStationPerformance = (id: string) => {
 export const useStationEfficiency = (id: string) => {
   return useQuery({
     queryKey: ['station', id, 'efficiency'],
-    queryFn: () => stationsService.getStationEfficiency(id),
+    queryFn: () => stationsApi.getStationEfficiency(id),
     enabled: !!id,
     staleTime: 60000,
   });
