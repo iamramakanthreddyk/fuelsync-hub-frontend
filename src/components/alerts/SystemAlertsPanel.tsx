@@ -12,8 +12,8 @@ export function SystemAlertsPanel() {
   const { data: missingPrices = [] } = useMissingFuelPrices();
   const acknowledgeAlert = useAcknowledgeAlert();
 
-  const handleAcknowledge = (alertId: string) => {
-    acknowledgeAlert.mutate(alertId);
+  const handleAcknowledge = (id: string) => {
+    acknowledgeAlert.mutate(id);
   };
 
   const getPriorityColor = (priority: string) => {

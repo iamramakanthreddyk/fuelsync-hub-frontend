@@ -82,10 +82,10 @@ export class AttendantService {
 
   /**
    * Acknowledge alert
-   * PUT /attendant/alerts/{alertId}/acknowledge
+   * PUT /attendant/alerts/{id}/acknowledge
    */
-  async acknowledgeAlert(alertId: string): Promise<void> {
-    return contractClient.put<void>(`/attendant/alerts/${alertId}/acknowledge`);
+  async acknowledgeAlert(id: string): Promise<void> {
+    return contractClient.put<void>(`/attendant/alerts/${id}/acknowledge`);
   }
 }
 

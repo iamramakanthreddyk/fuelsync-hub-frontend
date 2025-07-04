@@ -17,11 +17,11 @@ export const alertsApi = {
     }
   },
 
-  markAsRead: async (alertId: string): Promise<void> => {
-    await apiClient.patch(`/alerts/${alertId}/read`);
+  markAsRead: async (id: string): Promise<void> => {
+    await apiClient.patch(`/alerts/${id}/read`);
   },
 
-  dismissAlert: async (alertId: string): Promise<void> => {
-    await apiClient.delete(`/alerts/${alertId}`);
+  dismissAlert: async (id: string): Promise<void> => {
+    await apiClient.delete(`/alerts/${id}`);
   },
 };

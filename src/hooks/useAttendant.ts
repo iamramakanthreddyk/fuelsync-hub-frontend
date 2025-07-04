@@ -82,7 +82,7 @@ export const useAcknowledgeAlert = () => {
   const { toast } = useToast();
 
   return useMutation({
-    mutationFn: (alertId: string) => attendantApi.acknowledgeAlert(alertId),
+    mutationFn: (id: string) => attendantApi.acknowledgeAlert(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['attendant', 'alerts'] });
       toast({

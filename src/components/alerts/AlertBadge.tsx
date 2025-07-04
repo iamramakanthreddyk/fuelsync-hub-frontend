@@ -24,12 +24,12 @@ export function AlertBadge() {
     }
   };
 
-  const handleMarkAsRead = (alertId: string) => {
-    markAsRead(alertId);
+  const handleMarkAsRead = (id: string) => {
+    markAsRead(id);
   };
 
-  const handleDismiss = (alertId: string) => {
-    dismissAlert(alertId);
+  const handleDismiss = (id: string) => {
+    dismissAlert(id);
   };
 
   if (unreadAlerts.length === 0) {
