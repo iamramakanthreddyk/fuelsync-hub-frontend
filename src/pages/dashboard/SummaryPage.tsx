@@ -15,6 +15,7 @@ import { ProfitMetricsCard } from '@/components/dashboard/ProfitMetricsCard';
 import { TopCreditorsTable } from '@/components/dashboard/TopCreditorsTable';
 import { StationMetricsCard } from '@/components/dashboard/StationMetricsCard';
 import { StationMetricsList } from '@/components/dashboard/StationMetricsList';
+import { useRoleGuard } from '@/hooks/useRoleGuard';
 
 // Filters
 import { SearchableStationSelector } from '@/components/filters/SearchableStationSelector';
@@ -26,6 +27,7 @@ interface DashboardFilters {
 }
 
 export default function SummaryPage() {
+  useRoleGuard(['owner', 'manager']);
   const { user } = useAuth();
   const [filters, setFilters] = useState<DashboardFilters>({});
   const [isRefreshing, setIsRefreshing] = useState(false);

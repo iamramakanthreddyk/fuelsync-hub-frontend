@@ -8,6 +8,7 @@ import { Building2, Plus } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { tenantsApi } from '@/api/tenants';
 import { CreateTenantRequest } from '@/api/api-contract';
+import { useRoleGuard } from '@/hooks/useRoleGuard';
 import { superadminApi } from '@/api/superadmin';
 import { useToast } from '@/hooks/use-toast';
 import { SuperAdminErrorBoundary } from '@/components/admin/SuperAdminErrorBoundary';
@@ -15,6 +16,7 @@ import { TenantForm } from '@/components/admin/TenantForm';
 import { TenantCard } from '@/components/admin/TenantCard';
 
 export default function SuperAdminTenantsPage() {
+  useRoleGuard(['superadmin']);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const navigate = useNavigate();
   

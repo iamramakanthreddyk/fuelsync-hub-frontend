@@ -10,6 +10,7 @@ import { Switch } from '@/components/ui/switch';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { tenantSettingsApi } from '@/api/tenant-settings';
+import { useRoleGuard } from '@/hooks/useRoleGuard';
 
 interface TenantSetting {
   key: string;
@@ -22,6 +23,7 @@ interface GroupedSettings {
 }
 
 const TenantSettingsPage: React.FC = () => {
+  useRoleGuard(['superadmin']);
   const { tenantId } = useParams<{ tenantId: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();

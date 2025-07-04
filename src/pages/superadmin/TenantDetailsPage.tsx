@@ -6,8 +6,10 @@ import { ArrowLeft, Loader2, AlertCircle, RefreshCw } from 'lucide-react';
 import { TenantHierarchy } from '@/components/admin/TenantHierarchy';
 import { useTenantDetails } from '@/hooks/useTenantDetails';
 import { DashboardErrorBoundary } from '@/components/dashboard/DashboardErrorBoundary';
+import { useRoleGuard } from '@/hooks/useRoleGuard';
 
 export default function TenantDetailsPage() {
+  useRoleGuard(['superadmin']);
   const { tenantId } = useParams<{ tenantId: string }>();
   const navigate = useNavigate();
   

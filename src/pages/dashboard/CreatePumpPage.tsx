@@ -14,6 +14,7 @@ import { useContractStations } from '@/hooks/useContractStations';
 import { toast } from '@/hooks/use-toast';
 import { pumpsApi } from '@/api/pumps';
 import { ownerService } from '@/api/contract/owner.service';
+import { useRoleGuard } from '@/hooks/useRoleGuard';
 
 const createPumpSchema = z.object({
   name: z.string().min(1, 'Pump name is required'),
@@ -24,6 +25,7 @@ const createPumpSchema = z.object({
 type CreatePumpForm = z.infer<typeof createPumpSchema>;
 
 export default function CreatePumpPage() {
+  useRoleGuard(['owner', 'manager']);
   const navigate = useNavigate();
   const { data: stations = [], isLoading: stationsLoading } = useContractStations();
   

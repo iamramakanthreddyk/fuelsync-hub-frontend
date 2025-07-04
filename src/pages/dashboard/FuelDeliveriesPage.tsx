@@ -3,8 +3,10 @@ import { useFuelDeliveries } from '@/hooks/useFuelDeliveries';
 import { DeliveryTable } from '@/components/fuel-deliveries/DeliveryTable';
 import { DeliveryForm } from '@/components/fuel-deliveries/DeliveryForm';
 import { ErrorFallback } from '@/components/common/ErrorFallback';
+import { useRoleGuard } from '@/hooks/useRoleGuard';
 
 export default function FuelDeliveriesPage() {
+  useRoleGuard(['owner', 'manager']);
   const { data: deliveriesData, isLoading, error, refetch } = useFuelDeliveries();
 
   // Ensure we always have an array to work with

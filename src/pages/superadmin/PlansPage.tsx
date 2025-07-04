@@ -11,8 +11,10 @@ import { Plan } from '@/api/api-contract';
 import { useToast } from '@/hooks/use-toast';
 import { PlanForm } from '@/components/admin/PlanForm';
 import { formatCurrency } from '@/utils/formatters';
+import { useRoleGuard } from '@/hooks/useRoleGuard';
 
 export default function PlansPage() {
+  useRoleGuard(['superadmin']);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [editingPlan, setEditingPlan] = useState<Plan | null>(null);

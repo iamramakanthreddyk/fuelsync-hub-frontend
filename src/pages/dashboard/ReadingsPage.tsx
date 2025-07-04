@@ -10,11 +10,13 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Gauge, Clock, AlertTriangle, CheckCircle, Plus, FileText, Eye, Edit, Loader2 } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
+import { useRoleGuard } from '@/hooks/useRoleGuard';
 import { PageHeader } from '@/components/ui/page-header';
 import { useReadings } from '@/hooks/api/useReadings';
 import { useFeatureFlags } from '@/hooks/useFeatureFlags';
 
 export default function ReadingsPage() {
+  useRoleGuard(['owner', 'manager', 'attendant']);
   const navigate = useNavigate();
   const { data: features } = useFeatureFlags();
   const [filter, setFilter] = useState<'all' | 'pending' | 'completed' | 'discrepancy'>('all');

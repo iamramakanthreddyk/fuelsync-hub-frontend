@@ -8,8 +8,10 @@ import { Label } from '@/components/ui/label';
 import { ArrowLeft, Building2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { stationsApi } from '@/api/stations';
+import { useRoleGuard } from '@/hooks/useRoleGuard';
 
 export default function CreateStationPage() {
+  useRoleGuard(['owner', 'manager']);
   const navigate = useNavigate();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);

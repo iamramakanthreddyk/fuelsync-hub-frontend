@@ -14,7 +14,7 @@ import { useStations } from '@/hooks/api/useStations';
 import { useRoleGuard } from '@/hooks/useRoleGuard';
 
 export default function StationsPage() {
-  useRoleGuard(['owner']);
+  useRoleGuard(['owner', 'manager']);
   const [searchTerm, setSearchTerm] = useState('');
   const { data: stations = [], isLoading, error } = useStations();
 

@@ -12,6 +12,7 @@ import { FuelPriceForm } from '@/components/fuel-prices/FuelPriceForm';
 import { PageHeader } from '@/components/ui/page-header';
 import { TooltipWrapper } from '@/components/ui/tooltip-wrapper';
 import { useFuelPrices } from '@/hooks/api/useFuelPrices';
+import { useRoleGuard } from '@/hooks/useRoleGuard';
 
 /**
  * Fuel Prices management page
@@ -23,6 +24,7 @@ import { useFuelPrices } from '@/hooks/api/useFuelPrices';
  * - Clear user feedback and navigation
  */
 export default function FuelPricesPage() {
+  useRoleGuard(['owner', 'manager']);
   const [showForm, setShowForm] = useState(false);
   const { refetch, isLoading } = useFuelPrices();
 
