@@ -95,6 +95,7 @@
 - ✅ GET `/reconciliation/daily-summary?stationId={id}&date={date}` - Daily summary (→ DailyReadingSummary[])
 - ✅ GET `/reconciliation` - Reconciliation history (→ ReconciliationRecord[])
 - ✅ POST `/reconciliation` - Create reconciliation (CreateReconciliationRequest → ReconciliationRecord)
+- ✅ POST `/reconciliation/{id}/approve` - Approve reconciliation (→ ApiResponse<null>)
 
 ### Reports
 - ✅ GET `/reports/sales` - Sales report (SalesReportFilters → { data: SalesReportData[], summary: SalesReportSummary })

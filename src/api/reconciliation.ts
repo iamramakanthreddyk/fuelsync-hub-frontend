@@ -37,5 +37,11 @@ export const reconciliationApi = {
       console.error('Error fetching reconciliation history:', error);
       return [];
     }
+  },
+
+  // Approve reconciliation record
+  approveReconciliation: async (id: string): Promise<ApiResponse<null>> => {
+    const response = await apiClient.post(`/reconciliation/${id}/approve`);
+    return extractApiData<ApiResponse<null>>(response);
   }
 };

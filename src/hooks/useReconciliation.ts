@@ -41,3 +41,23 @@ export const useReconciliationHistory = (stationId?: string) => {
     queryFn: () => reconciliationApi.getReconciliationHistory(stationId),
   });
 };
+
+export const useApproveReconciliation = () => {
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
+
+  return useMutation({
+    mutationFn: (id: string) => reconciliationApi.approveReconciliation(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['reconciliation'] });
+      toast({ title: 'Success', description: 'Reconciliation approved' });
+    },
+    onError: (error: any) => {
+      toast({
+        title: 'Error',
+        description: error.response?.data?.message || 'Failed to approve reconciliation',
+        variant: 'destructive',
+      });
+    },
+  });
+};
