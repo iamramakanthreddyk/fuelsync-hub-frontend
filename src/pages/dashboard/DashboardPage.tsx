@@ -16,6 +16,8 @@ import { useAdminDashboard } from '@/hooks/useDashboard';
 import { useDashboardAnalytics } from '@/hooks/useAnalytics';
 import { useSystemHealth } from '@/hooks/useSystemHealth';
 import { EnhancedMetricsCard } from '@/components/ui/enhanced-metrics-card';
+import { PaymentMethodChart } from '@/components/dashboard/PaymentMethodChart';
+import { TopCreditorsTable } from '@/components/dashboard/TopCreditorsTable';
 import { Link } from 'react-router-dom';
 import { useRoleGuard } from '@/hooks/useRoleGuard';
 
@@ -210,6 +212,12 @@ export default function DashboardPage() {
             </div>
           </CardContent>
         </Card>
+      </div>
+
+      {/* Dashboard Insights */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <PaymentMethodChart />
+        <TopCreditorsTable />
       </div>
 
       {/* Recent Activity */}
