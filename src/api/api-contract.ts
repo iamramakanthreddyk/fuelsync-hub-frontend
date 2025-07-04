@@ -379,33 +379,24 @@ export interface AlertSummary {
 // =============================================================================
 
 export interface SalesSummary {
-  totalRevenue: number;
+  totalSales: number;
   totalVolume: number;
-  salesCount: number;
-  averageTicketSize: number;
-  cashSales: number;
-  creditSales: number;
-  growthPercentage: number;
-  totalProfit?: number;
-  profitMargin?: number;
-  period?: string;
-  previousPeriodRevenue?: number;
-  revenue?: number; // Alias for totalRevenue
+  transactionCount: number;
+  totalProfit: number;
+  profitMargin: number;
+  period: string;
 }
 
 export interface PaymentMethodBreakdown {
-  method: string;
+  paymentMethod: string;
   amount: number;
   percentage: number;
-  count: number;
 }
 
 export interface FuelTypeBreakdown {
   fuelType: string;
   volume: number;
-  revenue: number;
-  percentage: number;
-  averagePrice?: number;
+  amount: number;
 }
 
 export interface StationMetric {
@@ -912,10 +903,8 @@ export interface FuelInventoryParams {
 export type AuthResponse = LoginResponse;
 export type Alert = SystemAlert;
 export type TopCreditor = Creditor;
-export type DailySalesTrend = { 
-  date: string; 
-  revenue: number; 
-  volume: number; 
-  salesCount: number;
-  dayOfWeek?: string;
-};
+export interface DailySalesTrend {
+  date: string;
+  amount: number;
+  volume: number;
+}

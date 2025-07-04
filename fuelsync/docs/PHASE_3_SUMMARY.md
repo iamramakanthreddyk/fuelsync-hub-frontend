@@ -118,3 +118,8 @@ database and backend docs are updated before the frontend adjusts.
 ### 📄 Documentation Addendum – 2025-11-09
 
 `FRONTEND_REFERENCE_GUIDE.md` now lists a detailed schema change propagation flow starting from the database. Developers should review `DATABASE_MANAGEMENT.md` and `backend_brain.md` for context before updating frontend code.
+
+### 📄 Documentation Addendum – 2025-12-03
+
+Updated dashboard components to use `/dashboard/fuel-breakdown` and `/dashboard/sales-trend` as per latest OpenAPI.
+
