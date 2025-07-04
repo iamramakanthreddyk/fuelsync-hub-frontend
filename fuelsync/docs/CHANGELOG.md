@@ -2877,3 +2877,13 @@ Each entry is tied to a step from the implementation index.
 * `docs/STEP_2_57_COMMAND.md`
 \n## [Step 3.8] – Final QA Audit\n\n### 🟦 Enhancements\n* Verified OpenAPI, backend routes and frontend hooks are aligned.\n* Documented results in `QA_AUDIT_REPORT.md`.\n\n### Files\n* `docs/QA_AUDIT_REPORT.md`\n* `docs/STEP_3_8_COMMAND.md`\n
 
+## [Step 3.9] – Readings page table
+
+### 🟦 Enhancements
+* Refactored readings listing into a structured table with nozzle label, station, volumes and price details.
+* Added `ReadingsTable` component.
+
+### Files
+* `src/components/readings/ReadingsTable.tsx`
+* `src/pages/dashboard/ReadingsPage.tsx`
+* `docs/STEP_3_9_COMMAND.md`

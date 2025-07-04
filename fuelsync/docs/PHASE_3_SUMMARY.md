@@ -178,3 +178,17 @@ Updated dashboard components to use `/dashboard/fuel-breakdown` and `/dashboard/
 
 Integrated latest fuel prices widget on the Owner dashboard and fixed missing filter parameters for top creditors.
 \n### 📄 Documentation Addendum – 2025-12-09\n\nRefactored Stations page to use new StationCard component with edit/delete controls and floating create button.
+
+### 🖼️ Step 3.9 – Readings Page Table
+
+**Status:** ✅ Done
+**Pages:** `src/pages/dashboard/ReadingsPage.tsx`, `src/components/readings/ReadingsTable.tsx`
+
+**Business Rules Covered:**
+
+* Display nozzle readings with cumulative and delta volumes.
+* Show unit price and total amount per reading.
+
+**Validation Performed:**
+
+* Verified `useReadings` fetches data from `/api/v1/nozzle-readings` via React Query.
