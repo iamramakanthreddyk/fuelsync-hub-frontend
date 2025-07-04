@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import { DateRange } from 'react-day-picker';
 import { formatCurrency, formatVolume, formatSafeNumber } from '@/utils/formatters';
 import { useRoleGuard } from '@/hooks/useRoleGuard';
+import { useFeatureFlags } from '@/hooks/useFeatureFlags';
 
 export default function SalesPage() {
   useRoleGuard(['owner', 'manager']);
@@ -24,6 +25,7 @@ export default function SalesPage() {
   };
   
   const { data: sales = [], isLoading } = useEnhancedSales(filters);
+  const { data: features } = useFeatureFlags();
 
   // Calculate summary stats with safe number handling
   const totalAmount = sales.reduce((sum, sale) => {
@@ -78,10 +80,12 @@ export default function SalesPage() {
               onChange={setDateRange}
               placeholder="Select date range"
             />
-            <Button variant="outline" className="bg-white">
-              <Download className="h-4 w-4 mr-2" />
-              Export
-            </Button>
+            {features?.allowExport && (
+              <Button variant="outline" className="bg-white">
+                <Download className="h-4 w-4 mr-2" />
+                Export
+              </Button>
+            )}
           </div>
         </CardContent>
       </Card>
