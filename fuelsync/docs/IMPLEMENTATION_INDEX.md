@@ -235,3 +235,4 @@ This file tracks every build step taken by AI agents or developers. It maintains
 | 3     | 3.10 | Cash reports summary view | ✅ Done | `src/pages/dashboard/CashReportsListPage.tsx`, `src/components/reports/CashReportCard.tsx`, `src/components/reports/CashReportTable.tsx` | `PHASE_3_SUMMARY.md#step-3.10` |
 | fix | 2025-12-08 | Owner dashboard data fixes | ✅ Done | `src/api/dashboard.ts`, `src/hooks/useDashboard.ts`, `src/components/dashboard/LatestFuelPricesCard.tsx`, `src/pages/dashboard/SummaryPage.tsx` | `docs/STEP_fix_20251208.md` |
 | fix | 2025-12-09 | Stations page UI refresh | ✅ Done | `src/pages/dashboard/StationsPage.tsx`, `src/components/stations/StationCard.tsx` | `docs/STEP_fix_20251209.md` |
+| 3     | 3.11 | Filterable sales reports page | ✅ Done | `src/pages/dashboard/ReportsPage.tsx`, `src/components/reports/SalesReportFilters.tsx`, `src/App.tsx` | `PHASE_3_SUMMARY.md#step-3.11` |
