@@ -55,6 +55,7 @@ export function TopCreditorsTable({ filters = {} }: TopCreditorsTableProps) {
         <CardTitle className="text-orange-700">Top Creditors by Outstanding</CardTitle>
       </CardHeader>
       <CardContent>
+        <div className="overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow>
@@ -100,6 +101,7 @@ export function TopCreditorsTable({ filters = {} }: TopCreditorsTableProps) {
             })}
           </TableBody>
         </Table>
+        </div>
       </CardContent>
     </Card>
   );

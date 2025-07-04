@@ -4,12 +4,15 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { SuperAdminAnalytics } from '@/api/api-contract';
 import { Building2, Users, Gauge, DollarSign, TrendingUp } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { useWindowSize } from '@/hooks/use-window-size';
 
 interface AnalyticsDashboardProps {
   analytics: SuperAdminAnalytics;
 }
 
 export function AnalyticsDashboard({ analytics }: AnalyticsDashboardProps) {
+  const { width } = useWindowSize();
+  const chartHeight = width < 640 ? 240 : 300;
   return (
     <div className="space-y-6">
       {/* Key Metrics */}
@@ -78,7 +81,7 @@ export function AnalyticsDashboard({ analytics }: AnalyticsDashboardProps) {
             <CardDescription>Tenant signups and revenue over time</CardDescription>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
+            <ResponsiveContainer width="100%" height={chartHeight}>
               <BarChart data={analytics.monthlyGrowth}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="month" />
