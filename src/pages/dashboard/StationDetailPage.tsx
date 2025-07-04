@@ -21,7 +21,7 @@ import {
   DollarSign,
   TrendingUp
 } from 'lucide-react';
-import { useStation } from '@/hooks/api/useStations';
+import { useStation, useStationMetrics, useStationPerformance, useStationEfficiency } from '@/hooks/api/useStations';
 import { usePumps } from '@/hooks/api/usePumps';
 
 export default function StationDetailPage() {
@@ -29,6 +29,9 @@ export default function StationDetailPage() {
   const navigate = useNavigate();
   const { data: station, isLoading, error } = useStation(stationId!);
   const { data: pumps = [] } = usePumps(stationId);
+  const { data: metrics } = useStationMetrics(stationId!);
+  const { data: performance } = useStationPerformance(stationId!);
+  const { data: efficiency } = useStationEfficiency(stationId!);
 
   if (isLoading) {
     return (
@@ -75,17 +78,17 @@ export default function StationDetailPage() {
       </div>
 
       {/* Station Overview Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Today's Sales</CardTitle>
             <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">₹{(station as any).todaySales?.toLocaleString() || '0'}</div>
+            <div className="text-2xl font-bold">₹{metrics?.todaySales?.toLocaleString() || '0'}</div>
             <p className="text-xs text-muted-foreground">
-              {(station as any).salesGrowth ? 
-                `+${(station as any).salesGrowth}% from yesterday` : 
+              {metrics?.salesGrowth != null ?
+                `+${metrics.salesGrowth}% from yesterday` :
                 'No growth data available'
               }
             </p>
@@ -98,7 +101,7 @@ export default function StationDetailPage() {
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">₹{(station as any).monthlySales?.toLocaleString() || '0'}</div>
+            <div className="text-2xl font-bold">₹{metrics?.monthlySales?.toLocaleString() || '0'}</div>
             <p className="text-xs text-muted-foreground">
               Current month performance
             </p>
@@ -111,13 +114,41 @@ export default function StationDetailPage() {
             <Fuel className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{pumps.length}</div>
+            <div className="text-2xl font-bold">{metrics?.activePumps ?? pumps.length}</div>
             <p className="text-xs text-muted-foreground">
               Total pumps configured
             </p>
           </CardContent>
         </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Efficiency</CardTitle>
+            <BarChart3 className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{Number(efficiency ?? metrics?.efficiency ?? 0).toFixed(2)}%</div>
+            <p className="text-xs text-muted-foreground">Operational efficiency</p>
+          </CardContent>
+        </Card>
       </div>
+
+      {performance && performance.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Performance</CardTitle>
+            <CardDescription>Period: {performance[0].period}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div>Revenue: ₹{performance[0].revenue.toLocaleString()}</div>
+              <div>Volume: {performance[0].volume.toLocaleString()} L</div>
+              <div>Sales: {performance[0].salesCount}</div>
+              <div>Growth: {performance[0].growth}%</div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Pumps Grid */}
       <Card>

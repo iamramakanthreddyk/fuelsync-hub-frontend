@@ -5,6 +5,8 @@
  */
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { stationsApi, CreateStationData, UpdateStationData } from '@/api/stations';
+import { stationsService } from '@/api/services/stationsService';
+import type { StationMetric, StationComparison } from '@/api/api-contract';
 
 /**
  * Hook to fetch all stations
@@ -69,11 +71,47 @@ export const useUpdateStation = () => {
  */
 export const useDeleteStation = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: (id: string) => stationsApi.deleteStation(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['stations'] });
     },
+  });
+};
+
+/**
+ * Hook to fetch metrics for a station
+ */
+export const useStationMetrics = (id: string) => {
+  return useQuery({
+    queryKey: ['station', id, 'metrics'],
+    queryFn: () => stationsService.getStationMetrics(id),
+    enabled: !!id,
+    staleTime: 60000,
+  });
+};
+
+/**
+ * Hook to fetch performance data for a station
+ */
+export const useStationPerformance = (id: string) => {
+  return useQuery({
+    queryKey: ['station', id, 'performance'],
+    queryFn: () => stationsService.getStationPerformance(id),
+    enabled: !!id,
+    staleTime: 60000,
+  });
+};
+
+/**
+ * Hook to fetch efficiency metric for a station
+ */
+export const useStationEfficiency = (id: string) => {
+  return useQuery({
+    queryKey: ['station', id, 'efficiency'],
+    queryFn: () => stationsService.getStationEfficiency(id),
+    enabled: !!id,
+    staleTime: 60000,
   });
 };
