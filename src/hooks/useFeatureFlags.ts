@@ -2,22 +2,40 @@ import { useQuery } from '@tanstack/react-query';
 import { tenantSettingsApi, TenantSetting } from '@/api/tenant-settings';
 import { useAuth } from '@/contexts/AuthContext';
 
-interface FeatureFlags {
-  [key: string]: string;
+export interface FeatureFlags {
+  allowExport: boolean;
+  autoSalesGeneration: boolean;
+  [key: string]: boolean;
 }
 
 export const useFeatureFlags = () => {
   const { user } = useAuth();
 
-  return useQuery({
+  return useQuery<FeatureFlags>({
     queryKey: ['feature-flags', user?.tenantId],
     queryFn: async () => {
-      if (!user?.tenantId) return {} as FeatureFlags;
+      const flags: FeatureFlags = {
+        allowExport: true,
+        autoSalesGeneration: true,
+      };
+
+      if (!user?.tenantId) return flags;
+
       const settings = await tenantSettingsApi.getTenantSettings();
-      const flags: FeatureFlags = {};
       settings.forEach((s: TenantSetting) => {
         if (s.key.startsWith('features.')) {
-          flags[s.key] = s.value;
+          const key = s.key.replace('features.', '');
+          const value = s.value === 'true';
+          switch (key) {
+            case 'allow_export':
+              flags.allowExport = value;
+              break;
+            case 'auto_sales_generation':
+              flags.autoSalesGeneration = value;
+              break;
+            default:
+              flags[key] = value;
+          }
         }
       });
       return flags;

@@ -59,7 +59,7 @@ export default function ReadingsPage() {
 
   return (
     <div className="space-y-6">
-      {features && features['features.auto_sales_generation'] === 'false' && (
+      {features && !features.autoSalesGeneration && (
         <div className="bg-yellow-100 text-yellow-800 p-2 rounded text-sm">
           Automatic sales generation is disabled for this tenant.
         </div>

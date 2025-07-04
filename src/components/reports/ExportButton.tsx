@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { Download, FileText } from 'lucide-react';
+import { useFeatureFlags } from '@/hooks/useFeatureFlags';
 
 interface ExportButtonProps {
   onExport: () => Promise<void>;
@@ -11,14 +12,19 @@ interface ExportButtonProps {
   label?: string;
 }
 
-export function ExportButton({ 
-  onExport, 
-  type = 'csv', 
+export function ExportButton({
+  onExport,
+  type = 'csv',
   disabled = false,
-  label 
+  label
 }: ExportButtonProps) {
   const [isExporting, setIsExporting] = useState(false);
   const { toast } = useToast();
+  const { data: features } = useFeatureFlags();
+
+  if (features && !features.allowExport) {
+    return null;
+  }
 
   const handleExport = async () => {
     try {
