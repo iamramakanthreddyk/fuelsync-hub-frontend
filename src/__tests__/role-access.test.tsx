@@ -8,10 +8,13 @@ import { setupServer } from 'msw/node';
 import { beforeAll, afterEach, afterAll, beforeEach, it, expect } from 'vitest';
 import App from '@/App';
 
-// Match any origin so that MSW intercepts axios requests regardless of baseURL
+// Intercept API calls regardless of origin
 const API_BASE = '*/api/v1';
 
 const server = setupServer();
+
+// Default fallback to prevent real network requests
+server.use(http.all('*', () => HttpResponse.json({})));
 
 beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
@@ -66,6 +69,12 @@ const dashboardDataHandlers = [
   http.get(`${API_BASE}/admin/dashboard`, () => HttpResponse.json({})),
   http.get(`${API_BASE}/dashboard/system-health`, () =>
     HttpResponse.json({ uptime: 99.9 })
+  ),
+  http.get(`${API_BASE}/dashboard/payment-methods`, () =>
+    HttpResponse.json({ methods: [] })
+  ),
+  http.get(`${API_BASE}/dashboard/top-creditors`, () =>
+    HttpResponse.json({ creditors: [] })
   )
 ];
 
