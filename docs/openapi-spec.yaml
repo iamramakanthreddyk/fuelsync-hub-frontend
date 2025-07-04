@@ -1134,6 +1134,14 @@ paths:
           $ref: '#/components/responses/Success'
         default:
           $ref: '#/components/responses/Error'
+  /api/v1/dashboard/station-metrics:
+    get:
+      summary: Dashboard station metrics
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        default:
+          $ref: '#/components/responses/Error'
   /api/v1/dashboard/sales-trend:
     get:
       summary: Dashboard sales trend
@@ -1154,14 +1162,6 @@ paths:
   /api/v1/dashboard/system-health:
     get:
       summary: Get system health metrics
-      responses:
-        '200':
-          $ref: '#/components/responses/Success'
-        default:
-          $ref: '#/components/responses/Error'
-  /api/v1/dashboard/station-metrics:
-    get:
-      summary: Dashboard station metrics
       responses:
         '200':
           $ref: '#/components/responses/Success'
