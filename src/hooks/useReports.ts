@@ -40,13 +40,6 @@ export const useReports = () => {
   });
 };
 
-export const useReport = (id: string) => {
-  return useQuery({
-    queryKey: ['report', id],
-    queryFn: () => reportsApi.getReport(id),
-    enabled: !!id,
-  });
-};
 
 export const useGenerateReport = () => {
   const queryClient = useQueryClient();

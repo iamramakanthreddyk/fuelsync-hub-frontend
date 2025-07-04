@@ -63,10 +63,6 @@ export const reportsApi = {
     return extractApiArray<any>(response, 'reports');
   },
 
-  getReport: async (id: string): Promise<any> => {
-    const response = await apiClient.get(`/reports/sales/${id}`);
-    return extractApiData<any>(response);
-  },
 
   generateReport: async (data: any): Promise<any> => {
     const response = await apiClient.post('/reports/sales', data);
