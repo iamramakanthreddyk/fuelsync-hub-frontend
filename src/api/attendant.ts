@@ -77,9 +77,9 @@ export const attendantApi = {
   },
 
   // Acknowledge alert
-  acknowledgeAlert: async (alertId: string): Promise<void> => {
-    devLog('Acknowledging alert', alertId);
-    await apiClient.put(`/attendant/alerts/${alertId}/acknowledge`);
+  acknowledgeAlert: async (id: string): Promise<void> => {
+    devLog('Acknowledging alert', id);
+    await apiClient.put(`/attendant/alerts/${id}/acknowledge`);
   }
 };
 
