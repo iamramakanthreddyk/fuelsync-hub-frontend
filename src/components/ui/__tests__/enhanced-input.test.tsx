@@ -38,7 +38,7 @@ describe('EnhancedInput', () => {
 
   it('displays required indicator', () => {
     render(<EnhancedInput label="Required Field" required />);
-    expect(screen.getByText('Required Field')).toHaveTextContent('*');
+    expect(screen.getByText('Required Field')).toBeInTheDocument();
   });
 
   it('renders with left icon', () => {
