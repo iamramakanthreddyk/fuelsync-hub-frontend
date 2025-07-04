@@ -92,6 +92,38 @@ Each step includes:
 
 ---
 
+### 🖼️ Step 3.5 – Page Action Validation
+
+**Status:** ✅ Done
+**Pages:** `src/pages/dashboard/StationDetailPage.tsx`, `src/pages/dashboard/SalesPage.tsx`, `src/pages/dashboard/FuelInventoryPage.tsx`, `src/pages/dashboard/EditStationPage.tsx`
+
+**Business Rules Covered:**
+
+* All visible actions navigate correctly
+
+**Validation Performed:**
+
+* Hooks wired to OpenAPI export endpoint
+* Role guards enforced on new edit route
+
+---
+
+### 🖼️ Step 3.6 – Pump & Nozzle Settings Stubs
+
+**Status:** ✅ Done
+**Pages:** `src/pages/dashboard/PumpSettingsPage.tsx`
+
+**Business Rules Covered:**
+
+* Future settings endpoints available for pumps and nozzles
+
+**Validation Performed:**
+
+* Added `/pumps/{id}/settings` and `/nozzles/{id}/settings` to OpenAPI
+* Routes secured with owner and manager roles
+
+---
+
 > 🎯 After building each page or component, update its status and include links to relevant backend and OpenAPI references.
 
 ### 📄 Documentation Addendum – 2025-07-13

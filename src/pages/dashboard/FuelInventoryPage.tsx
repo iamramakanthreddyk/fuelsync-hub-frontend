@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Fuel, AlertTriangle, TrendingDown, RefreshCw, Loader2, FileSpreadsheet } from 'lucide-react';
+import { Fuel, AlertTriangle, TrendingDown, RefreshCw, Loader2, FileSpreadsheet, ArrowLeft } from 'lucide-react';
 import { useStations } from '@/hooks/useStations';
 import { useFuelInventory, useFuelInventorySummary } from '@/hooks/useFuelInventory';
 import { useDeliveriesInventory } from '@/hooks/useFuelDeliveries';
@@ -103,6 +103,10 @@ export default function FuelInventoryPage() {
 
   return (
     <div className="space-y-6">
+      <Button variant="outline" size="sm" onClick={() => navigate(-1)}>
+        <ArrowLeft className="mr-2 h-4 w-4" />
+        Back
+      </Button>
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Fuel Inventory</h1>
