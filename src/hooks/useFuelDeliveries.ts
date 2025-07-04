@@ -43,3 +43,10 @@ export const useCreateFuelDelivery = () => {
     }
   });
 };
+
+export const useDeliveriesInventory = (stationId?: string) => {
+  return useQuery({
+    queryKey: ['deliveries-inventory', stationId],
+    queryFn: () => fuelDeliveriesApi.getDeliveriesInventory(stationId)
+  });
+};

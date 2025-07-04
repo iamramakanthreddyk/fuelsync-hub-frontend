@@ -7,9 +7,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Fuel, AlertTriangle, TrendingDown, RefreshCw, Loader2, Download, FileSpreadsheet } from 'lucide-react';
+import { Fuel, AlertTriangle, TrendingDown, RefreshCw, Loader2, FileSpreadsheet } from 'lucide-react';
 import { useStations } from '@/hooks/api/useStations';
-import { useInventory, useInventoryAlerts } from '@/hooks/api/useInventory';
+import { useFuelInventory, useFuelInventorySummary } from '@/hooks/useFuelInventory';
+import { useDeliveriesInventory } from '@/hooks/useFuelDeliveries';
 import { useGenerateReport } from '@/hooks/api/useReports';
 import { Link, useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
@@ -24,25 +25,32 @@ export default function FuelInventoryPage() {
   const { data: stations = [], isLoading: stationsLoading } = useStations();
   
   // Fetch inventory data
-  const { 
-    data: inventory = [], 
-    isLoading: inventoryLoading, 
-    refetch: refetchInventory 
-  } = useInventory(selectedStationId === 'all-stations' ? undefined : selectedStationId);
-  
+  const {
+    data: inventory = [],
+    isLoading: inventoryLoading,
+    refetch: refetchInventory
+  } = useFuelInventory(selectedStationId === 'all-stations' ? undefined : selectedStationId);
+
+  // Fetch inventory after deliveries
+  const {
+    data: deliveriesInventory = [],
+    isLoading: deliveriesInventoryLoading,
+    refetch: refetchDeliveriesInventory
+  } = useDeliveriesInventory(selectedStationId === 'all-stations' ? undefined : selectedStationId);
+
   // Fetch inventory summary
   const {
     data: summary,
     isLoading: summaryLoading,
     refetch: refetchSummary
-  } = useInventoryAlerts();
+  } = useFuelInventorySummary();
   
   // Generate report mutation
   const generateReport = useGenerateReport();
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
-    await Promise.all([refetchInventory(), refetchSummary()]);
+    await Promise.all([refetchInventory(), refetchDeliveriesInventory(), refetchSummary()]);
     setIsRefreshing(false);
   };
 
@@ -81,7 +89,7 @@ export default function FuelInventoryPage() {
     return { status: 'normal', color: 'bg-green-100 text-green-800' };
   };
 
-  const isLoading = stationsLoading || inventoryLoading || summaryLoading;
+  const isLoading = stationsLoading || inventoryLoading || deliveriesInventoryLoading || summaryLoading;
 
   if (isLoading) {
     return (
@@ -273,6 +281,52 @@ export default function FuelInventoryPage() {
                       <div className="text-xs text-muted-foreground">
                         {fillPercentage.toFixed(1)}% full
                       </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Inventory After Deliveries */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Inventory After Deliveries</CardTitle>
+          <CardDescription>Updated stock levels including recent deliveries</CardDescription>
+        </CardHeader>
+        <CardContent>
+          {deliveriesInventory.length === 0 ? (
+            <p className="text-muted-foreground text-center py-4">No delivery inventory data.</p>
+          ) : (
+            <div className="space-y-4">
+              {deliveriesInventory.map((item) => {
+                const stockStatus = getStockStatus(item.currentStock, item.capacity, item.lowThreshold);
+                const fillPercentage = (item.currentStock / item.capacity) * 100;
+
+                return (
+                  <div key={item.id} className="flex items-center justify-between p-4 border rounded-lg">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-2">
+                        <h3 className="font-medium">{item.fuelType}</h3>
+                        <Badge className={stockStatus.color}>{stockStatus.status}</Badge>
+                      </div>
+                      <p className="text-sm text-muted-foreground mb-2">{item.stationName}</p>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div
+                          className={`h-2 rounded-full ${
+                            fillPercentage <= 25 ? 'bg-red-500' :
+                            fillPercentage <= 50 ? 'bg-yellow-500' : 'bg-green-500'
+                          }`}
+                          style={{ width: `${fillPercentage}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                    <div className="text-right ml-4">
+                      <div className="text-lg font-semibold">{item.currentStock.toLocaleString()}L</div>
+                      <div className="text-sm text-muted-foreground">of {item.capacity.toLocaleString()}L</div>
+                      <div className="text-xs text-muted-foreground">{fillPercentage.toFixed(1)}% full</div>
                     </div>
                   </div>
                 );

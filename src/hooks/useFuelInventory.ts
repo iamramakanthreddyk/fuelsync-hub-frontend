@@ -9,3 +9,10 @@ export const useFuelInventory = (params?: FuelInventoryParams) => {
     queryFn: () => fuelInventoryApi.getFuelInventory(params)
   });
 };
+
+export const useFuelInventorySummary = () => {
+  return useQuery({
+    queryKey: ['inventory-summary'],
+    queryFn: () => fuelInventoryApi.getInventorySummary()
+  });
+};
