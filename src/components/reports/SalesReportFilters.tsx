@@ -89,7 +89,44 @@ export function SalesReportFilters({ filters, onFiltersChange }: SalesReportFilt
               </SelectContent>
             </Select>
           </div>
-        </div>
+
+          <div className="space-y-2">
+            <Label>Fuel Type</Label>
+            <Select
+              value={filters.fuelType || 'all'}
+              onValueChange={(value) => handleFilterChange('fuelType', value)}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="All types" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All types</SelectItem>
+                <SelectItem value="petrol">Petrol</SelectItem>
+                <SelectItem value="diesel">Diesel</SelectItem>
+                <SelectItem value="premium">Premium</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-2">
+            <Label>Group By</Label>
+            <Select
+              value={filters.groupBy || 'day'}
+              onValueChange={(value) => handleFilterChange('groupBy', value)}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Day" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="day">Day</SelectItem>
+                <SelectItem value="week">Week</SelectItem>
+                <SelectItem value="month">Month</SelectItem>
+                <SelectItem value="station">Station</SelectItem>
+                <SelectItem value="fuelType">Fuel Type</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+      </div>
       </CardContent>
     </Card>
   );

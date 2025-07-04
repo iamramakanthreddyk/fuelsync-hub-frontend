@@ -208,3 +208,20 @@ Integrated latest fuel prices widget on the Owner dashboard and fixed missing fi
 
 * Verified attendant and manager views load correct data via respective hooks.
 * Approve action triggers `useApproveReconciliation` mutation.
+
+### 🖼️ Step 3.11 – Filterable Sales Reports
+
+**Status:** ✅ Done
+**Pages:** `src/pages/dashboard/ReportsPage.tsx`, `src/components/reports/SalesReportFilters.tsx`
+
+**Business Rules Covered:**
+
+* Owners and managers can view historical sales data
+* Filter by station, fuel type, payment method and date range
+* Group results by day, week, month, station or fuel type
+* Export sales report as CSV or PDF
+
+**Validation Performed:**
+
+* Verified data fetched from `/api/v1/reports/sales` with selected filters
+* CSV and PDF exports triggered proper download

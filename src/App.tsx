@@ -186,7 +186,14 @@ function App() {
               {/* Other Routes */}
               <Route path="fuel-prices" element={<FuelPricesPage />} />
               <Route path="fuel-inventory" element={<FuelInventoryPage />} />
-              <Route path="reports" element={<ReportsPage />} />
+              <Route
+                path="reports"
+                element={
+                  <ProtectedRoute allowedRoles={['owner', 'manager']}>
+                    <ReportsPage />
+                  </ProtectedRoute>
+                }
+              />
               <Route path="analytics" element={<AnalyticsPage />} />
               <Route path="users" element={<UsersPage />} />
               <Route path="settings" element={<SettingsPage />} />

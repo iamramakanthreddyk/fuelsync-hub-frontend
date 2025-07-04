@@ -128,3 +128,5 @@ All notable changes to this project will be documented in this file.
 ### [feature] Cash reports summary view
 - Added `CashReportCard` and `CashReportTable` components.
 - Refactored `CashReportsListPage` with role-based data and approval action.
+### [feature] Filterable sales reports page
+- Refactored ReportsPage with filters, summary and export options.
