@@ -13,6 +13,7 @@ import { usePumps } from '@/hooks/api/usePumps';
 import { useFuelPrices } from '@/hooks/api/useFuelPrices';
 import { useReadings } from '@/hooks/api/useReadings';
 import { useAnalyticsDashboard, useAdminDashboard } from '@/hooks/useDashboard';
+import { useSystemHealth } from '@/hooks/useSystemHealth';
 import { EnhancedMetricsCard } from '@/components/ui/enhanced-metrics-card';
 import { Link } from 'react-router-dom';
 
@@ -29,6 +30,7 @@ export default function DashboardPage() {
   // Fetch analytics data
   const { data: analytics, isLoading: analyticsLoading, refetch: refetchAnalytics } = useAnalyticsDashboard();
   const { data: adminData, isLoading: adminLoading, refetch: refetchAdmin } = useAdminDashboard();
+  const { data: systemHealth } = useSystemHealth();
   
   // Calculate metrics
   const totalRevenue = readings.reduce((sum, reading) => sum + (reading.amount || 0), 0);
@@ -131,7 +133,7 @@ export default function DashboardPage() {
           
           <EnhancedMetricsCard
             title="System Health"
-            value="99.9%"
+            value={systemHealth ? `${systemHealth.uptime.toFixed(1)}%` : 'N/A'}
             icon={<Shield className="h-5 w-5" />}
             description="Platform uptime"
             gradient="from-green-500 to-emerald-600"

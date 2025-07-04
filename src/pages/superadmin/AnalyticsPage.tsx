@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { RefreshCw } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
+import { useSystemHealth } from '@/hooks/useSystemHealth';
 
 export default function AnalyticsPage() {
   const { data: analytics, isLoading, error, refetch, isRefetching } = useQuery({
@@ -17,6 +18,7 @@ export default function AnalyticsPage() {
     retry: 2,
     staleTime: 300000, // 5 minutes
   });
+  const { data: systemHealth } = useSystemHealth();
 
   if (isLoading) {
     return (
@@ -142,7 +144,7 @@ export default function AnalyticsPage() {
 
             <EnhancedMetricsCard
               title="System Health"
-              value="99.9%"
+              value={systemHealth ? `${systemHealth.uptime.toFixed(1)}%` : 'N/A'}
               icon={<Shield className="h-5 w-5" />}
               description="Platform uptime"
               gradient="from-teal-400 to-green-500"
