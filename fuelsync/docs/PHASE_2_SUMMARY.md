@@ -1235,6 +1235,13 @@ sudo apt-get update && sudo apt-get install -y postgresql
 * Auth responses now return tenant name and fuel price list includes station name.
 * Marked testing endpoints as internal in API docs.
 
+### 🛠️ Step 2.57 – Tenant email convention update
+**Status:** ✅ Done
+**Files:** `src/services/tenant.service.ts`, `docs/TENANT_CREATION_API.md`, `docs/TENANT_MANAGEMENT_GUIDE.md`, `TENANT_USER_CREATION_PROCESS.md`, `docs/USER_MANAGEMENT.md`, `UNIFIED_DB_SETUP.md`, `docs/STEP_2_57_COMMAND.md`
+
+**Overview:**
+* Default user emails now follow `<role>@<schema>.fuelsync.com` for predictability.
+
 ### 🛠️ Fix 2025-12-02 – Frontend hooks OpenAPI alignment
 **Status:** ✅ Done
 **Files:** `src/api/*`, `CHANGELOG.md`, `docs/STEP_fix_20251202.md`
