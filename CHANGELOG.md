@@ -105,3 +105,10 @@ All notable changes to this project will be documented in this file.
 - Improved API integration patterns across all CRUD operations
 - Enhanced error boundary implementations
 - Optimized component re-rendering patterns
+
+### [refactor] Consolidate station and inventory API services
+
+- Merged station metrics methods into `src/api/stations.ts`
+- Merged fuel inventory APIs into `src/api/inventory.ts`
+- Removed `src/api/services/stationsService.ts` and `src/api/fuel-inventory.ts`
+- Updated hooks and context imports to use unified services

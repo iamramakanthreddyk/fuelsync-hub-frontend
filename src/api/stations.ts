@@ -5,7 +5,8 @@ import type {
   ApiResponse,
   StationComparison,
   StationComparisonParams,
-  StationRanking
+  StationRanking,
+  StationMetric
 } from './api-contract';
 
 export interface CreateStationData {
@@ -80,5 +81,24 @@ export const stationsApi = {
   getStationRanking: async (period: string): Promise<StationRanking[]> => {
     const response = await apiClient.get(`/stations/ranking?period=${period}`);
     return extractApiArray<StationRanking>(response);
+  },
+
+  // Get metrics for a station
+  getStationMetrics: async (id: string): Promise<StationMetric> => {
+    const response = await apiClient.get(`/stations/${id}/metrics`);
+    return extractApiData<StationMetric>(response);
+  },
+
+  // Get performance comparison for a station
+  getStationPerformance: async (id: string): Promise<StationComparison[]> => {
+    const response = await apiClient.get(`/stations/${id}/performance`);
+    return extractApiArray<StationComparison>(response, 'data');
+  },
+
+  // Get efficiency metric for a station
+  getStationEfficiency: async (id: string): Promise<number> => {
+    const response = await apiClient.get(`/stations/${id}/efficiency`);
+    const data = extractApiData<{ efficiency: number }>(response);
+    return data.efficiency;
   }
 };
