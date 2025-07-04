@@ -15,6 +15,8 @@ import { ProfitMetricsCard } from '@/components/dashboard/ProfitMetricsCard';
 import { TopCreditorsTable } from '@/components/dashboard/TopCreditorsTable';
 import { StationMetricsCard } from '@/components/dashboard/StationMetricsCard';
 import { StationMetricsList } from '@/components/dashboard/StationMetricsList';
+import { StationComparisonChart } from '@/components/analytics/StationComparisonChart';
+import { StationRanking } from '@/components/analytics/StationRanking';
 import { useRoleGuard } from '@/hooks/useRoleGuard';
 
 // Filters
@@ -31,6 +33,7 @@ export default function SummaryPage() {
   const { user } = useAuth();
   const [filters, setFilters] = useState<DashboardFilters>({});
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [comparisonStations, setComparisonStations] = useState<string[]>([]);
 
   // API hooks
   const { data: salesSummary, isLoading: salesLoading, refetch: refetchSales } = useSalesSummary('monthly', filters);
@@ -100,6 +103,12 @@ export default function SummaryPage() {
               value={filters.stationId}
               onChange={(stationId) => handleFilterChange({ ...filters, stationId })}
               placeholder="All Stations"
+            />
+            <SearchableStationSelector
+              multiple
+              selectedValues={comparisonStations}
+              onMultipleChange={setComparisonStations}
+              placeholder="Compare Stations"
             />
             {/* Add date range pickers here if needed */}
           </div>
@@ -177,6 +186,14 @@ export default function SummaryPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <StationMetricsList />
         <TopCreditorsTable filters={filters} />
+      </div>
+
+      {/* Station Comparison & Ranking */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {comparisonStations.length > 0 && (
+          <StationComparisonChart stationIds={comparisonStations} />
+        )}
+        <StationRanking period="month" />
       </div>
 
       {/* Recent Stations */}
