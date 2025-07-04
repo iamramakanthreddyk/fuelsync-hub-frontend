@@ -1,5 +1,5 @@
 import { apiClient, extractApiData, extractApiArray } from './client';
-import type { Sale, SalesFilters, ApiResponse } from './api-contract';
+import type { Sale, SalesFilters, SalesAnalytics } from './api-contract';
 
 // Transform backend sales data to frontend format
 const transformSale = (backendSale: any): Sale => {
@@ -73,6 +73,16 @@ export const salesApi = {
       // Return empty array instead of throwing
       return [];
     }
+  },
+
+  /**
+   * Get aggregated sales analytics
+   * @returns Sales analytics metrics
+   * @see docs/openapi-spec.yaml#L994
+   */
+  getSalesAnalytics: async (): Promise<SalesAnalytics> => {
+    const response = await apiClient.get('/sales/analytics');
+    return extractApiData<SalesAnalytics>(response);
   }
 };
 

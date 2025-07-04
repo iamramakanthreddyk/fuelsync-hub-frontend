@@ -836,6 +836,25 @@ export interface ScheduleReportRequest {
 }
 
 // =============================================================================
+// SALES ANALYTICS TYPE
+// =============================================================================
+
+export interface SalesAnalytics {
+  /** High level sales summary */
+  summary?: SalesSummary;
+  /** Breakdown of sales by payment method */
+  paymentMethodBreakdown?: PaymentMethodBreakdown[];
+  /** Breakdown of sales by fuel type */
+  fuelTypeBreakdown?: FuelTypeBreakdown[];
+  /** Top creditors contributing to credit sales */
+  topCreditors?: TopCreditor[];
+  /** Trend of sales over a period */
+  dailySalesTrend?: DailySalesTrend[];
+  /** Additional analytics values */
+  [key: string]: any;
+}
+
+// =============================================================================
 // FILTER & QUERY TYPES
 // =============================================================================
 
