@@ -21,7 +21,7 @@ import { useNozzles, useDeleteNozzle } from '@/hooks/api/useNozzles';
 import { useStations } from '@/hooks/api/useStations';
 import { useToast } from '@/hooks/use-toast';
 import { NozzleCard } from '@/components/nozzles/NozzleCard';
-import { navigateBack } from '@/utils/navigation';
+import { Breadcrumbs } from '@/components/common/Breadcrumbs';
 
 export default function NozzlesPage() {
   useRoleGuard(['owner', 'manager']);
@@ -97,7 +97,7 @@ export default function NozzlesPage() {
     if (selectedStationId) {
       navigate(`/dashboard/pumps?stationId=${selectedStationId}`);
     } else {
-      navigateBack(navigate, '/dashboard/pumps');
+      navigate('/dashboard/pumps');
     }
   };
 
@@ -266,19 +266,13 @@ export default function NozzlesPage() {
   if (nozzles.length === 0 && !nozzlesLoading) {
     return (
       <div className="space-y-4 sm:space-y-6 p-4 sm:p-6">
-        {/* Header with improved mobile layout */}
+        <Breadcrumbs />
         <div className="flex flex-col gap-4">
-          <div className="flex items-center gap-3">
-            <Button variant="outline" size="sm" onClick={handleBack}>
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              <span className="hidden sm:inline">Back</span>
-            </Button>
-            <div className="min-w-0 flex-1">
-              <h1 className="text-xl sm:text-2xl font-bold tracking-tight">Nozzles</h1>
-              <p className="text-muted-foreground text-sm truncate">
-                Pump: {pump.name} {pump.serialNumber ? `| Serial: ${pump.serialNumber}` : ''}
-              </p>
-            </div>
+          <div className="min-w-0">
+            <h1 className="text-xl sm:text-2xl font-bold tracking-tight">Nozzles</h1>
+            <p className="text-muted-foreground text-sm truncate">
+              Pump: {pump.name} {pump.serialNumber ? `| Serial: ${pump.serialNumber}` : ''}
+            </p>
           </div>
           <Button onClick={handleCreateNozzle} className="w-full sm:w-auto sm:self-start">
             <Plus className="mr-2 h-4 w-4" />
@@ -303,35 +297,24 @@ export default function NozzlesPage() {
 
   return (
     <div className="space-y-4 sm:space-y-6 p-4 sm:p-6">
-      {/* Header with improved mobile layout */}
+      <Breadcrumbs />
       <div className="flex flex-col gap-4">
-        <div className="flex items-center gap-3 min-w-0">
-          <Button variant="outline" size="sm" onClick={handleBack}>
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            <span className="hidden sm:inline">Back</span>
-          </Button>
-          <div className="min-w-0 flex-1">
-            <h1 className="text-xl sm:text-2xl font-bold tracking-tight">Nozzles</h1>
-            <div className="flex flex-col sm:flex-row sm:items-center gap-2 mt-1">
-              <p className="text-muted-foreground text-sm hidden sm:block">
-                Pump: 
-              </p>
-              <Select 
-                value={selectedPumpId} 
-                onValueChange={handlePumpChange}
-              >
-                <SelectTrigger className="w-full sm:w-[200px] h-8 text-xs sm:text-sm">
-                  <SelectValue placeholder="Select pump" />
-                </SelectTrigger>
-                <SelectContent>
-                  {pumps.map((p) => (
-                    <SelectItem key={p.id} value={p.id}>
-                      {p.name} {p.serialNumber ? `(${p.serialNumber})` : ''}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+        <div className="min-w-0 flex-1">
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight">Nozzles</h1>
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 mt-1">
+            <p className="text-muted-foreground text-sm hidden sm:block">Pump:</p>
+            <Select value={selectedPumpId} onValueChange={handlePumpChange}>
+              <SelectTrigger className="w-full sm:w-[200px] h-8 text-xs sm:text-sm">
+                <SelectValue placeholder="Select pump" />
+              </SelectTrigger>
+              <SelectContent>
+                {pumps.map((p) => (
+                  <SelectItem key={p.id} value={p.id}>
+                    {p.name} {p.serialNumber ? `(${p.serialNumber})` : ''}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         </div>
         <Button onClick={handleCreateNozzle} className="w-full sm:w-auto sm:self-start">

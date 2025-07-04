@@ -5,17 +5,17 @@
  * @see docs/journeys/OWNER.md - Owner journey for station management
  */
 import { useParams, Link, useNavigate } from 'react-router-dom';
+import { Breadcrumbs } from '@/components/common/Breadcrumbs';
 import { useRoleGuard } from '@/hooks/useRoleGuard';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { 
-  Building2, 
-  MapPin, 
-  Fuel, 
-  ArrowLeft, 
-  Settings, 
-  BarChart3, 
+  Building2,
+  MapPin,
+  Fuel,
+  Settings,
+  BarChart3,
   Loader2,
   AlertTriangle,
   Plus,
@@ -56,16 +56,11 @@ export default function StationDetailPage() {
 
   return (
     <div className="space-y-6">
+      <Breadcrumbs />
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <Button variant="outline" size="sm" onClick={() => navigate('/dashboard/stations')}>
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Stations
-          </Button>
-          <div>
-            <h1 className="text-3xl font-bold">{station.name}</h1>
-            <p className="text-muted-foreground">{station.address}</p>
-          </div>
+        <div>
+          <h1 className="text-3xl font-bold">{station.name}</h1>
+          <p className="text-muted-foreground">{station.address}</p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline">

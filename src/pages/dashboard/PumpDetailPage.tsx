@@ -5,6 +5,7 @@
  * @see docs/journeys/MANAGER.md - Manager journey for pump management
  */
 import { useParams, Link } from 'react-router-dom';
+import { Breadcrumbs } from '@/components/common/Breadcrumbs';
 import { useRoleGuard } from '@/hooks/useRoleGuard';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -68,21 +69,11 @@ export default function PumpDetailPage() {
 
   return (
     <div className="space-y-6">
-      {/* Header with back button */}
+      <Breadcrumbs />
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm" asChild>
-            <Link to="/dashboard/pumps">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Back
-            </Link>
-          </Button>
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight">{pump.name}</h1>
-            <p className="text-muted-foreground">
-              Serial: {pump.serialNumber}
-            </p>
-          </div>
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight">{pump.name}</h1>
+          <p className="text-muted-foreground">Serial: {pump.serialNumber}</p>
         </div>
         <Badge 
           variant={pump.status === 'active' ? 'default' : 'secondary'}
