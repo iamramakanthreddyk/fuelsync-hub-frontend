@@ -14,8 +14,10 @@ import { useDeliveriesInventory } from '@/hooks/useFuelDeliveries';
 import { useGenerateReport } from '@/hooks/api/useReports';
 import { Link, useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
+import { useRoleGuard } from '@/hooks/useRoleGuard';
 
 export default function FuelInventoryPage() {
+  useRoleGuard(['owner', 'manager']);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [selectedStationId, setSelectedStationId] = useState('all-stations');
   const navigate = useNavigate();

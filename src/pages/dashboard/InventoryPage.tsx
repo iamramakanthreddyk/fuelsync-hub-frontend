@@ -1,8 +1,10 @@
 
 import { useFuelInventory } from '@/hooks/useFuelInventory';
 import { InventoryTable } from '@/components/fuel-deliveries/InventoryTable';
+import { useRoleGuard } from '@/hooks/useRoleGuard';
 
 export default function InventoryPage() {
+  useRoleGuard(['owner', 'manager']);
   const { data: inventory = [], isLoading } = useFuelInventory();
 
   return (

@@ -16,8 +16,10 @@ import { UserForm } from '@/components/users/UserForm';
 import { ResetPasswordForm } from '@/components/users/ResetPasswordForm';
 import { useUsers, useCreateUser, useUpdateUser, useDeleteUser, useResetPassword } from '@/hooks/api/useUsers';
 import { User, CreateUserRequest, UpdateUserRequest, ResetPasswordRequest } from '@/api/services/usersService';
+import { useRoleGuard } from '@/hooks/useRoleGuard';
 
 export default function UsersPage() {
+  useRoleGuard(['owner']);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isResetPasswordDialogOpen, setIsResetPasswordDialogOpen] = useState(false);

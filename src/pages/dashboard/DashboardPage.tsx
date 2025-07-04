@@ -17,8 +17,10 @@ import { useDashboardAnalytics } from '@/hooks/useAnalytics';
 import { useSystemHealth } from '@/hooks/useSystemHealth';
 import { EnhancedMetricsCard } from '@/components/ui/enhanced-metrics-card';
 import { Link } from 'react-router-dom';
+import { useRoleGuard } from '@/hooks/useRoleGuard';
 
 export default function DashboardPage() {
+  useRoleGuard(['owner', 'manager']);
   const { user } = useAuth();
   const [isRefreshing, setIsRefreshing] = useState(false);
   

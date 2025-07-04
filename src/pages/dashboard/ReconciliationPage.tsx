@@ -10,8 +10,10 @@ import { ReconciliationForm } from '@/components/reconciliation/ReconciliationFo
 import { useDailyReadingsSummary } from '@/hooks/useReconciliation';
 import { useStations } from '@/hooks/useStations';
 import { format } from 'date-fns';
+import { useRoleGuard } from '@/hooks/useRoleGuard';
 
 export default function ReconciliationPage() {
+  useRoleGuard(['owner', 'manager']);
   const [selectedStationId, setSelectedStationId] = useState<string>('');
   const [selectedDate, setSelectedDate] = useState<string>(format(new Date(), 'yyyy-MM-dd'));
 

@@ -13,8 +13,10 @@ import { useFuelPrices } from '@/hooks/api/useFuelPrices';
 import { format } from 'date-fns';
 import { Loader2, FileText, Fuel, CreditCard, DollarSign } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useRoleGuard } from '@/hooks/useRoleGuard';
 
 export default function AttendantDashboardPage() {
+  useRoleGuard(['attendant']);
   const [selectedDate, setSelectedDate] = useState(format(new Date(), 'yyyy-MM-dd'));
   const [selectedStationId, setSelectedStationId] = useState<string | undefined>();
   

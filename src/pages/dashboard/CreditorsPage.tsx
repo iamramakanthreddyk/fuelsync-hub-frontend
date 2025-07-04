@@ -8,8 +8,10 @@ import { CreditorList } from '@/components/creditors/CreditorList';
 import { CreditorForm } from '@/components/creditors/CreditorForm';
 import { useCreditors } from '@/hooks/useCreditors';
 import { useAuth } from '@/contexts/AuthContext';
+import { useRoleGuard } from '@/hooks/useRoleGuard';
 
 export default function CreditorsPage() {
+  useRoleGuard(['owner', 'manager']);
   const [showForm, setShowForm] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const { user } = useAuth();

@@ -5,6 +5,7 @@
  * @see docs/journeys/OWNER.md - Owner journey for station management
  */
 import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useRoleGuard } from '@/hooks/useRoleGuard';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -25,6 +26,7 @@ import { useStation, useStationMetrics, useStationPerformance, useStationEfficie
 import { usePumps } from '@/hooks/api/usePumps';
 
 export default function StationDetailPage() {
+  useRoleGuard(['owner', 'manager']);
   const { stationId } = useParams<{ stationId: string }>();
   const navigate = useNavigate();
   const { data: station, isLoading, error } = useStation(stationId!);

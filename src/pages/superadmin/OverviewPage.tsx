@@ -8,10 +8,12 @@ import { superadminApi, SuperAdminSummary } from '@/api/superadmin';
 import { EnhancedMetricsCard } from '@/components/ui/enhanced-metrics-card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
+import { useRoleGuard } from '@/hooks/useRoleGuard';
 import { formatDate } from '@/utils/formatters';
 import { useNavigate } from 'react-router-dom';
 
 export default function SuperAdminOverviewPage() {
+  useRoleGuard(['superadmin']);
   const navigate = useNavigate();
   const { toast } = useToast();
   

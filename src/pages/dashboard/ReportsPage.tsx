@@ -10,6 +10,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useForm } from 'react-hook-form';
+import { useRoleGuard } from '@/hooks/useRoleGuard';
 import { 
   FileSpreadsheet, 
   Download, 
@@ -27,6 +28,7 @@ import { useToast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
 
 export default function ReportsPage() {
+  useRoleGuard(['owner', 'manager']);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { toast } = useToast();

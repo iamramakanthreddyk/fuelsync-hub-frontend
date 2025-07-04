@@ -5,6 +5,7 @@
  */
 import { useState, useEffect } from 'react';
 import { useParams, Link, useLocation, useNavigate } from 'react-router-dom';
+import { useRoleGuard } from '@/hooks/useRoleGuard';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -23,6 +24,7 @@ import { NozzleCard } from '@/components/nozzles/NozzleCard';
 import { navigateBack } from '@/utils/navigation';
 
 export default function NozzlesPage() {
+  useRoleGuard(['owner', 'manager']);
   const navigate = useNavigate();
   const location = useLocation();
   const { toast } = useToast();

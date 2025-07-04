@@ -5,6 +5,7 @@
  */
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useRoleGuard } from '@/hooks/useRoleGuard';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -20,6 +21,7 @@ import { useFuelPrices } from '@/hooks/api/useFuelPrices';
 import { useToast } from '@/hooks/use-toast';
 
 export default function NewReadingPage() {
+  useRoleGuard(['owner', 'manager', 'attendant']);
   const navigate = useNavigate();
   const { nozzleId } = useParams();
   const { toast } = useToast();

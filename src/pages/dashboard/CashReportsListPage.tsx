@@ -4,6 +4,7 @@
  */
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRoleGuard } from '@/hooks/useRoleGuard';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useStations } from '@/hooks/api/useStations';
@@ -13,6 +14,7 @@ import { ArrowLeft, RefreshCw, Loader2, DollarSign } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 
 export default function CashReportsListPage() {
+  useRoleGuard(['attendant']);
   const navigate = useNavigate();
   const [isRefreshing, setIsRefreshing] = useState(false);
   
