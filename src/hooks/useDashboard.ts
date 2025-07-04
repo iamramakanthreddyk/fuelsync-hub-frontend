@@ -67,7 +67,7 @@ export const useStationMetrics = () => {
 export const useAnalyticsDashboard = () => {
   return useQuery({
     queryKey: ['analytics-dashboard'],
-    queryFn: () => analyticsApi.getSuperAdminAnalytics(),
+    queryFn: () => analyticsApi.getDashboardAnalytics(),
     retry: 1,
     staleTime: 300000, // 5 minutes
   });

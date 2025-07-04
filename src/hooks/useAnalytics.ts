@@ -46,3 +46,18 @@ export const useSuperAdminAnalytics = () => {
     queryFn: () => analyticsApi.getSuperAdminAnalytics(),
   });
 };
+
+export const useDashboardAnalytics = () => {
+  return useQuery({
+    queryKey: ['analytics', 'dashboard'],
+    queryFn: () => analyticsApi.getDashboardAnalytics(),
+  });
+};
+
+export const useTenantAnalytics = (tenantId: string) => {
+  return useQuery({
+    queryKey: ['analytics', 'tenant', tenantId],
+    queryFn: () => analyticsApi.getTenantAnalytics(tenantId),
+    enabled: !!tenantId,
+  });
+};

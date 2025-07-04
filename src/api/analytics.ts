@@ -84,4 +84,14 @@ export const analyticsApi = {
     const response = await apiClient.get('/analytics/superadmin');
     return extractApiData<SuperAdminAnalytics>(response);
   },
+
+  getDashboardAnalytics: async (): Promise<SuperAdminAnalytics> => {
+    const response = await apiClient.get('/analytics/dashboard');
+    return extractApiData<SuperAdminAnalytics>(response);
+  },
+
+  getTenantAnalytics: async (tenantId: string): Promise<SuperAdminAnalytics> => {
+    const response = await apiClient.get(`/analytics/tenant/${tenantId}`);
+    return extractApiData<SuperAdminAnalytics>(response);
+  },
 };
