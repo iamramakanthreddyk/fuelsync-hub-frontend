@@ -33,14 +33,14 @@ const TenantSettingsPage: React.FC = () => {
   // Fetch tenant settings
   const { data: settings = [], isLoading, error } = useQuery({
     queryKey: ['tenant-settings', tenantId],
-    queryFn: () => tenantSettingsApi.getTenantSettings(tenantId!),
+    queryFn: () => tenantSettingsApi.getTenantSettingsForTenant(tenantId!),
     enabled: !!tenantId,
   });
 
   // Update setting mutation
   const updateSettingMutation = useMutation({
     mutationFn: ({ key, value }: { key: string; value: string }) =>
-      tenantSettingsApi.updateTenantSetting(tenantId!, key, value),
+      tenantSettingsApi.updateTenantSettingForTenant(tenantId!, key, value),
     onSuccess: (_, { key }) => {
       toast({
         title: 'Setting Updated',
