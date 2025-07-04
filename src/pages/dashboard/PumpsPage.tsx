@@ -16,13 +16,13 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { useForm } from 'react-hook-form';
-import { Plus, Fuel, Settings, Activity, Building2, Loader2, ArrowLeft } from 'lucide-react';
+import { Plus, Fuel, Settings, Activity, Building2, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { PumpCard } from '@/components/pumps/PumpCard';
 import { MobileStatsCard } from '@/components/dashboard/MobileStatsCard';
 import { usePumps } from '@/hooks/api/usePumps';
 import { useStations, useStation } from '@/hooks/api/useStations';
-import { navigateBack } from '@/utils/navigation';
+import { Breadcrumbs } from '@/components/common/Breadcrumbs';
 
 export default function PumpsPage() {
   useRoleGuard(['owner', 'manager']);
@@ -135,7 +135,7 @@ export default function PumpsPage() {
 
   // Handle back to stations navigation
   const handleBackToStations = () => {
-    navigateBack(navigate, '/dashboard/stations');
+    navigate('/dashboard/stations');
   };
 
   const isLoading = stationsLoading || pumpsLoading;
@@ -226,36 +226,24 @@ export default function PumpsPage() {
 
   return (
     <div className="space-y-4 sm:space-y-6 p-4 sm:p-6">
-      {/* Improved header layout for mobile */}
+      <Breadcrumbs />
       <div className="flex flex-col gap-4">
-        <div className="flex items-center gap-3 min-w-0">
-          <Button variant="outline" size="sm" onClick={handleBackToStations}>
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            <span className="hidden sm:inline">Back to Stations</span>
-            <span className="sm:hidden">Back</span>
-          </Button>
-          <div className="min-w-0 flex-1">
-            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight">Pumps</h1>
-            <div className="flex flex-col sm:flex-row sm:items-center gap-2 mt-1">
-              <p className="text-muted-foreground text-sm hidden sm:block">
-                Station: 
-              </p>
-              <Select 
-                value={effectiveStationId} 
-                onValueChange={handleStationChange}
-              >
-                <SelectTrigger className="w-full sm:w-[200px] h-8 text-xs sm:text-sm">
-                  <SelectValue placeholder="Select station" />
-                </SelectTrigger>
-                <SelectContent>
-                  {stations.map((station) => (
-                    <SelectItem key={station.id} value={station.id}>
-                      {station.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+        <div className="min-w-0 flex-1">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight">Pumps</h1>
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 mt-1">
+            <p className="text-muted-foreground text-sm hidden sm:block">Station:</p>
+            <Select value={effectiveStationId} onValueChange={handleStationChange}>
+              <SelectTrigger className="w-full sm:w-[200px] h-8 text-xs sm:text-sm">
+                <SelectValue placeholder="Select station" />
+              </SelectTrigger>
+              <SelectContent>
+                {stations.map((station) => (
+                  <SelectItem key={station.id} value={station.id}>
+                    {station.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         </div>
         

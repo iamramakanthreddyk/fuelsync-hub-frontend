@@ -4,12 +4,12 @@
  * @description Page for creating new stations with improved form layout
  */
 import { useNavigate } from 'react-router-dom';
+import { Breadcrumbs } from '@/components/common/Breadcrumbs';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { StationForm } from '@/components/stations/StationForm';
 import { useCreateStation } from '@/hooks/api/useStations';
-import { navigateBack } from '@/utils/navigation';
 import { useRoleGuard } from '@/hooks/useRoleGuard';
 
 export default function NewStationPage() {
@@ -37,12 +37,13 @@ export default function NewStationPage() {
 
   return (
     <div className="space-y-6">
+      <Breadcrumbs />
       {/* Header */}
       <div className="flex items-center gap-2">
-        <Button 
-          variant="outline" 
-          size="sm" 
-          onClick={() => navigateBack(navigate, '/dashboard/stations')}
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => navigate('/dashboard/stations')}
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back to Stations

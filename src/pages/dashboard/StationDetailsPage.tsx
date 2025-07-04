@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, Edit, Trash2, Fuel, Settings, Plus } from 'lucide-react';
+import { Breadcrumbs } from '@/components/common/Breadcrumbs';
 import { useToast } from '@/hooks/use-toast';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import { ErrorFallback } from '@/components/common/ErrorFallback';
@@ -103,17 +104,11 @@ export default function StationDetailsPage() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
+      <Breadcrumbs />
       <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-4">
-          <Button variant="ghost" size="sm" onClick={() => navigate('/dashboard/stations')}>
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Stations
-          </Button>
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">{station.name}</h1>
-            <p className="text-muted-foreground">{station.address}</p>
-          </div>
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">{station.name}</h1>
+          <p className="text-muted-foreground">{station.address}</p>
         </div>
         <div className="flex items-center gap-2">
           <Badge 
