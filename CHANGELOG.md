@@ -120,3 +120,5 @@ All notable changes to this project will be documented in this file.
 ### [fix] Wire missing dashboard page actions and export routes
 ### [feature] Add pump and nozzle settings stubs with secured routes
 ### [fix] Remove unused single-report and reading API endpoints
+### [docs] Prisma usage audit and recommendations
+### [refactor] Replace pg queries with Prisma in services and analytics

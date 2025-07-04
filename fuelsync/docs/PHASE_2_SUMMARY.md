@@ -1242,3 +1242,12 @@ sudo apt-get update && sudo apt-get install -y postgresql
 **Overview:**
 * API services now read from the `data` field of responses.
 * Legacy keys like `stations` or `inventory` are no longer referenced.
+
+### 🛠️ Fix 2025-12-06 – Prisma usage audit
+**Status:** ✅ Done
+**Files:** `docs/PRISMA_EFFICIENCY_REVIEW.md`, `docs/STEP_fix_20251206.md`
+
+**Overview:**
+* Reviewed all services and controllers for raw SQL and inefficient Prisma usage.
+* Documented recommendations to migrate queries to Prisma and add proper types.
+\n### 🛠️ Fix 2025-12-07 – Prisma migration of services\n**Status:** ✅ Done\n**Files:** `src/services/user.service.ts`, `src/services/pump.service.ts`, `src/controllers/analytics.controller.ts`, `docs/STEP_fix_20251207.md`\n\n**Overview:**\n* Replaced `pg` queries with Prisma transactions in core services.\n* Converted analytics controller to use Prisma aggregates.\n
