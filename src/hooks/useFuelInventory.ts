@@ -16,3 +16,10 @@ export const useFuelInventorySummary = () => {
     queryFn: () => fuelInventoryApi.getInventorySummary()
   });
 };
+
+export const useInventoryAlerts = () => {
+  return useQuery({
+    queryKey: ['inventory-alerts'],
+    queryFn: () => fuelInventoryApi.getInventoryAlerts()
+  });
+};

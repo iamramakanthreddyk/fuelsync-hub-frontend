@@ -1,6 +1,6 @@
 
 import { apiClient, extractApiData, extractApiArray } from './client';
-import type { FuelInventory, FuelInventoryParams, FuelInventorySummary } from './api-contract';
+import type { FuelInventory, FuelInventoryParams, FuelInventorySummary, Alert } from './api-contract';
 
 export const fuelInventoryApi = {
   // Get fuel inventory status with optional filtering
@@ -26,6 +26,17 @@ export const fuelInventoryApi = {
     } catch (error) {
       console.error('Error fetching inventory summary:', error);
       return null;
+    }
+  },
+
+  // Get low stock alerts for inventory
+  getInventoryAlerts: async (): Promise<Alert[]> => {
+    try {
+      const response = await apiClient.get('/inventory/alerts');
+      return extractApiArray<Alert>(response, 'data');
+    } catch (error) {
+      console.error('Error fetching inventory alerts:', error);
+      return [];
     }
   }
 };

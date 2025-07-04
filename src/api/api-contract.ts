@@ -671,14 +671,12 @@ export interface DailyReadingSummary {
 // =============================================================================
 
 export interface StationComparison {
-  stationId: string;
+  id: string;
   stationName: string;
-  revenue: number;
+  sales: number;
   volume: number;
-  salesCount: number;
+  transactions: number;
   growth: number;
-  efficiency: number;
-  period: string;
 }
 
 export interface StationComparisonParams {
@@ -717,18 +715,13 @@ export interface FuelPerformance {
 }
 
 export interface StationRanking {
-  rank: number;
-  stationId: string;
-  stationName: string;
-  revenue: number;
+  id: string;
+  name: string;
+  sales: number;
+  volume: number;
   growth: number;
   efficiency: number;
-  score: number;
-  // Legacy fields
-  id?: string;
-  name?: string;
-  sales?: number;
-  volume?: number;
+  rank: number;
 }
 
 export interface SuperAdminAnalytics {

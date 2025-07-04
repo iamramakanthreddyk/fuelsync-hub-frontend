@@ -139,13 +139,12 @@ export default function StationDetailPage() {
         <Card>
           <CardHeader>
             <CardTitle>Performance</CardTitle>
-            <CardDescription>Period: {performance[0].period}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div>Revenue: ₹{performance[0].revenue.toLocaleString()}</div>
+              <div>Sales: ₹{performance[0].sales.toLocaleString()}</div>
               <div>Volume: {performance[0].volume.toLocaleString()} L</div>
-              <div>Sales: {performance[0].salesCount}</div>
+              <div>Transactions: {performance[0].transactions}</div>
               <div>Growth: {performance[0].growth}%</div>
             </div>
           </CardContent>
