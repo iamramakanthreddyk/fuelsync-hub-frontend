@@ -42,7 +42,7 @@ export const authApi = {
    */
   login: async (credentials: LoginCredentials, isAdminLogin = false): Promise<LoginResponse> => {
     try {
-      const endpoint = isAdminLogin ? 'auth/admin/login' : 'auth/login';
+      const endpoint = isAdminLogin ? 'admin/auth/login' : 'auth/login';
       const response = await apiClient.post(endpoint, credentials);
       
       // Handle nested response structure
@@ -70,7 +70,7 @@ export const authApi = {
    */
   refreshToken: async (): Promise<RefreshTokenResponse> => {
     try {
-      const response = await apiClient.post('auth/refresh-token');
+      const response = await apiClient.post('auth/refresh');
       
       // Handle nested response structure
       const responseData = response.data.data || response.data;
